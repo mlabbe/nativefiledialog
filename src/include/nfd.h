@@ -41,13 +41,16 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths );
 
+nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath );
+
 /* nfd_common.c */
 
-    // todo: normalize the case of PathSet
 const char *NFD_GetError( void );
-size_t      NFD_PathSet_GetCount( const nfdpathset_t *pathset );
-nfdchar_t  *NFD_PathSet_GetPath( const nfdpathset_t *pathset, size_t num );
-void        NFD_PathSet_Free( nfdpathset_t *pathset );
+size_t      NFD_PathSet_GetCount( const nfdpathset_t *pathSet );
+nfdchar_t  *NFD_PathSet_GetPath( const nfdpathset_t *pathSet, size_t num );
+void        NFD_PathSet_Free( nfdpathset_t *pathSet );
 
 
 #ifdef __cplusplus

@@ -4,9 +4,9 @@
   http://www.frogtoss.com/labs
  */
 
+#include <AppKit/AppKit.h>
 #include "nfd.h"
 #include "nfd_common.h"
-#include <AppKit/AppKit.h>
 
 static NSArray *BuildAllowedFileTypes( const char *filterList )
 {
@@ -35,15 +35,15 @@ static NSArray *BuildAllowedFileTypes( const char *filterList )
             ++p_typebuf;
 
         }
-
     }
 
     NSArray *returnArray = [NSArray arrayWithArray:buildFilterList];
+
     [buildFilterList release];
     return returnArray;
 }
 
-static void AddFilterListToDialog( NSOpenPanel *dialog, const char *filterList )
+static void AddFilterListToDialog( NSSavePanel *dialog, const char *filterList )
 {
     if ( !filterList || strlen(filterList) == 0 )
         return;
@@ -55,7 +55,7 @@ static void AddFilterListToDialog( NSOpenPanel *dialog, const char *filterList )
     }
 }
 
-static void SetDefaultPath( NSOpenPanel *dialog, const nfdchar_t *defaultPath )
+static void SetDefaultPath( NSSavePanel *dialog, const nfdchar_t *defaultPath )
 {
     if ( !defaultPath || strlen(defaultPath) == 0 )
         return;
@@ -63,46 +63,6 @@ static void SetDefaultPath( NSOpenPanel *dialog, const nfdchar_t *defaultPath )
     NSString *defaultPathString = [NSString stringWithUTF8String: defaultPath];
     NSURL *url = [NSURL fileURLWithPath:defaultPathString isDirectory:YES];
     [dialog setDirectoryURL:url];    
-}
-
-
-
-
-nfdresult_t NFD_OpenDialog( const char *filterList,
-                            const nfdchar_t *defaultPath,
-                            nfdchar_t **outPath )
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSOpenPanel *dialog = [NSOpenPanel openPanel];
-    [dialog setAllowsMultipleSelection:NO];
-
-    // Build the filter list
-    AddFilterListToDialog(dialog, filterList);
-
-    // Set the starting directory
-    SetDefaultPath(dialog, defaultPath);
-
-    nfdresult_t nfdResult = NFD_CANCEL;
-    if ( [dialog runModal] == NSModalResponseOK )
-    {
-        NSURL *url = [dialog URL];
-        const char *utf8Path = [[url path] UTF8String];
-
-        size_t len = NFDi_UTF8_Strlen(utf8Path);
-
-        *outPath = NFDi_Malloc( len+1 );
-        if ( !*outPath )
-        {
-            [pool release];
-            return NFD_ERROR;
-        }
-        memcpy( *outPath, utf8Path, len+1 ); /* copy null term */
-        nfdResult = NFD_OKAY;
-    }
-    [pool release];
-
-    return nfdResult;
 }
 
 static nfdresult_t AllocPathSet( NSArray *urls, nfdpathset_t *pathset )
@@ -152,6 +112,48 @@ static nfdresult_t AllocPathSet( NSArray *urls, nfdpathset_t *pathset )
     return NFD_OKAY;
 }
 
+/* public */
+
+
+nfdresult_t NFD_OpenDialog( const char *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSOpenPanel *dialog = [NSOpenPanel openPanel];
+    [dialog setAllowsMultipleSelection:NO];
+
+    // Build the filter list
+    AddFilterListToDialog(dialog, filterList);
+
+    // Set the starting directory
+    SetDefaultPath(dialog, defaultPath);
+
+    nfdresult_t nfdResult = NFD_CANCEL;
+    if ( [dialog runModal] == NSModalResponseOK )
+    {
+        NSURL *url = [dialog URL];
+        const char *utf8Path = [[url path] UTF8String];
+
+        // fixme: bug: not the number of bytes -- the len
+        size_t len = NFDi_UTF8_Strlen(utf8Path);
+
+        *outPath = NFDi_Malloc( len+1 );
+        if ( !*outPath )
+        {
+            [pool release];
+            return NFD_ERROR;
+        }
+        memcpy( *outPath, utf8Path, len+1 ); /* copy null term */
+        nfdResult = NFD_OKAY;
+    }
+    [pool release];
+
+    return nfdResult;
+}
+
+
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
@@ -161,7 +163,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     NSOpenPanel *dialog = [NSOpenPanel openPanel];
     [dialog setAllowsMultipleSelection:YES];
 
-    // Build the fiter list
+    // Build the fiter list.
     AddFilterListToDialog(dialog, filterList);
 
     // Set the starting directory
@@ -186,6 +188,45 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
         nfdResult = NFD_OKAY;
     }
+    [pool release];
+
+    return nfdResult;
+}
+
+
+nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    NSSavePanel *dialog = [NSSavePanel savePanel];
+    [dialog setExtensionHidden:NO];
+    
+    // Build the filter list.
+    AddFilterListToDialog(dialog, filterList);
+
+    // Set the starting directory
+    SetDefaultPath(dialog, defaultPath);
+
+    nfdresult_t nfdResult = NFD_CANCEL;
+    if ( [dialog runModal] == NSModalResponseOK )
+    {
+        NSURL *url = [dialog URL];
+        const char *utf8Path = [[url path] UTF8String];
+
+        size_t byteLen = [url.path lengthOfBytesUsingEncoding:NSUTF8StringEncoding] + 1;
+        
+        *outPath = NFDi_Malloc( byteLen );
+        if ( !*outPath )
+        {
+            [pool release];
+            return NFD_ERROR;
+        }
+        memcpy( *outPath, utf8Path, byteLen );
+        nfdResult = NFD_OKAY;
+    }
+
     [pool release];
 
     return nfdResult;

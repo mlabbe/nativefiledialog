@@ -20,14 +20,14 @@ typedef char nfdchar_t;
 
 typedef struct {
     nfdchar_t *buf;
-    size_t *indices; // byte offsets into buf
-    size_t count;    // number of indices into buf
+    size_t *indices; /* byte offsets into buf */
+    size_t count;    /* number of indices into buf */
 }nfdpathset_t;
 
 typedef enum {
     NFD_ERROR,
     NFD_OKAY,
-    NFD_CANCEL,
+    NFD_CANCEL
 }nfdresult_t;
     
 

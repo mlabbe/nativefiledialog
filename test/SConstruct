@@ -3,16 +3,33 @@
 #
 # Build tests
 
+target_arch=str(Platform())
+debug=1
+
 files = {'test_opendialog':         ['test_opendialog.c'],
          'test_opendialogmultiple': ['test_opendialogmultiple.c'],
          'test_savedialog':         ['test_savedialog.c']}
 
 test_env = Environment()
+
+
+if debug:
+    test_env.Append( CFLAGS='-g' )
+
 test_env.Append( CPPPATH=['../src/include'], # API header path only, no internals allowed
                  LIBPATH=['../src'],
-                 CFLAGS='-g',
-                 FRAMEWORKS=['AppKit'],
                  LIBS='nfd' )
+
+
+# Cocoa OS X builds
+if target_arch is 'darwin':
+    test_env.Append( CC='clang -fcolor-diagnostics',
+                     FRAMEWORKS='AppKit' )
+
+# Linux GTK+ 3 builds
+elif target_arch is 'posix':
+    test_env.ParseConfig( 'pkg-config --cflags --libs gtk+-3.0' )
+
 
 for codebase in files:
     test_env.Program( codebase, files[codebase] )

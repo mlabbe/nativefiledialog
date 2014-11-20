@@ -136,8 +136,8 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         NSURL *url = [dialog URL];
         const char *utf8Path = [[url path] UTF8String];
 
-        // fixme: bug: not the number of bytes -- the len
-        size_t len = NFDi_UTF8_Strlen(utf8Path);
+        // byte count, not char count
+        size_t len = strlen(utf8Path);//NFDi_UTF8_Strlen(utf8Path);
 
         *outPath = NFDi_Malloc( len+1 );
         if ( !*outPath )

@@ -65,26 +65,27 @@ void NFDi_SetError( const char *msg )
 
 int NFDi_SafeStrncpy( char *dst, const char *src, size_t maxCopy )
 {
+    size_t n = maxCopy;
+    char *d = dst;
+
     assert( src );
     assert( dst );
     
-    size_t n = maxCopy;
-    char *d = dst;
     while ( n > 0 && *src != '\0' )    
     {
         *d++ = *src++;
         --n;
     }
 
-    // Truncation case -
-    // terminate string and return true
+    /* Truncation case -
+       terminate string and return true */
     if ( n == 0 )
     {
         dst[maxCopy-1] = '\0';
         return 1;
     }
 
-    // No truncation.  Append a single NULL and return.
+    /* No truncation.  Append a single NULL and return. */
     *d = '\0';
     return 0;
 }

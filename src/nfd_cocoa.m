@@ -65,6 +65,8 @@ static void SetDefaultPath( NSSavePanel *dialog, const nfdchar_t *defaultPath )
     [dialog setDirectoryURL:url];    
 }
 
+
+/* fixme: pathset should be pathSet */
 static nfdresult_t AllocPathSet( NSArray *urls, nfdpathset_t *pathset )
 {
     assert(pathset);

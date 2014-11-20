@@ -108,6 +108,60 @@ static void SetDefaultPath( GtkWidget *dialog, const char *defaultPath )
     gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(dialog), defaultPath );
 }
 
+static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
+{
+    size_t bufSize = 0;
+    GSList *node;
+    nfdchar_t *p_buf;
+    size_t count = 0;
+    
+    assert(fileList);
+    assert(pathSet);
+
+    pathSet->count = (size_t)g_slist_length( fileList );
+    assert( pathSet->count > 0 );
+
+    pathSet->indices = NFDi_Malloc( sizeof(size_t)*pathSet->count );
+    if ( !pathSet->indices )
+    {
+        return NFD_ERROR;
+    }
+
+    /* count the total space needed for buf */
+    for ( node = fileList; node; node = node->next )
+    {
+        assert(node->data);
+        bufSize += strlen( (const gchar*)node->data ) + 1;
+    }
+
+    pathSet->buf = NFDi_Malloc( sizeof(nfdchar_t) * bufSize );
+
+    /* fill buf */
+    p_buf = pathSet->buf;
+    for ( node = fileList; node; node = node->next )
+    {
+        nfdchar_t *path = (nfdchar_t*)(node->data);
+        size_t byteLen = strlen(path)+1;
+        ptrdiff_t index;
+        
+        memcpy( p_buf, path, byteLen );
+        g_free(node->data);
+
+        index = p_buf - pathSet->buf;
+        assert( index >= 0 );
+        pathSet->indices[count] = (size_t)index;
+
+        p_buf += byteLen;
+        ++count;
+    }
+
+    g_slist_free( fileList );
+    
+    return NFD_OKAY;
+}
+                                 
+/* public */
+
 nfdresult_t NFD_OpenDialog( const char *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
@@ -162,11 +216,50 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     return result;
 }
 
+
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
 {
-    return NFD_ERROR;
+    GtkWidget *dialog;
+    nfdresult_t result;
+
+    if ( !gtk_init_check( NULL, NULL ) )
+    {
+        NFDi_SetError("gtk_init_check() failed to initialize GTK+.");
+        return NFD_ERROR;
+    }
+
+    dialog = gtk_file_chooser_dialog_new( "Open File",
+                                          NULL,
+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
+                                          "_Cancel", GTK_RESPONSE_CANCEL,
+                                          "_Open", GTK_RESPONSE_ACCEPT,
+                                          NULL );
+    gtk_file_chooser_set_select_multiple( GTK_FILE_CHOOSER(dialog), TRUE );
+
+    /* Build the filter list */
+    AddFiltersToDialog(dialog, filterList);
+
+    /* Set the default path */
+    SetDefaultPath(dialog, defaultPath);
+
+    result = NFD_CANCEL;
+    if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
+    {
+        GSList *fileList = gtk_file_chooser_get_filenames( GTK_FILE_CHOOSER(dialog) );
+        if ( AllocPathSet( fileList, outPaths ) == NFD_ERROR )
+        {
+            gtk_widget_destroy(dialog);
+            return NFD_ERROR;
+        }
+        
+        result = NFD_OKAY;
+    }
+
+    gtk_widget_destroy(dialog);
+
+    return result;
 }
 
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,

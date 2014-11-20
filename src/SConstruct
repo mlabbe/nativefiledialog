@@ -1,0 +1,14 @@
+# 
+# Native File Dialog
+#
+# Scons build script -- GCC, Clang, Visual Studio
+# Does not build test
+
+nfd_files = ['nfd_common.c',
+             'nfd_osx.m']
+
+
+nfd_env = Environment( CC="clang -fcolor-diagnostics")
+nfd_env.Append( CPPPATH=['.','./include'] )
+nfd_env.Append( CFLAGS=['-g', '-Wall', '-pedantic'] )
+nfd_env.StaticLibrary( 'nfd', nfd_files )

@@ -1,0 +1,18 @@
+#
+# Native file dialog
+#
+# Build tests
+
+files = {'test_opendialog':         ['test_opendialog.c'],
+         'test_opendialogmultiple': ['test_opendialogmultiple.c']}
+#         'test_savedialog':         ['test_savedialog.c']}
+
+test_env = Environment()
+test_env.Append( CPPPATH=['../src/include'], # API header path only, no internals allowed
+                 LIBPATH=['../src'],
+                 CFLAGS='-g',
+                 FRAMEWORKS=['AppKit'],
+                 LIBS='nfd' )
+
+for codebase in files:
+    test_env.Program( codebase, files[codebase] )

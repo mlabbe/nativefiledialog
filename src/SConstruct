@@ -13,20 +13,38 @@ nfd_files = ['nfd_common.c']
 
 nfd_env = Environment()
 
-# Cocoa OS X builds
-if target_arch is 'darwin':
+
+def set_debug(env):
+    if target_arch == 'win32':
+        env.Append( CFLAGS=['/Z7'] )  # obj contains full symbols
+    else:
+        env.Append( CFLAGS=['-g'] )
+
+def set_warnings(env):
+    if target_arch == 'win32':
+        env.Append( CFLAGS=['/W3'],
+                    CPPDEFINES=['_CRT_SECURE_NO_WARNINGS'] )
+    else:
+        env.Append( CFLAGS=['-Wall', '-pedantic'] )
+
+# Cocoa OS X builds - clang
+if target_arch == 'darwin':
     nfd_files.append('nfd_cocoa.m')
     nfd_env.Append( CC='clang -fcolor-diagnostics' )
 
-# Linux GTK+ 3 builds
-elif target_arch is 'posix':
+# Linux GTK+ 3 builds - GCC
+elif target_arch == 'posix':
     nfd_files.append('nfd_gtk.c')
     nfd_env.ParseConfig( 'pkg-config --cflags gtk+-3.0' )
 
+# Windows builds - Visual Studio
+elif target_arch == 'win32':
+    nfd_files.append('nfd_win.cpp')
 
 if debug:
-    nfd_env.Append( CFLAGS='-g' )
+    set_debug(nfd_env)
+
+set_warnings(nfd_env)
 
 nfd_env.Append( CPPPATH=['.','./include'] )
-nfd_env.Append( CFLAGS=['-Wall', '-pedantic'] )
 nfd_env.StaticLibrary( 'nfd', nfd_files )

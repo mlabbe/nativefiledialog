@@ -13,8 +13,15 @@ files = {'test_opendialog':         ['test_opendialog.c'],
 test_env = Environment()
 
 
+
+def set_debug(env):
+    if target_arch == 'win32':
+        env.Append( CFLAGS=['/Z7'] )  # obj contains full symbols
+    else:
+        env.Append( CFLAGS=['-g'] )
+
 if debug:
-    test_env.Append( CFLAGS='-g' )
+    set_debug(test_env)
 
 test_env.Append( CPPPATH=['../src/include'], # API header path only, no internals allowed
                  LIBPATH=['../src'],
@@ -22,14 +29,16 @@ test_env.Append( CPPPATH=['../src/include'], # API header path only, no internal
 
 
 # Cocoa OS X builds
-if target_arch is 'darwin':
+if target_arch == 'darwin':
     test_env.Append( CC='clang -fcolor-diagnostics',
                      FRAMEWORKS='AppKit' )
 
 # Linux GTK+ 3 builds
-elif target_arch is 'posix':
+elif target_arch == 'posix':
     test_env.ParseConfig( 'pkg-config --cflags --libs gtk+-3.0' )
 
+elif target_arch == 'win32':
+    test_env.Append( LIBS=['ole32.lib'] )
 
 for codebase in files:
     test_env.Program( codebase, files[codebase] )

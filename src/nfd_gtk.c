@@ -12,6 +12,8 @@
 #include "nfd_common.h"
 
 
+const char INIT_FAIL_MSG[] = "gtk_init_check failed to initilaize GTK+";
+
 static int IsFilterSegmentChar( char ch )
 {
     return (ch==','||ch==';'||ch=='\0');
@@ -171,7 +173,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 
     if ( !gtk_init_check( NULL, NULL ) )
     {
-        NFDi_SetError("gtk_init_check() failed to initialize GTK+.");
+        NFDi_SetError(INIT_FAIL_MSG);
         return NFD_ERROR;
     }
 
@@ -226,11 +228,11 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
     if ( !gtk_init_check( NULL, NULL ) )
     {
-        NFDi_SetError("gtk_init_check() failed to initialize GTK+.");
+        NFDi_SetError(INIT_FAIL_MSG);
         return NFD_ERROR;
     }
 
-    dialog = gtk_file_chooser_dialog_new( "Open File",
+    dialog = gtk_file_chooser_dialog_new( "Open Files",
                                           NULL,
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
@@ -266,5 +268,48 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {
-    return NFD_ERROR;
+    GtkWidget *dialog;
+    nfdresult_t result;
+
+    if ( !gtk_init_check( NULL, NULL ) )
+    {
+        NFDi_SetError(INIT_FAIL_MSG);
+        return NFD_ERROR;
+    }
+
+    dialog = gtk_file_chooser_dialog_new( "Save File",
+                                          NULL,
+                                          GTK_FILE_CHOOSER_ACTION_SAVE,
+                                          "_Cancel", GTK_RESPONSE_CANCEL,
+                                          "_Save", GTK_RESPONSE_ACCEPT,
+                                          NULL ); 
+    gtk_file_chooser_set_do_overwrite_confirmation( GTK_FILE_CHOOSER(dialog), TRUE );
+
+    AddFiltersToDialog(dialog, filterList);
+    
+    result = NFD_CANCEL;
+    if ( gtk_dialog_run( GTK_DIALOG(dialog) ) )
+    {
+        char *filename;
+        filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
+        
+        {
+            size_t len = strlen(filename);
+            *outPath = NFDi_Malloc( len + 1 );
+            memcpy( *outPath, filename, len + 1 );
+            if ( !*outPath )
+            {
+                g_free( filename );
+                gtk_widget_destroy(dialog);
+                return NFD_ERROR;
+            }
+        }
+        g_free(filename);
+
+        result = NFD_OKAY;
+    }
+
+    gtk_widget_destroy(dialog);
+    
+    return result;
 }

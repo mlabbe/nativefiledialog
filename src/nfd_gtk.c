@@ -285,6 +285,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                                           NULL ); 
     gtk_file_chooser_set_do_overwrite_confirmation( GTK_FILE_CHOOSER(dialog), TRUE );
 
+    /* Build the filter list */    
     AddFiltersToDialog(dialog, filterList);
     
     result = NFD_CANCEL;

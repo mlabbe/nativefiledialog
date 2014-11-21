@@ -161,6 +161,12 @@ static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
     
     return NFD_OKAY;
 }
+
+static void WaitForCleanup(void)
+{
+    while (gtk_events_pending())
+        gtk_main_iteration();
+}
                                  
 /* public */
 
@@ -213,6 +219,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         result = NFD_OKAY;
     }
 
+    WaitForCleanup();
     gtk_widget_destroy(dialog);
 
     return result;
@@ -259,6 +266,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         result = NFD_OKAY;
     }
 
+    WaitForCleanup();
     gtk_widget_destroy(dialog);
 
     return result;
@@ -288,8 +296,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     /* Build the filter list */    
     AddFiltersToDialog(dialog, filterList);
     
-    result = NFD_CANCEL;
-    if ( gtk_dialog_run( GTK_DIALOG(dialog) ) )
+    result = NFD_CANCEL;    
+    if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
         char *filename;
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
@@ -311,6 +319,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     }
 
     gtk_widget_destroy(dialog);
+
+    WaitForCleanup();
     
     return result;
 }

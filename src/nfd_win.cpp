@@ -13,25 +13,73 @@
 
 #define UNICODE
 
-// allocs the space in outPath
+// allocs the space in outPath -- call free()
+// todo: outPath to outStr
 static void CopyWCharToNFDChar( const wchar_t *inStr, nfdchar_t **outPath )
 {
     int inStrCharacterCount = static_cast<int>(wcslen(inStr)); 
     int bytesNeeded = WideCharToMultiByte( CP_UTF8, 0,
                                            inStr, inStrCharacterCount,
-                                           NULL, 0, NULL, NULL );
-
+                                           NULL, 0, NULL, NULL );    
+    assert( bytesNeeded );
     assert( !*outPath );
+    bytesNeeded += 1;
+
     *outPath = (nfdchar_t*)NFDi_Malloc( bytesNeeded );
     if ( !*outPath )
         return;
 
-    WideCharToMultiByte( CP_UTF8, 0,
-                         inStr, inStrCharacterCount,
-                         *outPath, bytesNeeded,
-                         NULL, NULL );
+    int ret = WideCharToMultiByte( CP_UTF8, 0,
+                                   inStr, -1,
+                                   *outPath, bytesNeeded,
+                                   NULL, NULL );
+    assert( ret ); _NFD_UNUSED(ret);
 }
 
+// allocs the space in outStr -- call free()
+static void CopyNFDCharToWChar( const nfdchar_t *inStr, wchar_t **outStr )
+{
+    
+    int inStrByteCount = static_cast<int>(strlen(inStr));
+    int charsNeeded = MultiByteToWideChar(CP_UTF8, 0,
+                                          inStr, inStrByteCount,
+                                          NULL, 0 );    
+    assert( charsNeeded );
+    assert( !*outStr );
+    charsNeeded += 1; // terminator
+    
+    *outStr = (wchar_t*)NFDi_Malloc( charsNeeded * sizeof(wchar_t) );
+    if ( !*outStr )
+        return;        
+
+    int ret = MultiByteToWideChar(CP_UTF8, 0,
+                                  inStr, inStrByteCount,
+                                  *outStr, charsNeeded);
+    (*outStr)[charsNeeded-1] = '\0';
+
+#ifdef _DEBUG
+    int inStrCharacterCount = static_cast<int>(NFDi_UTF8_Strlen(inStr));
+    assert( ret == inStrCharacterCount );
+#else
+    _NFD_UNUSED(ret);
+#endif
+}
+
+static void AddFiltersToDialog( ::IFileOpenDialog *fileOpenDialog, const char *filterList )
+{
+    if ( !filterList || strlen(filterList) == 0 )
+        return;
+
+    COMDLG_FILTERSPEC spec;
+    spec.pszName = NULL;
+    spec.pszSpec = NULL;
+    CopyNFDCharToWChar( "graphics", (wchar_t**)&spec.pszName );
+    CopyNFDCharToWChar( "*.png", (wchar_t**)&spec.pszSpec );
+
+    fileOpenDialog->SetFileTypes( 1, &spec );
+    free( (void*)spec.pszSpec );
+    free( (void*)spec.pszName );
+}
 
 /* public */
 
@@ -62,7 +110,8 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         return NFD_ERROR;
     }
 
-    // todo: set file types here
+    // Build the filter list
+    AddFiltersToDialog( fileOpenDialog, filterList );
 
     // Show the dialog.
     result = fileOpenDialog->Show(NULL);

@@ -133,3 +133,9 @@ size_t NFDi_UTF8_Strlen( const nfdchar_t *str )
 
 	return character_count;	
 }
+
+int NFDi_IsFilterSegmentChar( char ch )
+{
+    return (ch==','||ch==';'||ch=='\0');
+}
+

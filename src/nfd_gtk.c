@@ -14,11 +14,6 @@
 
 const char INIT_FAIL_MSG[] = "gtk_init_check failed to initilaize GTK+";
 
-static int IsFilterSegmentChar( char ch )
-{
-    return (ch==','||ch==';'||ch=='\0');
-}
-
 
 static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t bufsize )
 {
@@ -34,6 +29,7 @@ static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t b
     strncat( filterName, typebuf, bufsize - len - 1 );
 }
 
+// fixme: memset p_typebuf! Or else it will bug out on shorter extensions after longer ones!
 static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
 {
     GtkFileFilter *filter;
@@ -49,7 +45,7 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
     while ( 1 )
     {
         
-        if ( IsFilterSegmentChar(*p_filterList) )
+        if ( NFDi_IsFilterSegmentChar(*p_filterList) )
         {
             char typebufWildcard[NFD_MAX_STRLEN];
             /* add another type to the filter */
@@ -87,7 +83,7 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
         }
 
         p_filterList++;
-    } while ( *p_filterList );
+    } while ( *p_filterList ); // fixme: this should not be here!
     
     /* always append a wildcard option to the end*/
 

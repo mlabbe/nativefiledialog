@@ -18,7 +18,7 @@ Features:
  - GTK+3 dialog on Linux.
  - Tested, works alongside [www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
-## Example Usage ##
+# Example Usage #
 
 ```C
 #include <nfd.h>
@@ -47,6 +47,10 @@ int main( void )
 ```
 
 See `NFD.h` for more options.
+
+# Screenshots #
+
+![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true "Modern file open dialog on Windows 8.1").
 
 ## Building ##
 

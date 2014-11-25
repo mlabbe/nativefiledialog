@@ -4,7 +4,7 @@
 # Build tests
 
 target_arch=str(Platform())
-debug=1
+debug=0
 
 files = {'test_opendialog':         ['test_opendialog.c'],
          'test_opendialogmultiple': ['test_opendialogmultiple.c'],

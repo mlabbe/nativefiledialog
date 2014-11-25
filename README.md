@@ -46,7 +46,7 @@ int main( void )
 }
 ```
 
-See `NFD.h` for more options.
+See [NFD.h](src/include/nfd.h) for more options.
 
 # Screenshots #
 

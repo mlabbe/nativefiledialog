@@ -91,6 +91,7 @@ int NFDi_SafeStrncpy( char *dst, const char *src, size_t maxCopy )
 }
 
 
+/* adapted from microutf8 */
 size_t NFDi_UTF8_Strlen( const nfdchar_t *str )
 {
 	/* This function doesn't properly check validity of UTF-8 character 

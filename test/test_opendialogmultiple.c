@@ -10,7 +10,7 @@ int main( void )
     nfdchar_t *outPath = NULL;
 
     nfdpathset_t pathSet;
-    nfdresult_t result = NFD_OpenDialogMultiple( "png,jpg;pdf", "/Users/mlabbe/Desktop", &pathSet );
+    nfdresult_t result = NFD_OpenDialogMultiple( "png,jpg;pdf", NULL, &pathSet );
     if ( result == NFD_OKAY )
     {
         size_t i;

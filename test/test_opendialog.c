@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 /* this test should compile on all supported platforms */
 
 int main( void )
 {
     nfdchar_t *outPath = NULL;
-    nfdresult_t result = NFD_OpenDialog( "png,jpg;pdf", "/home/mlabbe", &outPath );
+    nfdresult_t result = NFD_OpenDialog( "png,jpg;pdf", NULL, &outPath );
     if ( result == NFD_OKAY )
     {
         puts("Success!");

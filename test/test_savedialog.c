@@ -8,7 +8,7 @@
 int main( void )
 {
     nfdchar_t *savePath = NULL;
-    nfdresult_t result = NFD_SaveDialog( "jpg,png", "/home/mlabbe", &savePath );
+    nfdresult_t result = NFD_SaveDialog( "png,jpg;pdf", NULL, &savePath );
     if ( result == NFD_OKAY )
     {
         puts("Success!");

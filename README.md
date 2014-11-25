@@ -20,31 +20,31 @@ Features:
 
 ## Example Usage ##
 
-    ```C
-    #include <nfd.h>
-    #include <stdio.h>
-    #include <stdlib.h>
+```C
+#include <nfd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-    int main( void )
-    {
-        nfdchar_t *outPath = NULL;
-        nfdresult_t result = NFD_OpenDialog( NULL, NULL, &outPath );
+int main( void )
+{
+    nfdchar_t *outPath = NULL;
+    nfdresult_t result = NFD_OpenDialog( NULL, NULL, &outPath );
         
-        if ( result == NFD_OKAY ) {
-            puts("Success!");
-            puts(outPath);
-            free(outPath);
-        }
-        else if ( result == NFD_CANCEL ) {
-            puts("User pressed cancel.");
-        }
-        else {
-            printf("Error: %s\n", NFD_GetError() );
-        }
-
-        return 0;
+    if ( result == NFD_OKAY ) {
+        puts("Success!");
+        puts(outPath);
+        free(outPath);
     }
-    ```
+    else if ( result == NFD_CANCEL ) {
+        puts("User pressed cancel.");
+    }
+    else {
+        printf("Error: %s\n", NFD_GetError() );
+    }
+
+    return 0;
+}
+```
 
 See `NFD.h` for more options.
 
@@ -83,18 +83,28 @@ A wildcard filter is always added to every dialog.
 
 ### Separators ###
 
-`;`: begin a new filter.
-`,`: add a separate type to the filter.
+ - `;` Begin a new filter.
+ - `,` Add a separate type to the filter.
 
 #### Examples ####
 
-`txt`: The default filter is for text files.  There is a wildcard option in a dropdown.
-`png,jpg;psd`: The default filter is for png and jpg files.  A second filter is available for psd files.  There is a wildcard option in a dropdown.
-`NULL`: Wildcard only.
+`txt` The default filter is for text files.  There is a wildcard option in a dropdown.
+
+`png,jpg;psd` The default filter is for png and jpg files.  A second filter is available for psd files.  There is a wildcard option in a dropdown.
+
+`NULL` Wildcard only.
 
 ## Iterating Over PathSets ##
 
 See `test_opendialogmultiple.c`.
+
+# Known Limitations #
+
+I accept quality code patches, or will resolve these and other matters through support.
+
+ - No support for Windows XP's legacy `OpenFileDialog`.
+ - No support for file filter names -- ex: "Image Files" (*.png, *.jpg)
+ - No support for selecting folders instead of files.
 
 # Copyright and Credit #
 
@@ -108,4 +118,6 @@ Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
 
 ## Support ##
 
-Directed support for this work is available from the author under a paid agreement.  [Contact Frogtoss Games](http://www.frogtoss.com/pages/contact.html).
+Directed support for this work is available from the original author under a paid agreement.
+
+[Contact Frogtoss Games](http://www.frogtoss.com/pages/contact.html).

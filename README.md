@@ -50,7 +50,7 @@ See `NFD.h` for more options.
 
 # Screenshots #
 
-![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true "Modern file open dialog on Windows 8.1").
+![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
 
 ## Building ##
 
@@ -100,7 +100,7 @@ A wildcard filter is always added to every dialog.
 
 ## Iterating Over PathSets ##
 
-See `test_opendialogmultiple.c`.
+See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 
 # Known Limitations #
 
@@ -113,7 +113,7 @@ I accept quality code patches, or will resolve these and other matters through s
 # Copyright and Credit #
 
 Copyright &copy; 2014 [Frogtoss Games](http://www.frogtoss.com), Inc.
-File `LICENSE` covers all files in this repo.
+File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe
 <mike@frogtoss.com>

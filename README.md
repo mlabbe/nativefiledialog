@@ -106,7 +106,7 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 
 I accept quality code patches, or will resolve these and other matters through support.
 
- - No support for Windows XP's legacy `OpenFileDialog`.
+ - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg)
  - No support for selecting folders instead of files.
 

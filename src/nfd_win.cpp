@@ -121,7 +121,7 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
     return NFD_OKAY;
 }
 
-static nfdresult_t AddFiltersToDialog( ::IFileOpenDialog *fileOpenDialog, const char *filterList )
+static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char *filterList )
 {
     const wchar_t EMPTY_WSTR[] = L"";
     const wchar_t WILDCARD[] = L"*.*";
@@ -314,7 +314,7 @@ static nfdresult_t AllocPathSet( IShellItemArray *shellItems, nfdpathset_t *path
 }
 
 
-static nfdresult_t SetDefaultPath( IFileOpenDialog *dialog, const char *defaultPath )
+static nfdresult_t SetDefaultPath( IFileDialog *dialog, const char *defaultPath )
 {
     if ( !defaultPath || strlen(defaultPath) == 0 )
         return NFD_OKAY;
@@ -381,10 +381,16 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     }
 
     // Build the filter list
-    if ( AddFiltersToDialog( fileOpenDialog, filterList ) != NFD_OKAY )
+    if ( !AddFiltersToDialog( fileOpenDialog, filterList ) )
     {
         goto end;
     }
+
+    // Set the default path
+    if ( !SetDefaultPath( fileOpenDialog, defaultPath ) )
+    {
+        goto end;
+    }    
 
     // Show the dialog.
     result = fileOpenDialog->Show(NULL);
@@ -415,7 +421,6 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         }
 
         nfdResult = NFD_OKAY;
-        
         shellItem->Release();
     }
     else if (result == HRESULT_FROM_WIN32(ERROR_CANCELLED) )
@@ -530,6 +535,86 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {
+    nfdresult_t nfdResult = NFD_ERROR;
     
-    return NFD_ERROR;
+    // Init COM library.
+    HRESULT result = ::CoInitializeEx(NULL,
+                                      ::COINIT_APARTMENTTHREADED |
+                                      ::COINIT_DISABLE_OLE1DDE );
+    if ( !SUCCEEDED(result))
+    {
+        NFDi_SetError("Could not initialize COM.");
+        return NFD_ERROR;
+    }
+
+    ::IFileSaveDialog *fileSaveDialog(NULL);
+
+    // Create dialog
+    result = ::CoCreateInstance(::CLSID_FileSaveDialog, NULL,
+                                CLSCTX_ALL, ::IID_IFileSaveDialog,
+                                reinterpret_cast<void**>(&fileSaveDialog) );
+
+    if ( !SUCCEEDED(result) )
+    {
+        NFDi_SetError("Could not create dialog.");
+        goto end;
+    }
+
+    // Build the filter list
+    if ( !AddFiltersToDialog( fileSaveDialog, filterList ) )
+    {
+        goto end;
+    }
+
+    // Set the default path
+    if ( !SetDefaultPath( fileSaveDialog, defaultPath ) )
+    {
+        goto end;
+    }
+
+    // Show the dialog.
+    result = fileSaveDialog->Show(NULL);
+    if ( SUCCEEDED(result) )
+    {
+        // Get the file name
+        ::IShellItem *shellItem;
+        result = fileSaveDialog->GetResult(&shellItem);
+        if ( !SUCCEEDED(result) )
+        {
+            NFDi_SetError("Could not get shell item from dialog.");
+            goto end;
+        }
+        wchar_t *filePath(NULL);
+        result = shellItem->GetDisplayName(::SIGDN_FILESYSPATH, &filePath);
+        if ( !SUCCEEDED(result) )
+        {
+            NFDi_SetError("Could not get file path for selected.");
+            goto end;
+        }
+
+        CopyWCharToNFDChar( filePath, outPath );
+        CoTaskMemFree(filePath);
+        if ( !*outPath )
+        {
+            /* error is malloc-based, error message would be redundant */
+            goto end;
+        }
+
+        nfdResult = NFD_OKAY;
+        shellItem->Release();
+    }
+    else if (result == HRESULT_FROM_WIN32(ERROR_CANCELLED) )
+    {
+        nfdResult = NFD_CANCEL;
+    }
+    else
+    {
+        NFDi_SetError("File dialog box show failed.");
+        nfdResult = NFD_ERROR;
+    }
+    
+ end:
+    ::CoUninitialize();
+        
+    return nfdResult;
 }

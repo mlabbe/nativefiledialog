@@ -51,6 +51,7 @@ See [NFD.h](src/include/nfd.h) for more options.
 # Screenshots #
 
 ![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
+![GTK3 on Linux](screens/open_gtk3.png?raw=true)
 
 ## Building ##
 

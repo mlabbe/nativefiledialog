@@ -29,7 +29,6 @@ static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t b
     strncat( filterName, typebuf, bufsize - len - 1 );
 }
 
-// fixme: memset p_typebuf! Or else it will bug out on shorter extensions after longer ones!
 static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
 {
     GtkFileFilter *filter;
@@ -58,7 +57,7 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
             gtk_file_filter_add_pattern( filter, typebufWildcard );
             
             p_typebuf = typebuf;
-            *p_typebuf = '\0';
+            memset( typebuf, 0, sizeof(char) * NFD_MAX_STRLEN );
         }
         
         if ( *p_filterList == ';' || *p_filterList == '\0' )
@@ -76,14 +75,14 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
             filter = gtk_file_filter_new();            
         }
 
-        if ( !IsFilterSegmentChar( *p_filterList ) )
+        if ( !NFDi_IsFilterSegmentChar( *p_filterList ) )
         {
             *p_typebuf = *p_filterList;
             p_typebuf++;
         }
 
         p_filterList++;
-    } while ( *p_filterList ); // fixme: this should not be here!
+    }
     
     /* always append a wildcard option to the end*/
 

@@ -57,7 +57,7 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Building ##
 
-NFD uses [SCons](www.scons.org) for cross-platform builds.  After installing SCons, build it with:
+NFD uses [SCons](http://www.scons.org) for cross-platform builds.  After installing SCons, build it with:
 
     cd src
     scons

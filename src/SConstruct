@@ -30,7 +30,7 @@ def set_warnings(env):
 # Cocoa OS X builds - clang
 if target_arch == 'darwin':
     nfd_files.append('nfd_cocoa.m')
-    nfd_env.Append( CC='clang -fcolor-diagnostics' )
+    nfd_env.CC='clang -fcolor-diagnostics'
 
 # Linux GTK+ 3 builds - GCC
 elif target_arch == 'posix':

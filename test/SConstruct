@@ -30,8 +30,8 @@ test_env.Append( CPPPATH=['../src/include'], # API header path only, no internal
 
 # Cocoa OS X builds
 if target_arch == 'darwin':
-    test_env.Append( CC='clang -fcolor-diagnostics',
-                     FRAMEWORKS='AppKit' )
+    test_env.Append( FRAMEWORKS='AppKit' )
+    test_env.CC='clang -fcolor-diagnostics'
 
 # Linux GTK+ 3 builds
 elif target_arch == 'posix':

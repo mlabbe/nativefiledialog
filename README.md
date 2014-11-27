@@ -16,7 +16,7 @@ Features:
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
  - GTK+3 dialog on Linux.
- - Tested, works alongside [www.libsdl.org](SDL2) on all platforms, for the game developers out there.
+ - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
 

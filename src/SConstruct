@@ -7,7 +7,7 @@
 
 # target arch is build arch -- extend here for cross compiling
 target_arch=str(Platform())
-debug=0
+debug = int(ARGUMENTS.get( 'debug', 0 ))
 
 nfd_files = ['nfd_common.c']
 

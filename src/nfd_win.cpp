@@ -28,7 +28,6 @@ static void CopyWCharToNFDChar( const wchar_t *inStr, nfdchar_t **outStr )
                                            inStr, inStrCharacterCount,
                                            NULL, 0, NULL, NULL );    
     assert( bytesNeeded );
-    assert( !*outStr );
     bytesNeeded += 1;
 
     *outStr = (nfdchar_t*)NFDi_Malloc( bytesNeeded );

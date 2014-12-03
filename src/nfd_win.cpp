@@ -231,8 +231,8 @@ static nfdresult_t AllocPathSet( IShellItemArray *shellItems, nfdpathset_t *path
         return NFD_ERROR;
     }
 
-    assert( pathSet->count > 0 );
     pathSet->count = static_cast<size_t>(numShellItems);
+    assert( pathSet->count > 0 );
 
     pathSet->indices = (size_t*)NFDi_Malloc( sizeof(size_t)*pathSet->count );
     if ( !pathSet->indices )

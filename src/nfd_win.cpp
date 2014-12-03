@@ -56,7 +56,7 @@ static size_t GetUTF8ByteCountForWChar( const wchar_t *str )
 static int CopyWCharToExistingNFDCharBuffer( const wchar_t *inStr, nfdchar_t *outPtr )
 {
     int inStrCharacterCount = static_cast<int>(wcslen(inStr));
-    int bytesNeeded = GetUTF8ByteCountForWChar( inStr );
+    int bytesNeeded = static_cast<int>(GetUTF8ByteCountForWChar( inStr ));
 
     /* invocation copies null term */
     int bytesWritten = WideCharToMultiByte( CP_UTF8, 0,
@@ -202,7 +202,7 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     specList[specIdx].pszSpec = WILDCARD;
     specList[specIdx].pszName = EMPTY_WSTR;
     
-    fileOpenDialog->SetFileTypes( filterCount+1, specList );
+    fileOpenDialog->SetFileTypes( static_cast<UINT>(filterCount+1), specList );
 
     /* free speclist */
     for ( size_t i = 0; i < filterCount; ++i )

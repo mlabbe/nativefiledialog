@@ -30,7 +30,6 @@ def set_release(env):
     if target_arch == 'win32':
         env.Append( CFLAGS=[win_rtl['release'],
                             '/O2', 
-                            #'/RTC1'] 
                             ])
     else:
         env.Append( CFLAGS=['-O3'] )

@@ -19,7 +19,7 @@ win_rtl = {'debug': '/MDd',
 
 def set_debug(env):
     if target_arch == 'win32':
-        env.Append( CFLAGS=['/Z7',       # obj contains full symbols
+        env.Append( CCFLAGS=['/Z7',       # obj contains full symbols
                             win_rtl['debug']
                         ])
     else:
@@ -28,7 +28,7 @@ def set_debug(env):
 
 def set_release(env):
     if target_arch == 'win32':
-        env.Append( CFLAGS=[win_rtl['release'],  
+        env.Append( CCFLAGS=[win_rtl['release'],  
                             '/O2'] )
     else:
         env.Append( CFLAGS=['-O3'] )
@@ -36,7 +36,7 @@ def set_release(env):
 
 def set_warnings(env):
     if target_arch == 'win32':
-        env.Append( CFLAGS=['/W3'],
+        env.Append( CCFLAGS=['/W3'],
                     CPPDEFINES=['_CRT_SECURE_NO_WARNINGS'] )
     else:
         env.Append( CFLAGS=['-Wall', '-pedantic'] )

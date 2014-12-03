@@ -60,9 +60,15 @@ See [NFD.h](src/include/nfd.h) for more options.
 NFD uses [SCons](http://www.scons.org) for cross-platform builds.  After installing SCons, build it with:
 
     cd src
-    scons
+    scons debug=[0,1]
 
-On Windows, you will need to make sure you are operating with Visual Studio environment variables.  This has been tested with 
+Alternatively, you can avoid Scons by just including NFD files to your existing project:
+
+ 1. Add all header files in `src/` and `src/include` to your project.
+ 2. Add `src/include` to your include search path or copy it into your existing search path.
+ 3. Add `src/nfd_common.c` to your project.
+ 4. Add `src/nfd_<platform>` to your project, where `<platform>` is the NFD backend for the platform you are fixing to build.
+ 5. On Visual Studio, define `_CRT_SECURE_NO_WARNINGS` to avoid warnings.
 
 ### Compiling Your Programs ###
 
@@ -110,8 +116,9 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 I accept quality code patches, or will resolve these and other matters through support.
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
- - No support for file filter names -- ex: "Image Files" (*.png, *.jpg)
+ - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
  - No support for selecting folders instead of files.
+ - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
 
 # Copyright and Credit #
 

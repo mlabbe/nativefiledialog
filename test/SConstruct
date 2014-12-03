@@ -14,15 +14,14 @@ test_env = Environment()
 
 
 # Windows runtime library types
-win_rtl = {'debug': '/MTd',     # Multithreaded Debug
-           'release': '/MT'}    # Multithreaded 
+win_rtl = {'debug': '/MDd',     
+           'release': '/MD'}    
 
 
 def set_debug(env):
     if target_arch == 'win32':
         env.Append( CFLAGS=['/Z7',       # obj contains full symbols
-                            win_rtl['debug'] ], 
-                    LINKFLAGS=['/DEBUG'] )
+                            win_rtl['debug'] ] )
     else:
         env.Append( CFLAGS=['-g'] )
 
@@ -30,9 +29,19 @@ def set_debug(env):
 def set_release(env):
     if target_arch == 'win32':
         env.Append( CFLAGS=[win_rtl['release'],
-                            '/O2'] )
+                            '/O2', 
+                            #'/RTC1'] 
+                            ])
     else:
         env.Append( CFLAGS=['-O3'] )
+
+
+def get_lib_name(base, is_debug):
+    if is_debug:
+        return base + '_d'
+    else:
+        return base
+
 
 if debug:
     set_debug(test_env)
@@ -41,7 +50,7 @@ else:
 
 test_env.Append( CPPPATH=['../src/include'], # API header path only, no internals allowed
                  LIBPATH=['../src'],
-                 LIBS='nfd' )
+                 LIBS=get_lib_name('nfd', debug) )
 
 
 # Cocoa OS X builds
@@ -54,7 +63,9 @@ elif target_arch == 'posix':
     test_env.ParseConfig( 'pkg-config --cflags --libs gtk+-3.0' )
 
 elif target_arch == 'win32':
-    test_env.Append( LIBS=['ole32.lib'] )
+    test_env.Append( 
+        LINKFLAGS=['/NODEFAULTLIB:LIBCMT'])
 
 for codebase in files:
-    test_env.Program( codebase, files[codebase] )
+    output_name = get_lib_name(codebase, debug)
+    test_env.Program( output_name, files[codebase] )

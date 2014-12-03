@@ -14,15 +14,14 @@ nfd_files = ['nfd_common.c']
 nfd_env = Environment()
 
 # Windows runtime library types
-win_rtl = {'debug': '/MTd',     # Multithreaded Debug 
-           'release': '/MT'}    # Multithreaded
+win_rtl = {'debug': '/MDd',     
+           'release': '/MD'}   
 
 def set_debug(env):
     if target_arch == 'win32':
         env.Append( CFLAGS=['/Z7',       # obj contains full symbols
                             win_rtl['debug']
-                        ], 
-                    LINKFLAGS=['/DEBUG'] )
+                        ])
     else:
         env.Append( CFLAGS=['-g'] )
 
@@ -41,6 +40,14 @@ def set_warnings(env):
                     CPPDEFINES=['_CRT_SECURE_NO_WARNINGS'] )
     else:
         env.Append( CFLAGS=['-Wall', '-pedantic'] )
+
+
+def get_lib_name(base, is_debug):
+    if is_debug:
+        return base + '_d'
+    else:
+        return base
+
 
 # Cocoa OS X builds - clang
 if target_arch == 'darwin':
@@ -64,4 +71,4 @@ else:
 set_warnings(nfd_env)
 
 nfd_env.Append( CPPPATH=['.','./include'] )
-nfd_env.StaticLibrary( 'nfd', nfd_files )
+nfd_env.StaticLibrary( get_lib_name('nfd', debug), nfd_files )

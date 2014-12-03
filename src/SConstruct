@@ -13,12 +13,27 @@ nfd_files = ['nfd_common.c']
 
 nfd_env = Environment()
 
+# Windows runtime library types
+win_rtl = {'debug': '/MTd',     # Multithreaded Debug 
+           'release': '/MT'}    # Multithreaded
 
 def set_debug(env):
     if target_arch == 'win32':
-        env.Append( CFLAGS=['/Z7'] )  # obj contains full symbols
+        env.Append( CFLAGS=['/Z7',       # obj contains full symbols
+                            win_rtl['debug']
+                        ], 
+                    LINKFLAGS=['/DEBUG'] )
     else:
         env.Append( CFLAGS=['-g'] )
+
+
+def set_release(env):
+    if target_arch == 'win32':
+        env.Append( CFLAGS=[win_rtl['release'],  
+                            '/O2'] )
+    else:
+        env.Append( CFLAGS=['-O3'] )
+                    
 
 def set_warnings(env):
     if target_arch == 'win32':
@@ -43,6 +58,8 @@ elif target_arch == 'win32':
 
 if debug:
     set_debug(nfd_env)
+else:
+    set_release(nfd_env)
 
 set_warnings(nfd_env)
 

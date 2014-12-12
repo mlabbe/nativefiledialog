@@ -17,6 +17,7 @@ Features:
  - Support for non-deprecated Cocoa APIs on OS X.
  - GTK3 dialog on Linux.
  - Optional Zenity support on Linux to avoid linking GTK.
+ - Haiku support
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
@@ -54,6 +55,7 @@ See self-documenting API [NFD.h](src/include/nfd.h) for more options.
 ![Windows rendering a dialog](screens/open_win.png?raw=true)
 ![GTK3 on Linux rendering a dialog](screens/open_gtk3.png?raw=true)
 ![Cocoa on MacOS rendering a dialog](screens/open_cocoa.png?raw=true)
+![Haiku](screens/open_haiku.png?raw=true)
 
 ## Changelog ##
 
@@ -155,6 +157,9 @@ On Mac OS, add `AppKit` to the list of frameworks.
 
 On Windows, ensure you are linking against `comctl32.lib`.
 
+#### Haiku ####
+On Haiku, you need to link to `libtracker` and `libbe`, and make sure a `BApplication` exists before trying to call the API
+
 ## Usage ##
 
 See `NFD.h` for API calls.  See `tests/*.c` for example code.
@@ -195,6 +200,7 @@ I accept quality code patches, or will resolve these and other matters through s
    - It errors out if Zenity is not installed on the user's system
    - This backend's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
    - Unlike the other backends, the Zenity backend does not return implied extensions from filterlists. [#95](https://github.com/mlabbe/nativefiledialog/issues/95 "Issue 95")
+ - On Haiku, a `BApplication` is required to spawn a window. In the examples this is done with some #if's.
 
 # Copyright and Credit #
 

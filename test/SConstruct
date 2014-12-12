@@ -6,9 +6,9 @@
 target_arch=str(Platform())
 debug = int(ARGUMENTS.get( 'debug', 0 ))
 
-files = {'test_opendialog':         ['test_opendialog.c'],
-         'test_opendialogmultiple': ['test_opendialogmultiple.c'],
-         'test_savedialog':         ['test_savedialog.c']}
+files = {'test_opendialog':         ['test_opendialog.cpp'],
+         'test_opendialogmultiple': ['test_opendialogmultiple.cpp'],
+         'test_savedialog':         ['test_savedialog.cpp']}
 
 test_env = Environment()
 
@@ -23,7 +23,7 @@ def set_debug(env):
         env.Append( CFLAGS=['/Z7',       # obj contains full symbols
                             win_rtl['debug'] ] )
     else:
-        env.Append( CFLAGS=['-g'] )
+        env.Append( CCFLAGS=['-g'] )
 
 
 def set_release(env):
@@ -56,6 +56,10 @@ test_env.Append( CPPPATH=['../src/include'], # API header path only, no internal
 if target_arch == 'darwin':
     test_env.Append( FRAMEWORKS='AppKit' )
     test_env.CC='clang -fcolor-diagnostics'
+
+# Haiku builds
+elif target_arch == 'haiku':
+	test_env.Append( LIBS=['be', 'tracker'] )
 
 # Linux GTK+ 3 builds
 elif target_arch == 'posix':

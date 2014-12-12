@@ -35,6 +35,8 @@ private:
 };
 
 
+#define FILTER 1
+
 ExtensionRefFilter::ExtensionRefFilter(BString stuff) {
 	int32 start = 0;
 	while(start < stuff.Length()) {
@@ -64,6 +66,9 @@ bool
 ExtensionRefFilter::Filter(const entry_ref* ref, BNode* node,
 	struct stat_beos* stat, const char* mimeType)
 {
+	#if !FILTER
+		return true;
+	#endif
 	if (S_ISDIR(stat->st_mode))
 		return true;
 

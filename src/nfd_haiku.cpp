@@ -81,21 +81,6 @@ ExtensionRefFilter::Filter(const entry_ref* ref, BNode* node,
 	return false;
 }
 
-class DialogHandler : public BLooper {
-public:
-	DialogHandler(port_id port);
-	void MessageReceived(BMessage *msg);
-private:
-	port_id mPort;
-};
-
-
-DialogHandler::DialogHandler(port_id port)
-	: BLooper(),
-	mPort(port)
-{
-}
-
 
 struct response_data {
 	struct {
@@ -109,35 +94,60 @@ struct response_data {
 	} save;
 };
 
+
+class DialogHandler : public BLooper {
+public:
+	DialogHandler();
+	~DialogHandler() { delete_sem(mSemaphore); }
+	void MessageReceived(BMessage *msg);
+	int32 ResponseId() { return mResponseId; }
+	response_data &ResponseData() { return mResponseData; }
+	void Wait() { acquire_sem(mSemaphore); }
+private:
+	sem_id mSemaphore;
+	int32 mResponseId;
+	response_data mResponseData;
+};
+
+
+DialogHandler::DialogHandler()
+	: BLooper(),
+	mResponseId(0)
+{
+	mSemaphore = create_sem(0, "NativeFileDialog helper");
+}
+
 void
 DialogHandler::MessageReceived(BMessage *msg)
 {
+	if (mResponseId != 0) {
+		BLooper::MessageReceived(msg);
+		return;
+	}
+		
 	switch(msg->what) {
 		case B_REFS_RECEIVED: {
-			response_data data;
-			msg->GetInfo("refs", NULL, &data.open.count);
-			data.open.refs = new entry_ref[data.open.count];
-			for (int32 i = 0; i < data.open.count; i++) {
+			mResponseId = kOpenResponse;
+			msg->GetInfo("refs", NULL, &mResponseData.open.count);
+			mResponseData.open.refs = new entry_ref[mResponseData.open.count];
+			for (int32 i = 0; i < mResponseData.open.count; i++) {
 				entry_ref ref;
-				msg->FindRef("refs", i, data.open.refs + i);
+				msg->FindRef("refs", i, mResponseData.open.refs + i);
 			}
-			write_port(mPort, kOpenResponse, &data, sizeof(response_data));
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 		
 		case B_SAVE_REQUESTED: {
-			response_data data;
-			msg->FindRef("directory", &data.save.directory);
-			msg->FindString("name", &data.save.filename);
-			write_port(mPort, kSaveResponse, &data, sizeof(response_data));
+			mResponseId = kSaveResponse;
+			msg->FindRef("directory", &mResponseData.save.directory);
+			msg->FindString("name", &mResponseData.save.filename);
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 		
 		case B_CANCEL: {
-			response_data data;
-			write_port(mPort, kCancelResponse, &data, sizeof(response_data));
+			mResponseId = kCancelResponse;
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
@@ -145,6 +155,8 @@ DialogHandler::MessageReceived(BMessage *msg)
 		default:
 			BLooper::MessageReceived(msg);
 	}
+	
+	release_sem(mSemaphore);
 }
 
 
@@ -157,14 +169,8 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
 		return NFD_ERROR;
 	}
-	
-	port_id port = create_port(1, "NFD_OpenDialog helper");
-	if (port == B_NO_MORE_PORTS) {
-		NFDi_SetError("Couldn't create port for communicating with BFilePanel");
-		return NFD_ERROR;
-	}
 
-	DialogHandler *handler = new DialogHandler(port);
+	DialogHandler *handler = new DialogHandler();
 	BMessenger messenger(handler);
 	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false);
 	ExtensionRefFilter *filter = NULL;
@@ -184,12 +190,12 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 
 	panel->Show();
 	
-	response_data data;
-	int32 response;
+	handler->Wait();
 
-	read_port(port, &response, &data, sizeof(response_data));
+	response_data &data = handler->ResponseData();
+	int32 response = handler->ResponseId();
+	handler->PostMessage(B_QUIT_REQUESTED);
 
-	delete_port(port);
 	delete panel;
 
 	switch (response) {
@@ -236,14 +242,8 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
 		return NFD_ERROR;
 	}
-	
-	port_id port = create_port(1, "NFD_OpenDialogMultiple helper");
-	if (port == B_NO_MORE_PORTS) {
-		NFDi_SetError("Couldn't create port for communicating with BFilePanel");
-		return NFD_ERROR;
-	}
 
-	DialogHandler *handler = new DialogHandler(port);
+	DialogHandler *handler = new DialogHandler();
 	BMessenger messenger(handler);
 	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false);
 	ExtensionRefFilter *filter = NULL;
@@ -263,13 +263,11 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
 	panel->Show();
 	
-	response_data data;
-	int32 response;
+	handler->Wait();
 
-	read_port(port, &response, &data, sizeof(response_data));
+	response_data &data = handler->ResponseData();
+	int32 response = handler->ResponseId();
 
-	delete_port(port);
-	delete panel;
 	handler->PostMessage(B_QUIT_REQUESTED);
 
 	switch (response) {
@@ -318,14 +316,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
 		return NFD_ERROR;
 	}
-	
-	port_id port = create_port(1, "NFD_OpenDialog helper");
-	if (port == B_NO_MORE_PORTS) {
-		NFDi_SetError("Haiku couldn't create port for communicating with BFilePanel");
-		return NFD_ERROR;
-	}
 
-	DialogHandler *handler = new DialogHandler(port);
+	DialogHandler *handler = new DialogHandler();
 	handler->Run();
 	BMessenger messenger(handler);
 	BFilePanel *panel = new BFilePanel(B_SAVE_PANEL, NULL, NULL, B_FILE_NODE, false);
@@ -336,13 +328,11 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	}
 
 	panel->Show();
-	response_data data;
-	int32 response;
+	
+	handler->Wait();
 
-	read_port(port, &response, &data, sizeof(response_data));
-
-	delete_port(port);
-	delete panel;
+	response_data &data = handler->ResponseData();
+	int32 response = handler->ResponseId();
 	handler->PostMessage(B_QUIT_REQUESTED);
 
 	switch (response) {

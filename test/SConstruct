@@ -6,9 +6,9 @@
 target_arch=str(Platform())
 debug = int(ARGUMENTS.get( 'debug', 0 ))
 
-files = {'test_opendialog':         ['test_opendialog.cpp'],
-         'test_opendialogmultiple': ['test_opendialogmultiple.cpp'],
-         'test_savedialog':         ['test_savedialog.cpp']}
+files = {'test_opendialog':         ['test_opendialog.c'],
+         'test_opendialogmultiple': ['test_opendialogmultiple.c'],
+         'test_savedialog':         ['test_savedialog.c']}
 
 test_env = Environment()
 
@@ -23,7 +23,7 @@ def set_debug(env):
         env.Append( CFLAGS=['/Z7',       # obj contains full symbols
                             win_rtl['debug'] ] )
     else:
-        env.Append( CCFLAGS=['-g'] )
+        env.Append( CFLAGS=['-g'] )
 
 
 def set_release(env):

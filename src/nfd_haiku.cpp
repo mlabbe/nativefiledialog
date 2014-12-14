@@ -34,7 +34,6 @@ private:
 	BStringList mExtensions;
 };
 
-
 #define FILTER 1
 
 ExtensionRefFilter::ExtensionRefFilter(BString stuff) {
@@ -165,9 +164,9 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {
+	BApplication *temporaryApp = NULL;
 	if (be_app == NULL) {
-		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
-		return NFD_ERROR;
+		temporaryApp = new BApplication("application/x-vnd.nfd-dialog");
 	}
 
 	DialogHandler *handler = new DialogHandler();
@@ -195,6 +194,9 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 	response_data &data = handler->ResponseData();
 	int32 response = handler->ResponseId();
 	handler->PostMessage(B_QUIT_REQUESTED);
+
+	if (temporaryApp)
+		delete temporaryApp;
 
 	delete panel;
 
@@ -238,9 +240,9 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
 {
+	BApplication *temporaryApp = NULL;
 	if (be_app == NULL) {
-		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
-		return NFD_ERROR;
+		temporaryApp = new BApplication("application/x-vnd.nfd-dialog");
 	}
 
 	DialogHandler *handler = new DialogHandler();
@@ -270,13 +272,16 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
 	handler->PostMessage(B_QUIT_REQUESTED);
 
+	if (temporaryApp)
+		delete temporaryApp;
+
 	switch (response) {
 		case kCancelResponse:
 			if (filter)
 				delete filter;
 			return NFD_CANCEL;
 		case kOpenResponse: {
-			size_t total_length;
+			size_t total_length = 0;
 			for (int i = 0; i < data.open.count; i++) {
 				total_length += NFDi_UTF8_Strlen((nfdchar_t *)data.open.refs[i].name) + 1;
 			}
@@ -312,9 +317,10 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
-{	if (be_app == NULL) {
-		NFDi_SetError("You need a valid BApplication before you can open a file save dialog!");
-		return NFD_ERROR;
+{
+	BApplication *temporaryApp = NULL;
+	if (be_app == NULL) {
+		temporaryApp = new BApplication("application/x-vnd.nfd-dialog");
 	}
 
 	DialogHandler *handler = new DialogHandler();
@@ -334,6 +340,9 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	response_data &data = handler->ResponseData();
 	int32 response = handler->ResponseId();
 	handler->PostMessage(B_QUIT_REQUESTED);
+
+	if (temporaryApp)
+		delete temporaryApp;
 
 	switch (response) {
 		case kCancelResponse:

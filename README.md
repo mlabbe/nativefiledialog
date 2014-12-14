@@ -83,7 +83,7 @@ On Mac OS X, add `AppKit` to the list of frameworks.
 
 On Windows, ensure you are building against `comctl32.lib`.
 
-On Haiku, you need to link to `libtracker` and `libbe`, and make sure a `BApplication` exists before trying to call the API
+On Haiku, you need to link to `libtracker` and `libbe`.
 
 ## Usage ##
 
@@ -122,6 +122,7 @@ I accept quality code patches, or will resolve these and other matters through s
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
  - No support for selecting folders instead of files.
  - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
+ - On Haiku, the file open dialog either shows only allowed files or all files, which is chosen at build time.
 # Copyright and Credit #
 
 Copyright &copy; 2014 [Frogtoss Games](http://www.frogtoss.com), Inc.

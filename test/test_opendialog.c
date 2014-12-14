@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <Application.h>
-#include <string.h>
-
 /* this test should compile on all supported platforms */
 
 int main( void )
@@ -26,9 +23,6 @@ int main( void )
     {
         printf("Error: %s\n", NFD_GetError() );
     }
-
-	BApplication app("application/x-vnd.bacon");
-	printf((const char *)strerror(app.InitCheck()));
 
     return 0;
 }

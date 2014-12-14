@@ -122,7 +122,6 @@ I accept quality code patches, or will resolve these and other matters through s
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
  - No support for selecting folders instead of files.
  - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
- - On Haiku, a `BApplication` is required to spawn a window. In the examples this is done with some #if's.
 # Copyright and Credit #
 
 Copyright &copy; 2014 [Frogtoss Games](http://www.frogtoss.com), Inc.
@@ -132,6 +131,8 @@ Native File Dialog by Michael Labbe
 <mike@frogtoss.com>
 
 Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
+
+Haiku port by Puck Meerburg <puck@puckipedia.nl> (@puckipedia on Github)
 
 ## Support ##
 

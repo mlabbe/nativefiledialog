@@ -172,7 +172,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 
 	DialogHandler *handler = new DialogHandler();
 	BMessenger messenger(handler);
-	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false);
+	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL, NULL, true);
 	ExtensionRefFilter *filter = NULL;
 
 	if (filterList != NULL && *filterList != 0) {
@@ -245,7 +245,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
 	DialogHandler *handler = new DialogHandler();
 	BMessenger messenger(handler);
-	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false);
+	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_FILE_NODE, false, NULL, NULL, true);
 	ExtensionRefFilter *filter = NULL;
 
 	if (filterList != NULL && *filterList != 0) {
@@ -313,14 +313,14 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {	if (be_app == NULL) {
-		NFDi_SetError("You need a valid BApplication before you can open a file open dialog!");
+		NFDi_SetError("You need a valid BApplication before you can open a file save dialog!");
 		return NFD_ERROR;
 	}
 
 	DialogHandler *handler = new DialogHandler();
 	handler->Run();
 	BMessenger messenger(handler);
-	BFilePanel *panel = new BFilePanel(B_SAVE_PANEL, NULL, NULL, B_FILE_NODE, false);
+	BFilePanel *panel = new BFilePanel(B_SAVE_PANEL, NULL, NULL, B_FILE_NODE, false, NULL, NULL, true);
 	panel->SetTarget(messenger);
 	if (defaultPath != NULL) {
 		BEntry directory(defaultPath, true);

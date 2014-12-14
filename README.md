@@ -158,7 +158,7 @@ On Mac OS, add `AppKit` to the list of frameworks.
 On Windows, ensure you are linking against `comctl32.lib`.
 
 #### Haiku ####
-On Haiku, you need to link to `libtracker` and `libbe`, and make sure a `BApplication` exists before trying to call the API
+On Haiku, you need to link to `libtracker` and `libbe`.
 
 ## Usage ##
 
@@ -200,7 +200,7 @@ I accept quality code patches, or will resolve these and other matters through s
    - It errors out if Zenity is not installed on the user's system
    - This backend's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
    - Unlike the other backends, the Zenity backend does not return implied extensions from filterlists. [#95](https://github.com/mlabbe/nativefiledialog/issues/95 "Issue 95")
- - On Haiku, a `BApplication` is required to spawn a window. In the examples this is done with some #if's.
+ - On Haiku, the file open dialog either shows only allowed files or all files, which is chosen at build time.
 
 # Copyright and Credit #
 

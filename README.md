@@ -216,6 +216,8 @@ Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
 
 [Tom Mason](https://github.com/wheybags) for Zenity support.
 
+[Puck Meerburg](https://github.com/puckipedia/nativefiledialog) for Haiku support.
+
 Various pull requests and bugfixes -- thanks to the original authors.
 
 ## Support ##

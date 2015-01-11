@@ -4,6 +4,9 @@
 # Scons build script -- GCC, Clang, Visual Studio
 # Does not build test
 
+IMPORT_FROM_ENV = ['CC', 'CXX', 'CFLAGS', 'CXXFLAGS', 'ARFLAGS']
+
+import os
 
 # target arch is build arch -- extend here for cross compiling
 target_arch=str(Platform())
@@ -12,6 +15,12 @@ debug = int(ARGUMENTS.get( 'debug', 0 ))
 nfd_files = ['nfd_common.c']
 
 nfd_env = Environment()
+
+# import specific environment variables from the command line, overriding
+# Scons environment defaults
+for env_key in IMPORT_FROM_ENV:
+    if env_key in os.environ:
+        nfd_env[env_key] = os.environ[env_key]
 
 # Windows runtime library types
 win_rtl = {'debug': '/MDd',     
@@ -71,4 +80,6 @@ else:
 set_warnings(nfd_env)
 
 nfd_env.Append( CPPPATH=['.','./include'] )
-nfd_env.StaticLibrary( get_lib_name('nfd', debug), nfd_files )
+
+lib_name = get_lib_name('nfd', debug)
+nfd_env.StaticLibrary( lib_name, nfd_files )

@@ -4,12 +4,20 @@
 # Scons build script -- GCC, Clang, Visual Studio
 # Does not build test
 
-IMPORT_FROM_ENV = ['CC', 'CXX', 'CFLAGS', 'CXXFLAGS', 'ARFLAGS']
 
 import os
+        
 
 # target arch is build arch -- extend here for cross compiling
 target_arch=str(Platform())
+
+# visual studio does not import from environment
+if target_arch != 'win32':
+    IMPORT_FROM_ENV =['CC', 'CXX', 'CFLAGS', 'CXXFLAGS', 'ARFLAGS']
+else:
+    IMPORT_FROM_ENV =[]
+
+
 debug = int(ARGUMENTS.get( 'debug', 0 ))
 
 nfd_files = ['nfd_common.c']

@@ -129,7 +129,7 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
         return NFD_OKAY;
 
     // Count rows to alloc
-    size_t filterCount = 1; /* guaranteed to have one filter on a correct, non-empty parse */
+    UINT filterCount = 1; /* guaranteed to have one filter on a correct, non-empty parse */
     const char *p_filterList;
     for ( p_filterList = filterList; *p_filterList; ++p_filterList )
     {
@@ -202,7 +202,7 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     specList[specIdx].pszSpec = WILDCARD;
     specList[specIdx].pszName = EMPTY_WSTR;
     
-    fileOpenDialog->SetFileTypes( static_cast<UINT>(filterCount+1), specList );
+    fileOpenDialog->SetFileTypes( filterCount+1, specList );
 
     /* free speclist */
     for ( size_t i = 0; i < filterCount; ++i )

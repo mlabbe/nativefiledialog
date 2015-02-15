@@ -157,10 +157,23 @@ static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
     return NFD_OKAY;
 }
 
-static void WaitForCleanup(void)
+static void WaitForCleanup(int count)
 {
-    while (gtk_events_pending())
-        gtk_main_iteration();
+    int i;
+    assert(count>=1);
+
+    /* there is a bug in some versions of GTK which stop the dialog from disappearing after
+       the user hits quit.  Github bug #3 on nativefiledialog.
+
+       This is resolved by looping over WaitForCleanup multiple times.  */
+
+    for ( i = 0; i < count; ++i )
+    {
+        while (gtk_events_pending())
+            gtk_main_iteration();
+
+        usleep(5);
+    }
 }
                                  
 /* public */
@@ -214,7 +227,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         result = NFD_OKAY;
     }
 
-    WaitForCleanup();
+    WaitForCleanup(2);
     gtk_widget_destroy(dialog);
 
     return result;
@@ -261,7 +274,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         result = NFD_OKAY;
     }
 
-    WaitForCleanup();
+    WaitForCleanup(2);
     gtk_widget_destroy(dialog);
 
     return result;
@@ -315,7 +328,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 
     gtk_widget_destroy(dialog);
 
-    WaitForCleanup();
+    WaitForCleanup(2);
     
     return result;
 }

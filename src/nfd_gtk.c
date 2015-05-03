@@ -292,6 +292,9 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 
     /* Build the filter list */    
     AddFiltersToDialog(dialog, filterList);
+
+    /* Set the default path */
+    SetDefaultPath(dialog, defaultPath);
     
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )

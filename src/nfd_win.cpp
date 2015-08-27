@@ -15,7 +15,7 @@
 #include <assert.h>
 #include <atlbase.h>
 #include <windows.h>
-#include <ShObjIdl.h>
+#include <ShlObj.h>
 
 #include "nfd_common.h"
 
@@ -321,14 +321,22 @@ static nfdresult_t SetDefaultPath( IFileDialog *dialog, const char *defaultPath 
     wchar_t *defaultPathW = {0};
     CopyNFDCharToWChar( defaultPath, &defaultPathW );
 
-    IShellItem *folder;
-    HRESULT result = SHCreateItemFromParsingName( defaultPathW, NULL, IID_PPV_ARGS(&folder) );
+    PIDLIST_ABSOLUTE pidl;
+    HRESULT result = ::SHParseDisplayName( defaultPathW, 0, &pidl, SFGAO_FOLDER, 0 );
 
     // Valid non results.
     if ( result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND) || result == HRESULT_FROM_WIN32(ERROR_INVALID_DRIVE) )
     {
         NFDi_Free( defaultPathW );
         return NFD_OKAY;
+    }
+
+    IShellItem *folder;
+
+    if ( SUCCEEDED(result) )
+    {
+        result = ::SHCreateShellItem( NULL, NULL, pidl, &folder );
+        ILFree(pidl);
     }
 
     if ( !SUCCEEDED(result) )

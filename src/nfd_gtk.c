@@ -4,16 +4,89 @@
   http://www.frogtoss.com/labs
 */
 
+#include <errno.h>
+#include <unistd.h>
+#include <malloc.h>
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/prctl.h>
 #include <gtk/gtk.h>
 #include "nfd.h"
 #include "nfd_common.h"
 
-
 const char INIT_FAIL_MSG[] = "gtk_init_check failed to initilaize GTK+";
 
+/* helper function implementing reliable writes of specific length in
+ * POSIX environments. Deals with signal interruptions and short writes. */
+static
+int NFDi_write(int fd, size_t sz, void const *buf)
+{
+	int rc;
+	size_t tot = 0;
+	char const * const p = buf;
+	do {
+		int write_errno;
+		do {
+			rc = write(fd, (p + tot), (sz - tot));
+			if( 0 > rc ) {
+				write_errno = errno;
+				switch( write_errno ) {
+				case EAGAIN:
+					usleep(100);
+				case EINTR:
+					rc = 0;
+				default:
+					break;
+				}
+			}
+		} while( 0 > rc );
+		if( 0 > rc ) {
+			return write_errno;
+		} else
+		if( (0 == rc) && (tot < sz) ) {
+			return ESHUTDOWN;
+		}
+		tot += rc;
+	} while( tot < sz );
+	return 0;
+}
+/* helper function implementing reliable reads of specific length in
+ * POSIX environments. Deals with signal interruptions and short reads. */
+static
+int NFDi_read(int fd, size_t sz, void *buf)
+{
+	int rc;
+	size_t tot = 0;
+	char * const p = buf;
+	do {
+		int read_errno;
+		do {
+			rc = read(fd, (p + tot), (sz - tot));
+			if( 0 > rc ) {
+				read_errno = errno;
+				switch( read_errno ) {
+				case EAGAIN:
+					usleep(100);
+				case EINTR:
+					rc = 0;
+				default:
+					break;
+				}
+			}
+		} while( 0 > rc );
+		if( 0 > rc ) {
+			return read_errno;
+		} else
+		if( (0 == rc) && (tot < sz) ) {
+			return ESHUTDOWN;
+		}
+		tot += rc;
+	} while( tot < sz );
+	return 0;
+}
 
 static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t bufsize )
 {
@@ -165,8 +238,10 @@ static void WaitForCleanup(void)
                                  
 /* public */
 
-nfdresult_t NFD_OpenDialog( const char *filterList,
+static
+nfdresult_t NFDi_OpenDialog_F( const char *filterList,
                             const nfdchar_t *defaultPath,
+			    size_t *outLen,
                             nfdchar_t **outPath )
 {    
     GtkWidget *dialog;
@@ -199,9 +274,10 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
 
         {
-            size_t len = strlen(filename);
-            *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
+            size_t len = strlen(filename) + 1;
+	    *outLen = len;
+            *outPath = NFDi_Malloc(len);
+            memcpy( *outPath, filename, len);
             if ( !*outPath )
             {
                 g_free( filename );
@@ -221,8 +297,87 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     return result;
 }
 
+nfdresult_t NFD_OpenDialog( const char *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+	int status;
+	int fd_pipe[2];
+	size_t len;
+	pid_t pid;
 
-nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
+	if( pipe(fd_pipe) ) { return NFD_ERROR; }
+	pid = fork();
+	if( 0 > pid ) {
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		return NFD_ERROR;
+	}
+	if( !pid ) {
+		nfdresult_t result;
+		nfdchar_t *buf = NULL;
+		close(fd_pipe[0]);
+		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
+		result = NFDi_OpenDialog_F(filterList, defaultPath, &len, &buf);
+		
+		if( NFD_ERROR != result ) {
+			(void)(0
+			|| NFDi_write(fd_pipe[1], sizeof(len), &len)
+			|| NFDi_write(fd_pipe[1], len, buf)
+			);
+		}
+		close(fd_pipe[1]);
+#if RUNNING_ON_VALGRIND
+		/* There's not really a need to free the memory allocated by
+		 * NFD_SaveDialog_F here; the process is about to get torn down
+		 * anyway and cleaning up is akin to give a house a paint job
+		 * before the demolishion crew applies a wrecking ball to it.
+		 *
+		 * But when Valgrind is running we do it to keep happy the
+		 * trained monkeys who're conditioned to react to certain output
+		 * of certain analysis tools by filing bug reports and issues.
+		 * It's not an issue, but it keeps these people off of our
+		 * collective behinds. */
+		free(buf);
+#endif
+		_exit( result );
+	}
+	/* close the writing end of the pipe in the parent process. */
+	close(fd_pipe[1]);
+
+	/* read the result from the child process */
+	if( !NFDi_read(fd_pipe[0], sizeof(len), &len) ) {
+		void *buf = NFDi_Malloc(len);
+		if( buf ){
+			if( !NFDi_read(fd_pipe[0], len, buf) ) {
+				*outPath = buf;
+			} else {
+				free(buf);
+				goto fail;
+			}
+		} else {
+			goto fail;
+		}
+	} else {
+		goto fail;
+	}
+
+	/* read the result back from the child */
+	close(fd_pipe[0]);
+	waitpid(pid, &status, 0);
+	if( WIFEXITED(status) ) {
+		return WEXITSTATUS(status);
+	} else
+	if( WIFSIGNALED(status) ) {
+		return NFD_ERROR;
+	}
+fail:
+	return NFD_ERROR;
+}
+
+
+static
+nfdresult_t NFDi_OpenDialogMultiple_F( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
 {
@@ -269,9 +424,19 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     return result;
 }
 
-nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
-                            const nfdchar_t *defaultPath,
-                            nfdchar_t **outPath )
+nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
+                                    const nfdchar_t *defaultPath,
+                                    nfdpathset_t *outPaths )
+{
+	return NFDi_OpenDialogMultiple_F(filterList, defaultPath, outPaths);
+}
+
+static
+nfdresult_t NFDi_SaveDialog_F(
+	const nfdchar_t *filterList,
+	const nfdchar_t *defaultPath,
+	size_t *outLen,
+	nfdchar_t **outPath )
 {
     GtkWidget *dialog;
     nfdresult_t result;
@@ -303,9 +468,10 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
         
         {
-            size_t len = strlen(filename);
-            *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
+            size_t const len = strlen(filename) + 1;
+	    *outLen = len;
+            *outPath = NFDi_Malloc( len );
+            memcpy( *outPath, filename, len );
             if ( !*outPath )
             {
                 g_free( filename );
@@ -323,4 +489,82 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     WaitForCleanup();
     
     return result;
+}
+
+nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+	int status;
+	int fd_pipe[2];
+	size_t len;
+	pid_t pid;
+
+	if( pipe(fd_pipe) ) { return NFD_ERROR; }
+	pid = fork();
+	if( 0 > pid ) {
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		return NFD_ERROR;
+	}
+	if( !pid ) {
+		nfdresult_t result;
+		nfdchar_t *buf = NULL;
+		close(fd_pipe[0]);
+		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
+		result = NFDi_SaveDialog_F(filterList, defaultPath, &len, &buf);
+		
+		if( NFD_ERROR != result ) {
+			(void)(0
+			|| NFDi_write(fd_pipe[1], sizeof(len), &len)
+			|| NFDi_write(fd_pipe[1], len, buf)
+			);
+		}
+		close(fd_pipe[1]);
+#if RUNNING_ON_VALGRIND
+		/* There's not really a need to free the memory allocated by
+		 * NFD_SaveDialog_F here; the process is about to get torn down
+		 * anyway and cleaning up is akin to give a house a paint job
+		 * before the demolishion crew applies a wrecking ball to it.
+		 *
+		 * But when Valgrind is running we do it to keep happy the
+		 * trained monkeys who're conditioned to react to certain output
+		 * of certain analysis tools by filing bug reports and issues.
+		 * It's not an issue, but it keeps these people off of our
+		 * collective behinds. */
+		free(buf);
+#endif
+		_exit( result );
+	}
+	/* close the writing end of the pipe in the parent process. */
+	close(fd_pipe[1]);
+
+	/* read the result from the child process */
+	if( !NFDi_read(fd_pipe[0], sizeof(len), &len) ) {
+		void *buf = NFDi_Malloc(len);
+		if( buf ){
+			if( !NFDi_read(fd_pipe[0], len, buf) ) {
+				*outPath = buf;
+			} else {
+				free(buf);
+				goto fail;
+			}
+		} else {
+			goto fail;
+		}
+	} else {
+		goto fail;
+	}
+
+	/* read the result back from the child */
+	close(fd_pipe[0]);
+	waitpid(pid, &status, 0);
+	if( WIFEXITED(status) ) {
+		return WEXITSTATUS(status);
+	} else
+	if( WIFSIGNALED(status) ) {
+		return NFD_ERROR;
+	}
+fail:
+	return NFD_ERROR;
 }

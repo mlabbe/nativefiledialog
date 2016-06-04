@@ -18,6 +18,10 @@
 #include "nfd_common.h"
 
 const char INIT_FAIL_MSG[] = "gtk_init_check failed to initilaize GTK+";
+const char FORK_FAIL_MSG[] = "failed to fork into subprocess";
+const char READ_FAIL_MSG[] = "failed to read back data from subprocess";
+const char ALLC_FAIL_MSG[] = "memory allocation error";
+const char PROC_FAIL_MSG[] = "subprocess terminated unexpectedly";
 
 /* helper function implementing reliable writes of specific length in
  * POSIX environments. Deals with signal interruptions and short writes. */
@@ -313,6 +317,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 	if( pipe(fd_pipe) ) { return NFD_ERROR; }
 	pid = fork();
 	if( 0 > pid ) {
+		NFDi_SetError(PROC_FAIL_MSG);
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
 		return NFD_ERROR;
@@ -346,13 +351,16 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 			if( !NFDi_read(fd_pipe[0], len, buf) ) {
 				*outPath = buf;
 			} else {
+				NFDi_SetError(READ_FAIL_MSG);
 				free(buf);
 				goto fail;
 			}
 		} else {
+			NFDi_SetError(ALLC_FAIL_MSG);
 			goto fail;
 		}
 	} else {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 
@@ -433,6 +441,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 	if( pipe(fd_pipe) ) { return NFD_ERROR; }
 	pid = fork();
 	if( 0 > pid ) {
+		NFDi_SetError(PROC_FAIL_MSG);
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
 		return NFD_ERROR;
@@ -465,24 +474,30 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 	outPaths->indices = NULL;
 	/* read the result from the child process */
 	if( NFDi_read(fd_pipe[0], sizeof(outPaths->count), &outPaths->count) ) {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 	indices_sz = outPaths->count * sizeof(*outPaths->indices);
 	outPaths->indices = NFDi_Malloc(indices_sz);
 	if( !outPaths->indices ){
+		NFDi_SetError(ALLC_FAIL_MSG);
 		goto fail;
 	}
 	if( NFDi_read(fd_pipe[0], indices_sz, outPaths->indices) ) {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 	if( NFDi_read(fd_pipe[0], sizeof(buf_sz), &buf_sz) ) {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 	outPaths->buf = NFDi_Malloc(buf_sz);
 	if( !outPaths->buf ) {
+		NFDi_SetError(ALLC_FAIL_MSG);
 		goto fail;
 	}
 	if( NFDi_read(fd_pipe[0], buf_sz, outPaths->buf) ) {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 
@@ -493,6 +508,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 		return WEXITSTATUS(status);
 	} else
 	if( WIFSIGNALED(status) ) {
+		NFDi_SetError(PROC_FAIL_MSG);
 		return NFD_ERROR;
 	}
 fail:
@@ -575,6 +591,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	if( pipe(fd_pipe) ) { return NFD_ERROR; }
 	pid = fork();
 	if( 0 > pid ) {
+		NFDi_SetError(FORK_FAIL_MSG);
 		close(fd_pipe[0]);
 		close(fd_pipe[1]);
 		return NFD_ERROR;
@@ -609,12 +626,15 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 				*outPath = buf;
 			} else {
 				free(buf);
+				NFDi_SetError(READ_FAIL_MSG);
 				goto fail;
 			}
 		} else {
+			NFDi_SetError(ALLC_FAIL_MSG);
 			goto fail;
 		}
 	} else {
+		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
 
@@ -625,6 +645,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 		return WEXITSTATUS(status);
 	} else
 	if( WIFSIGNALED(status) ) {
+		NFDi_SetError(PROC_FAIL_MSG);
 		return NFD_ERROR;
 	}
 fail:

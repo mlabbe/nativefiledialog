@@ -453,15 +453,23 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 		/* close the reading end of the pipe in the producer process */
 		close(fd_pipe[0]);
 		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
+		outPaths->count = 0;
+		outPaths->indices = NULL;
+		outPaths->buf = NULL;
 		result = NFDi_OpenDialogMultiple_F(filterList, defaultPath, &buf_sz, outPaths);
 		
-		if( NFD_ERROR != result ) {
+		if( NFD_OKAY == result ) {
 			indices_sz = outPaths->count * sizeof(*outPaths->indices);
 			(void)(0
 			|| NFDi_write(fd_pipe[1], sizeof(outPaths->count), &outPaths->count)
 			|| NFDi_write(fd_pipe[1], indices_sz, outPaths->indices)
 			|| NFDi_write(fd_pipe[1], sizeof(buf_sz), &buf_sz)
 			|| NFDi_write(fd_pipe[1], buf_sz, outPaths->buf)
+			);
+		} else
+		if( NFD_CANCEL == result ) {
+			(void)(0
+			|| NFDi_write(fd_pipe[1], sizeof(outPaths->count), &outPaths->count)
 			);
 		}
 		close(fd_pipe[1]);
@@ -477,31 +485,45 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 		NFDi_SetError(READ_FAIL_MSG);
 		goto fail;
 	}
-	indices_sz = outPaths->count * sizeof(*outPaths->indices);
-	outPaths->indices = NFDi_Malloc(indices_sz);
-	if( !outPaths->indices ){
-		NFDi_SetError(ALLC_FAIL_MSG);
-		goto fail;
+	/* read the result back from the child */
+	if( outPaths->count ) {
+		indices_sz = outPaths->count * sizeof(*outPaths->indices);
+		if( indices_sz ) {
+			outPaths->indices = NFDi_Malloc(indices_sz);
+			if( !outPaths->indices ){
+				NFDi_SetError(ALLC_FAIL_MSG);
+				goto fail;
+			}
+			if( NFDi_read(fd_pipe[0], indices_sz, outPaths->indices) ) {
+				NFDi_SetError(READ_FAIL_MSG);
+				goto fail;
+			}
+			if( NFDi_read(fd_pipe[0], sizeof(buf_sz), &buf_sz) ) {
+				NFDi_SetError(READ_FAIL_MSG);
+				goto fail;
+			}
+			if( buf_sz ) {
+				outPaths->buf = NFDi_Malloc(buf_sz);
+				if( !outPaths->buf ) {
+					fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+					NFDi_SetError(ALLC_FAIL_MSG);
+					goto fail;
+				}
+				if( NFDi_read(fd_pipe[0], buf_sz, outPaths->buf) ) {
+					NFDi_SetError(READ_FAIL_MSG);
+					goto fail;
+				}
+			}
+		}
 	}
-	if( NFDi_read(fd_pipe[0], indices_sz, outPaths->indices) ) {
-		NFDi_SetError(READ_FAIL_MSG);
-		goto fail;
-	}
-	if( NFDi_read(fd_pipe[0], sizeof(buf_sz), &buf_sz) ) {
-		NFDi_SetError(READ_FAIL_MSG);
-		goto fail;
-	}
-	outPaths->buf = NFDi_Malloc(buf_sz);
-	if( !outPaths->buf ) {
-		NFDi_SetError(ALLC_FAIL_MSG);
-		goto fail;
-	}
-	if( NFDi_read(fd_pipe[0], buf_sz, outPaths->buf) ) {
-		NFDi_SetError(READ_FAIL_MSG);
-		goto fail;
+	if(0) {
+fail:
+		free(outPaths->buf);
+		outPaths->buf = NULL;
+		free(outPaths->indices);
+		outPaths->indices = NULL;
 	}
 
-	/* read the result back from the child */
 	close(fd_pipe[0]);
 	waitpid(pid, &status, 0);
 	if( WIFEXITED(status) ) {
@@ -511,11 +533,6 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 		NFDi_SetError(PROC_FAIL_MSG);
 		return NFD_ERROR;
 	}
-fail:
-	free(outPaths->buf);
-	outPaths->buf = NULL;
-	free(outPaths->indices);
-	outPaths->indices = NULL;
 	return NFD_ERROR;
 }
 

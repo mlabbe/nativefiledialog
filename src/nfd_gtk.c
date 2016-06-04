@@ -178,7 +178,10 @@ static void SetDefaultPath( GtkWidget *dialog, const char *defaultPath )
     gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(dialog), defaultPath );
 }
 
-static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
+static nfdresult_t NFDi_pathset_create_from_GSList(
+	GSList *fileList,
+	size_t *outBufSize,
+	nfdpathset_t *pathSet )
 {
     size_t bufSize = 0;
     GSList *node;
@@ -203,6 +206,7 @@ static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
         assert(node->data);
         bufSize += strlen( (const gchar*)node->data ) + 1;
     }
+    *outBufSize = bufSize;
 
     pathSet->buf = NFDi_Malloc( sizeof(nfdchar_t) * bufSize );
 
@@ -316,6 +320,9 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 	if( !pid ) {
 		nfdresult_t result;
 		nfdchar_t *buf = NULL;
+		/* closing stdin, -out and -err to shut up GTK */
+		close(0); close(1); close(2);
+		/* close the reading end of the pipe in the producer process */
 		close(fd_pipe[0]);
 		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
 		result = NFDi_OpenDialog_F(filterList, defaultPath, &len, &buf);
@@ -329,7 +336,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 		close(fd_pipe[1]);
 #if RUNNING_ON_VALGRIND
 		/* There's not really a need to free the memory allocated by
-		 * NFD_SaveDialog_F here; the process is about to get torn down
+		 * NFDi_OpenDialog_F here; the process is about to get torn down
 		 * anyway and cleaning up is akin to give a house a paint job
 		 * before the demolishion crew applies a wrecking ball to it.
 		 *
@@ -379,6 +386,7 @@ fail:
 static
 nfdresult_t NFDi_OpenDialogMultiple_F( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
+				    size_t *outBufSize,
                                     nfdpathset_t *outPaths )
 {
     GtkWidget *dialog;
@@ -408,7 +416,7 @@ nfdresult_t NFDi_OpenDialogMultiple_F( const nfdchar_t *filterList,
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
         GSList *fileList = gtk_file_chooser_get_filenames( GTK_FILE_CHOOSER(dialog) );
-        if ( AllocPathSet( fileList, outPaths ) == NFD_ERROR )
+        if ( NFDi_pathset_create_from_GSList( fileList, outBufSize, outPaths ) == NFD_ERROR )
         {
             gtk_widget_destroy(dialog);
             return NFD_ERROR;
@@ -428,7 +436,97 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
 {
-	return NFDi_OpenDialogMultiple_F(filterList, defaultPath, outPaths);
+	int status;
+	int fd_pipe[2];
+	size_t indices_sz, buf_sz;
+	pid_t pid;
+
+	if( !outPaths ) { return NFD_ERROR; }
+
+	if( pipe(fd_pipe) ) { return NFD_ERROR; }
+	pid = fork();
+	if( 0 > pid ) {
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
+		return NFD_ERROR;
+	}
+	if( !pid ) {
+		nfdresult_t result;
+		/* closing stdin, -out and -err to shut up GTK */
+		close(0); close(1); close(2);
+		/* close the reading end of the pipe in the producer process */
+		close(fd_pipe[0]);
+		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
+		result = NFDi_OpenDialogMultiple_F(filterList, defaultPath, &buf_sz, outPaths);
+		
+		if( NFD_ERROR != result ) {
+			indices_sz = outPaths->count * sizeof(*outPaths->indices);
+			(void)(0
+			|| NFDi_write(fd_pipe[1], sizeof(outPaths->count), &outPaths->count)
+			|| NFDi_write(fd_pipe[1], indices_sz, outPaths->indices)
+			|| NFDi_write(fd_pipe[1], sizeof(buf_sz), &buf_sz)
+			|| NFDi_write(fd_pipe[1], buf_sz, outPaths->buf)
+			);
+		}
+		close(fd_pipe[1]);
+#if RUNNING_ON_VALGRIND
+		/* There's not really a need to free the memory allocated by
+		 * NFDi_OpenDialogMultiple_F here; the process is about to get torn down
+		 * anyway and cleaning up is akin to give a house a paint job
+		 * before the demolishion crew applies a wrecking ball to it.
+		 *
+		 * But when Valgrind is running we do it to keep happy the
+		 * trained monkeys who're conditioned to react to certain output
+		 * of certain analysis tools by filing bug reports and issues.
+		 * It's not an issue, but it keeps these people off of our
+		 * collective behinds. */
+		free(buf);
+#endif
+		_exit( result );
+	}
+	/* close the writing end of the pipe in the parent process. */
+	close(fd_pipe[1]);
+
+	outPaths->buf = NULL;
+	outPaths->indices = NULL;
+	/* read the result from the child process */
+	if( NFDi_read(fd_pipe[0], sizeof(outPaths->count), &outPaths->count) ) {
+		goto fail;
+	}
+	indices_sz = outPaths->count * sizeof(*outPaths->indices);
+	outPaths->indices = NFDi_Malloc(indices_sz);
+	if( !outPaths->indices ){
+		goto fail;
+	}
+	if( NFDi_read(fd_pipe[0], indices_sz, outPaths->indices) ) {
+		goto fail;
+	}
+	if( NFDi_read(fd_pipe[0], sizeof(buf_sz), &buf_sz) ) {
+		goto fail;
+	}
+	outPaths->buf = NFDi_Malloc(buf_sz);
+	if( !outPaths->buf ) {
+		goto fail;
+	}
+	if( NFDi_read(fd_pipe[0], buf_sz, outPaths->buf) ) {
+		goto fail;
+	}
+
+	/* read the result back from the child */
+	close(fd_pipe[0]);
+	waitpid(pid, &status, 0);
+	if( WIFEXITED(status) ) {
+		return WEXITSTATUS(status);
+	} else
+	if( WIFSIGNALED(status) ) {
+		return NFD_ERROR;
+	}
+fail:
+	free(outPaths->buf);
+	outPaths->buf = NULL;
+	free(outPaths->indices);
+	outPaths->indices = NULL;
+	return NFD_ERROR;
 }
 
 static
@@ -510,6 +608,9 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	if( !pid ) {
 		nfdresult_t result;
 		nfdchar_t *buf = NULL;
+		/* closing stdin, -out and -err to shut up GTK */
+		close(0); close(1); close(2);
+		/* close the reading end of the pipe in the producer process */
 		close(fd_pipe[0]);
 		prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
 		result = NFDi_SaveDialog_F(filterList, defaultPath, &len, &buf);

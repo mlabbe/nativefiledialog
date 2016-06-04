@@ -334,19 +334,6 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 			);
 		}
 		close(fd_pipe[1]);
-#if RUNNING_ON_VALGRIND
-		/* There's not really a need to free the memory allocated by
-		 * NFDi_OpenDialog_F here; the process is about to get torn down
-		 * anyway and cleaning up is akin to give a house a paint job
-		 * before the demolishion crew applies a wrecking ball to it.
-		 *
-		 * But when Valgrind is running we do it to keep happy the
-		 * trained monkeys who're conditioned to react to certain output
-		 * of certain analysis tools by filing bug reports and issues.
-		 * It's not an issue, but it keeps these people off of our
-		 * collective behinds. */
-		free(buf);
-#endif
 		_exit( result );
 	}
 	/* close the writing end of the pipe in the parent process. */
@@ -469,19 +456,6 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 			);
 		}
 		close(fd_pipe[1]);
-#if RUNNING_ON_VALGRIND
-		/* There's not really a need to free the memory allocated by
-		 * NFDi_OpenDialogMultiple_F here; the process is about to get torn down
-		 * anyway and cleaning up is akin to give a house a paint job
-		 * before the demolishion crew applies a wrecking ball to it.
-		 *
-		 * But when Valgrind is running we do it to keep happy the
-		 * trained monkeys who're conditioned to react to certain output
-		 * of certain analysis tools by filing bug reports and issues.
-		 * It's not an issue, but it keeps these people off of our
-		 * collective behinds. */
-		free(buf);
-#endif
 		_exit( result );
 	}
 	/* close the writing end of the pipe in the parent process. */
@@ -622,19 +596,6 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 			);
 		}
 		close(fd_pipe[1]);
-#if RUNNING_ON_VALGRIND
-		/* There's not really a need to free the memory allocated by
-		 * NFD_SaveDialog_F here; the process is about to get torn down
-		 * anyway and cleaning up is akin to give a house a paint job
-		 * before the demolishion crew applies a wrecking ball to it.
-		 *
-		 * But when Valgrind is running we do it to keep happy the
-		 * trained monkeys who're conditioned to react to certain output
-		 * of certain analysis tools by filing bug reports and issues.
-		 * It's not an issue, but it keeps these people off of our
-		 * collective behinds. */
-		free(buf);
-#endif
 		_exit( result );
 	}
 	/* close the writing end of the pipe in the parent process. */

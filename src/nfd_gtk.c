@@ -33,24 +33,20 @@ int NFDi_write(int fd, size_t sz, void const *buf)
 	char const * const p = buf;
 	do {
 		int write_errno;
-		do {
-			rc = write(fd, (p + tot), (sz - tot));
-			if( 0 > rc ) {
-				write_errno = errno;
-				switch( write_errno ) {
-				case EAGAIN:
-					usleep(100);
-				case EINTR:
-					rc = 0;
-				default:
-					break;
-				}
-			}
-		} while( 0 > rc );
+redo_write:
+		rc = write(fd, (p + tot), (sz - tot));
 		if( 0 > rc ) {
-			return write_errno;
-		} else
-		if( (0 == rc) && (tot < sz) ) {
+			write_errno = errno;
+			switch( write_errno ) {
+			case EAGAIN: usleep(100);
+			case EINTR:
+				goto redo_write;
+
+			default:
+				return write_errno;
+			}
+		}
+		if( !rc && (tot < sz) ) {
 			return ESHUTDOWN;
 		}
 		tot += rc;
@@ -67,24 +63,20 @@ int NFDi_read(int fd, size_t sz, void *buf)
 	char * const p = buf;
 	do {
 		int read_errno;
-		do {
-			rc = read(fd, (p + tot), (sz - tot));
-			if( 0 > rc ) {
-				read_errno = errno;
-				switch( read_errno ) {
-				case EAGAIN:
-					usleep(100);
-				case EINTR:
-					rc = 0;
-				default:
-					break;
-				}
-			}
-		} while( 0 > rc );
+redo_read:
+		rc = read(fd, (p + tot), (sz - tot));
 		if( 0 > rc ) {
-			return read_errno;
-		} else
-		if( (0 == rc) && (tot < sz) ) {
+			read_errno = errno;
+			switch( read_errno ) {
+			case EAGAIN: usleep(100);
+			case EINTR:
+				goto redo_read;
+
+			default:
+				return read_errno;
+			}
+		}
+		if( !rc && (tot < sz) ) {
 			return ESHUTDOWN;
 		}
 		tot += rc;

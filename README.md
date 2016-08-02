@@ -16,6 +16,7 @@ Features:
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
  - GTK+3 dialog on Linux.
+ - Haiku support
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
@@ -53,7 +54,7 @@ See [NFD.h](src/include/nfd.h) for more options.
 ![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
 ![GTK3 on Linux](screens/open_gtk3.png?raw=true)
 ![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
-
+![Haiku](screens/open_haiku.png?raw=true)
 
 ## Building ##
 
@@ -81,6 +82,8 @@ On Linux, you must compile and link against GTK+.  Recommend use of `pkg-config 
 On Mac OS X, add `AppKit` to the list of frameworks.
 
 On Windows, ensure you are building against `comctl32.lib`.
+
+On Haiku, you need to link to `libtracker` and `libbe`.
 
 ## Usage ##
 
@@ -119,7 +122,7 @@ I accept quality code patches, or will resolve these and other matters through s
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
  - No support for selecting folders instead of files.
  - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
-
+ - On Haiku, the file open dialog either shows only allowed files or all files, which is chosen at build time.
 # Copyright and Credit #
 
 Copyright &copy; 2014 [Frogtoss Games](http://www.frogtoss.com), Inc.
@@ -129,6 +132,8 @@ Native File Dialog by Michael Labbe
 <mike@frogtoss.com>
 
 Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
+
+Haiku port by Puck Meerburg <puck@puckipedia.nl> (@puckipedia on Github)
 
 ## Support ##
 

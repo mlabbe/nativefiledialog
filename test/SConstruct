@@ -57,6 +57,10 @@ if target_arch == 'darwin':
     test_env.Append( FRAMEWORKS='AppKit' )
     test_env.CC='clang -fcolor-diagnostics'
 
+# Haiku builds
+elif target_arch == 'haiku':
+	test_env.Append( LIBS=['be', 'tracker'] )
+
 # Linux GTK+ 3 builds
 elif target_arch == 'posix':
     test_env.ParseConfig( 'pkg-config --cflags --libs gtk+-3.0' )

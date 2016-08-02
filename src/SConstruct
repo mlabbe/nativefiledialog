@@ -88,6 +88,10 @@ elif target_os == 'posix':
 elif target_os == 'win32':
     nfd_files.append('nfd_win.cpp')
 
+# Haiku builds - GCC
+elif target_arch == 'haiku':
+    nfd_files.append('nfd_haiku.cpp')
+
 if debug:
     set_debug(nfd_env)
 else:

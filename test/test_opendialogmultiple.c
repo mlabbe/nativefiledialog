@@ -17,7 +17,7 @@ int main( void )
         for ( i = 0; i < NFD_PathSet_GetCount(&pathSet); ++i )
         {
             nfdchar_t *path = NFD_PathSet_GetPath(&pathSet, i);
-            printf("Path %li: %s\n", i, path );
+            printf("Path %li: %s\n", (int)i, path );
         }
         NFD_PathSet_Free(&pathSet);
     }

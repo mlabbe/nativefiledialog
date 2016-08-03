@@ -36,7 +36,7 @@ else:
 for env_key in IMPORT_FROM_ENV:
     if env_key in os.environ:
         print "Making %s => %s" % ( env_key, os.environ[env_key] )
-        nfd_env[env_key] = os.environ[env_key]
+        nfd_env[env_key] = os.environ[env_key].split()
 
 # Windows runtime library types
 win_rtl = {'debug': '/MDd',     

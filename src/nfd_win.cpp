@@ -9,7 +9,7 @@
 #define UNICODE
 #endif
 
-#ifdef MSYS
+#ifdef __MINGW32__
 // Explicitly setting NTDDI version, this is necessary for the MinGW compiler
 #define NTDDI_VERSION NTDDI_VISTA
 #define _WIN32_WINNT _WIN32_WINNT_VISTA
@@ -18,9 +18,6 @@
 #include <wchar.h>
 #include <stdio.h>
 #include <assert.h>
-#ifndef MSYS // atlbase is not available on MSYS, but nfd compiles just fine without it
-#include <atlbase.h>
-#endif
 #include <windows.h>
 #include <ShObjIdl.h>
 
@@ -367,9 +364,9 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     HRESULT result = ::CoInitializeEx(NULL,
                                       ::COINIT_APARTMENTTHREADED |
                                       ::COINIT_DISABLE_OLE1DDE );
-                                      
+
     ::IFileOpenDialog *fileOpenDialog(NULL);
-    
+
     if ( !SUCCEEDED(result))
     {
         NFDi_SetError("Could not initialize COM.");

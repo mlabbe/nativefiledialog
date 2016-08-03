@@ -91,7 +91,6 @@ elif target_os == 'win32':
 # Windows builds - MSYS
 elif target_os == 'msys':
     nfd_files.append('nfd_win.cpp')
-    nfd_env.Append( CPPDEFINES=['MSYS'] ) 
 
 if debug:
     set_debug(nfd_env)

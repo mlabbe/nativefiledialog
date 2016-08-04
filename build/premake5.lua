@@ -38,10 +38,15 @@ workspace "NativeFileDialog"
     includedirs {root_dir.."src/include/"}
     targetdir(root_dir.."build/lib/%{cfg.buildcfg}/%{cfg.platform}")
 
-    -- windows build filters
+    -- system build filters
     filter "system:windows"
       language "C++"
       files {root_dir.."src/nfd_win.cpp"}
+
+    filter "system:linux"
+      language "C"
+      files {root_dir.."src/nfd_gtk.c"}
+      buildoptions {"`pkg-config --cflags gtk+-3.0`"}
 
     -- visual studio filters
     filter "action:vs*"
@@ -56,6 +61,7 @@ local make_test = function(name)
     files {root_dir.."test/"..name..".c"}
     includedirs {root_dir.."src/include/"}
 
+
     filter {"configurations:Debug", "architecture:x86_64"}
       links {"nfd_d"}
       libdirs {root_dir.."build/lib/Debug/x64"}
@@ -66,15 +72,21 @@ local make_test = function(name)
 
     filter {"configurations:Release", "architecture:x86_64"}
       links {"nfd"}
-      libdirs {root_dir.."build/lib/Debug/x64"}
+      libdirs {root_dir.."build/lib/Release/x64"}
 
     filter {"configurations:Release", "architecture:x86"}
       links {"nfd"}
-      libdirs {root_dir.."build/lib/Debug/x86"}
+      libdirs {root_dir.."build/lib/Release/x86"}
 
     filter {"configurations:Debug"}
       targetsuffix "_d"
-         
+
+    filter {"configurations:Release", "system:linux"}
+      linkoptions {"-lnfd `pkg-config --libs gtk+-3.0`"}
+
+    filter {"configurations:Debug", "system:linux"}
+      linkoptions {"-lnfd_d `pkg-config --libs gtk+-3.0`"}
+   
 end
       
 make_test("test_opendialog")

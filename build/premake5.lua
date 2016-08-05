@@ -100,3 +100,60 @@ make_test("test_opendialog")
 make_test("test_opendialogmultiple")
 make_test("test_savedialog")
 
+newaction
+{
+    trigger     = "clean",
+    description = "Clean all build files and output",
+    execute = function ()
+
+        files_to_delete = 
+        {
+            "Makefile",
+            "*.make",
+            "*.txt",
+            "*.7z",
+            "*.zip",
+            "*.tar.gz",
+            "*.db",
+            "*.opendb",
+            "*.vcproj",
+            "*.vcxproj",
+            "*.vcxproj.user",
+            "*.sln",
+        }
+
+        directories_to_delete = 
+        {
+            "obj",
+            "ipch",
+            "bin",
+            ".vs",
+            "Debug",
+            "Release",
+            "release",
+            "lib",
+            "test",
+        }
+
+        for i,v in ipairs( directories_to_delete ) do
+          os.rmdir( v )
+        end
+
+        if os.is "macosx" then
+           os.execute("rm -rf *.xcodeproj")
+           os.execute("rm -rf *.xcworkspace")
+        end
+
+        if not os.is "windows" then
+            os.execute "find . -name .DS_Store -delete"
+            for i,v in ipairs( files_to_delete ) do
+              os.execute( "rm -f " .. v )
+            end
+        else
+            for i,v in ipairs( files_to_delete ) do
+              os.execute( "del /F /Q  " .. v )
+            end
+        end
+
+    end
+}

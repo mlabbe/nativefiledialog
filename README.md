@@ -122,7 +122,7 @@ I accept quality code patches, or will resolve these and other matters through s
 
 # Copyright and Credit #
 
-Copyright &copy; 2014 [Frogtoss Games](http://www.frogtoss.com), Inc.
+Copyright &copy; 2014-2016 [Frogtoss Games](http://www.frogtoss.com), Inc.
 File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe

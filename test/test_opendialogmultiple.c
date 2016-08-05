@@ -1,4 +1,4 @@
-#include <nfd.h>
+#include "nfd.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@ int main( void )
         for ( i = 0; i < NFD_PathSet_GetCount(&pathSet); ++i )
         {
             nfdchar_t *path = NFD_PathSet_GetPath(&pathSet, i);
-            printf("Path %li: %s\n", (int)i, path );
+            printf("Path %i: %s\n", (int)i, path );
         }
         NFD_PathSet_Free(&pathSet);
     }

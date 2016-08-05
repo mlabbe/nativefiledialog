@@ -1,4 +1,4 @@
-#include <nfd.h>
+#include "nfd.h"
 
 #include <stdio.h>
 #include <stdlib.h>

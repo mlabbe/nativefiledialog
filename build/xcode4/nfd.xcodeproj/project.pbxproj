@@ -1,0 +1,225 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1C90C4308152110DACF88C838F91800E86F3E974C115000 /* nfd_cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E106E7906CCC0036EF0483B692FC004BFD2E771D99F000 /* nfd_cocoa.m */; };
+		462F490FF946FC007AC6FBA4F308B8006F2B61852D07BC00 /* nfd_common.c in Sources */ = {isa = PBXBuildFile; fileRef = EE4CAC755A7B9800ABD081B3A2EC78003D10F61CE78B4E00 /* nfd_common.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2D5FAE075E955E004E132FE62063040F3D4856EE372D800 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = ../../src/common.h; sourceTree = "<group>"; };
+		34E106E7906CCC0036EF0483B692FC004BFD2E771D99F000 /* nfd_cocoa.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = nfd_cocoa.m; path = ../../src/nfd_cocoa.m; sourceTree = "<group>"; };
+		BEE4B8BD4E28080096E0E38E7CCE600067D0FD53D60FB800 /* libnfd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnfd.a; path = libnfd.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C64D5F6A6832C8008443FE300B20F000FD55AEC69A46D000 /* nfd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = nfd.h; path = ../../src/include/nfd.h; sourceTree = "<group>"; };
+		D038169AF016F8008DBBEBD93887D8001EFC60427D26AC00 /* nfd_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = nfd_common.h; path = ../../src/nfd_common.h; sourceTree = "<group>"; };
+		EE4CAC755A7B9800ABD081B3A2EC78003D10F61CE78B4E00 /* nfd_common.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = nfd_common.c; path = ../../src/nfd_common.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		751A9FD95AC8C40037A99755AD4EF000DD31D92C7F935000 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7806C7175E8C74005F8A8A5402DF10009C2CF7B715175800 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C64D5F6A6832C8008443FE300B20F000FD55AEC69A46D000 /* nfd.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		A07348950F3060015022F345C23B6001BA741BAB5C63400 /* nfd */ = {
+			isa = PBXGroup;
+			children = (
+				2D5FAE075E955E004E132FE62063040F3D4856EE372D800 /* common.h */,
+				7806C7175E8C74005F8A8A5402DF10009C2CF7B715175800 /* include */,
+				34E106E7906CCC0036EF0483B692FC004BFD2E771D99F000 /* nfd_cocoa.m */,
+				EE4CAC755A7B9800ABD081B3A2EC78003D10F61CE78B4E00 /* nfd_common.c */,
+				D038169AF016F8008DBBEBD93887D8001EFC60427D26AC00 /* nfd_common.h */,
+				DE2FD571A6C938008E134D4D9B3FB000BA17F9BDEA135000 /* Products */,
+			);
+			name = nfd;
+			sourceTree = "<group>";
+		};
+		DE2FD571A6C938008E134D4D9B3FB000BA17F9BDEA135000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BEE4B8BD4E28080096E0E38E7CCE600067D0FD53D60FB800 /* libnfd.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE83A092ED35A800D60763CF9188480012A9D132A3C09000 /* nfd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 751A9FD849040C0037A997549B8A3800DD31D92B6DCE9800 /* Build configuration list for PBXNativeTarget "nfd" */;
+			buildPhases = (
+				751A9FDCCAB0440037A997591D367000DD31D92FEF7AD000 /* Resources */,
+				751A9FDD345D600037A9975986E38A00DD31D9305927F000 /* Sources */,
+				751A9FD95AC8C40037A99755AD4EF000DD31D92C7F935000 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = nfd;
+			productName = nfd;
+			productReference = BEE4B8BD4E28080096E0E38E7CCE600067D0FD53D60FB800 /* libnfd.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "nfd" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = A07348950F3060015022F345C23B6001BA741BAB5C63400 /* nfd */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE83A092ED35A800D60763CF9188480012A9D132A3C09000 /* libnfd.a */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		751A9FDCCAB0440037A997591D367000DD31D92FEF7AD000 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		751A9FDD345D600037A9975986E38A00DD31D9305927F000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C90C4308152110DACF88C838F91800E86F3E974C115000 /* nfd_cocoa.m in Sources */,
+				462F490FF946FC007AC6FBA4F308B8006F2B61852D07BC00 /* nfd_common.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		113D36768FABFD007F3BB37DE6396800388AB50FBEB27A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../lib/Release/x86;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = nfd;
+			};
+			name = Release;
+		};
+		848988B667308800E6DCBDCC13934800A547B4A8D21BC000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = ../obj/x86/Debug/nfd;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../lib/Debug/x86;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Debug;
+		};
+		A979A906F08D4000ED475A27DB796800A41AC288235F3000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../lib/Debug/x86;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = nfd_d;
+			};
+			name = Debug;
+		};
+		CD5AC992E9E05800114F9AC539F3EE001653BBCBBC722000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OBJROOT = ../obj/x86/Release/nfd;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../lib/Release/x86;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "nfd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD5AC992E9E05800114F9AC539F3EE001653BBCBBC722000 /* Release */,
+				CD5AC992E9E05800114F9AC539F3EE001653BBCBBC722000 /* Release */,
+				848988B667308800E6DCBDCC13934800A547B4A8D21BC000 /* Debug */,
+				848988B667308800E6DCBDCC13934800A547B4A8D21BC000 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		751A9FD849040C0037A997549B8A3800DD31D92B6DCE9800 /* Build configuration list for PBXNativeTarget "libnfd.a" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				113D36768FABFD007F3BB37DE6396800388AB50FBEB27A00 /* Release */,
+				113D36768FABFD007F3BB37DE6396800388AB50FBEB27A00 /* Release */,
+				A979A906F08D4000ED475A27DB796800A41AC288235F3000 /* Debug */,
+				A979A906F08D4000ED475A27DB796800A41AC288235F3000 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+};
+rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

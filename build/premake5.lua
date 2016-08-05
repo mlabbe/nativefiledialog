@@ -5,9 +5,14 @@
 -- so you don't need to worry about the extra step when building.
 
 workspace "NativeFileDialog"
-  local root_dir = path.join(path.getdirectory(_SCRIPT),"..".."/")
+  -- these dir specifications assume the generated files have been moved
+  -- into a subdirectory.  ex: $root/build/makefile
+  local root_dir = path.join(path.getdirectory(_SCRIPT),"../../")
+  local build_dir = path.join(root_dir,"build/")
   configurations { "Release", "Debug" }
   platforms {"x64", "x86"}
+
+  objdir(path.join(build_dir, "obj/"))
 
   -- architecture filters
   filter "configurations:x86"
@@ -36,7 +41,7 @@ workspace "NativeFileDialog"
     }
 
     includedirs {root_dir.."src/include/"}
-    targetdir(root_dir.."build/lib/%{cfg.buildcfg}/%{cfg.platform}")
+    targetdir(build_dir.."/lib/%{cfg.buildcfg}/%{cfg.platform}")
 
     -- system build filters
     filter "system:windows"
@@ -61,26 +66,26 @@ local make_test = function(name)
     kind "ConsoleApp"
     language "C"
     dependson {"nfd"}
-    targetdir(root_dir.."build/bin")
+    targetdir(build_dir.."/bin")
     files {root_dir.."test/"..name..".c"}
     includedirs {root_dir.."src/include/"}
 
 
     filter {"configurations:Debug", "architecture:x86_64"}
       links {"nfd_d"}
-      libdirs {root_dir.."build/lib/Debug/x64"}
+      libdirs {build_dir.."/lib/Debug/x64"}
 
     filter {"configurations:Debug", "architecture:x86"}
       links {"nfd_d"}
-      libdirs {root_dir.."build/lib/Debug/x86"}
+      libdirs {build_dir.."/lib/Debug/x86"}
 
     filter {"configurations:Release", "architecture:x86_64"}
       links {"nfd"}
-      libdirs {root_dir.."build/lib/Release/x64"}
+      libdirs {build_dir.."/lib/Release/x64"}
 
     filter {"configurations:Release", "architecture:x86"}
       links {"nfd"}
-      libdirs {root_dir.."build/lib/Release/x86"}
+      libdirs {build_dir.."/lib/Release/x86"}
 
     filter {"configurations:Debug"}
       targetsuffix "_d"
@@ -102,6 +107,29 @@ make_test("test_savedialog")
 
 newaction
 {
+   trigger = "dist",
+   description = "Create distributable premake dirs (maintainer only)",
+   execute = function()
+      types_to_create =
+         {
+            "vs2010",
+            "xcode4",
+            "gmake"
+         }
+
+      for i,v in ipairs(types_to_create) do
+         local premake_file = "./"..v.."/premake5.lua"
+         os.mkdir(v)
+         os.execute("cp premake5.lua "..v)
+         os.execute("premake5 --file="..premake_file.." "..v)
+         os.execute("rm "..premake_file)
+      end
+      
+   end
+}
+
+newaction
+{
     trigger     = "clean",
     description = "Clean all build files and output",
     execute = function ()
@@ -119,6 +147,7 @@ newaction
             "*.vcproj",
             "*.vcxproj",
             "*.vcxproj.user",
+            "*.vcxproj.filters",
             "*.sln",
             "*~*"
         }
@@ -134,6 +163,10 @@ newaction
             "release",
             "lib",
             "test",
+            "makefiles",
+            "gmake",
+            "vs2010",
+            "xcode4"
         }
 
         for i,v in ipairs( directories_to_delete ) do

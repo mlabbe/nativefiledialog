@@ -43,6 +43,10 @@ workspace "NativeFileDialog"
       language "C++"
       files {root_dir.."src/nfd_win.cpp"}
 
+    filter "system:macosx"
+      language "C"
+      files {root_dir.."src/nfd_cocoa.m"}
+
     filter "system:linux"
       language "C"
       files {root_dir.."src/nfd_gtk.c"}
@@ -84,6 +88,9 @@ local make_test = function(name)
     filter {"configurations:Release", "system:linux"}
       linkoptions {"-lnfd `pkg-config --libs gtk+-3.0`"}
 
+    filter {"system:macosx"}
+      links {"Foundation.framework", "AppKit.framework"}
+      
     filter {"configurations:Debug", "system:linux"}
       linkoptions {"-lnfd_d `pkg-config --libs gtk+-3.0`"}
    

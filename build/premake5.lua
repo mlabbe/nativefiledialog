@@ -6,8 +6,8 @@
 
 workspace "NativeFileDialog"
   local root_dir = path.join(path.getdirectory(_SCRIPT),"..".."/")
-  configurations { "Debug", "Release" }
-  platforms {"x86", "x64"}
+  configurations { "Release", "Debug" }
+  platforms {"x64", "x86"}
 
   -- architecture filters
   filter "configurations:x86"
@@ -19,7 +19,7 @@ workspace "NativeFileDialog"
   -- debug/release filters
   filter "configurations:Debug"
     defines {"DEBUG"}
-    flags {"Symbols"}
+    symbols "On"
     targetsuffix "_d"
 
   filter "configurations:Release"
@@ -61,7 +61,7 @@ local make_test = function(name)
     kind "ConsoleApp"
     language "C"
     dependson {"nfd"}
-    targetdir(root_dir.."build/test")
+    targetdir(root_dir.."build/bin")
     files {root_dir.."test/"..name..".c"}
     includedirs {root_dir.."src/include/"}
 
@@ -120,6 +120,7 @@ newaction
             "*.vcxproj",
             "*.vcxproj.user",
             "*.sln",
+            "*~*"
         }
 
         directories_to_delete = 

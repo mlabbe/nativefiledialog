@@ -57,6 +57,23 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Building ##
 
+NFD uses [Premake5](https://premake.github.io/download.html) to generate Makefiles and IDE project files.  The generated project files are checked in under `build/` so you don't have to download and use Premake in most cases.
+
+Previously, NFD used SCons to build.  It still works, but is now deprecated; updates to it are discouraged.  Opt to use the native build system where possible.
+
+`nfd.a` will be built for release builds, and `nfd_d.a` will be built for debug builds.
+
+### Makefiles ###
+
+The makefile offers four options:
+
+    make config=release_x86
+    make config=release_x64
+    make config=debug_x86
+    make config=debug_x64
+
+### SCons build (deprecated) ###
+
 NFD uses [SCons](http://www.scons.org) for cross-platform builds.  After installing SCons, build it with:
 
     cd src

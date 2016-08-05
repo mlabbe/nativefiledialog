@@ -2,6 +2,8 @@
 # Native file dialog
 #
 # Build tests
+#
+# SCons builds are deprecated -- see README.md for details.
 
 target_arch=str(Platform())
 debug = int(ARGUMENTS.get( 'debug', 0 ))
@@ -68,3 +70,5 @@ elif target_arch == 'win32':
 for codebase in files:
     output_name = get_lib_name(codebase, debug)
     test_env.Program( output_name, files[codebase] )
+
+print "*** Scons builds are deprecated!  See README.md for details."

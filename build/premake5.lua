@@ -1,8 +1,11 @@
 -- Native file dialog premake5 script
 --
--- This can be ran directly, but commonly, it is not.
--- The product of this script is checked in to source control,
--- so you don't need to worry about the extra step when building.
+-- This can be ran directly, but commonly, it is only run
+-- by package maintainers.
+--
+-- IMPORTANT NOTE: premake5 alpha 9 does not handle this script
+-- properly.  Build premake5 from Github master, or, presumably,
+-- use alpha 10 in the future.
 
 workspace "NativeFileDialog"
   -- these dir specifications assume the generated files have been moved

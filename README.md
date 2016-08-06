@@ -125,7 +125,7 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 
 # Known Limitations #
 
-I accept quality code patches, or will resolve these and other matters through support.  See [submitting a pull request](docs/submitting_a_pull_request.md) for details.
+I accept quality code patches, or will resolve these and other matters through support.  See [submitting pull requests](docs/submitting_pull_requests.md) for details.
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.

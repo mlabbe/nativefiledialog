@@ -1,0 +1,26 @@
+# Building NFD #
+
+Most of the building instructions are included in [README.md](/README.md). This file just contains apocrypha.
+
+## Running Premake5 Directly ##
+
+Premake5 is still in development.  The current version, as of this writing (Premake 5, alpha 9) is insufficient to build NFD.  This is due to a bug which has been fixed in the official repo's master branch and is expected to make its way into alpha 10.
+
+1. [Clone premake-core](https://github.com/premake/premake-core)
+2. [Follow instructions on how to build premake](https://github.com/premake/premake-core/wiki/Building-Premake)
+3. `cd` to `build`
+4. Type `premake5 <type>`, where <type> is the build you want to create.
+
+### Package Maintainer Only ###
+
+I support a custom Premake action: `premake5 dist`, which generates all of the checked in project types in subdirectories.  It is useful to run this command if you are submitting a pull request to test all of the supported premake configurations.  Do not check in the built projects; I will do so before deploying your change.
+
+## SCons build (deprecated) ##
+
+NFD used to use [SCons](http://www.scons.org) for cross-platform builds.  For the time being, the SCons scripts are still available.
+
+After installing SCons, build it with:
+
+    cd src
+    scons debug=[0,1]
+

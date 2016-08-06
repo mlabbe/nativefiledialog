@@ -54,10 +54,20 @@ See [NFD.h](src/include/nfd.h) for more options.
 ![GTK3 on Linux](screens/open_gtk3.png?raw=true)
 ![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
 
+## Changelog ##
+
+The current version is 1.1.
+
+release | what's new                  | date
+--------|-----------------------------|---------
+1.0     | initial                     | oct 2014
+1.1     | premake5; scons deprecated  | aug 2016
 
 ## Building ##
 
-NFD uses [Premake5](https://premake.github.io/download.html) to generate Makefiles and IDE project files.  The generated project files are checked in under `build/` so you don't have to download and use Premake in most cases.
+NFD uses [Premake5](https://premake.github.io/download.html) generated Makefiles and IDE project files.  The generated project files are checked in under `build/` so you don't have to download and use Premake in most cases.
+
+If you need to run Premake5 directly, further [build documentation](docs/build.md) is available.
 
 Previously, NFD used SCons to build.  It still works, but is now deprecated; updates to it are discouraged.  Opt to use the native build system where possible.
 
@@ -65,27 +75,12 @@ Previously, NFD used SCons to build.  It still works, but is now deprecated; upd
 
 ### Makefiles ###
 
-The makefile offers four options:
+The makefile offers four options, with `release_x64` as the default.
 
     make config=release_x86
     make config=release_x64
     make config=debug_x86
     make config=debug_x64
-
-### SCons build (deprecated) ###
-
-NFD uses [SCons](http://www.scons.org) for cross-platform builds.  After installing SCons, build it with:
-
-    cd src
-    scons debug=[0,1]
-
-Alternatively, you can avoid Scons by just including NFD files to your existing project:
-
- 1. Add all header files in `src/` and `src/include` to your project.
- 2. Add `src/include` to your include search path or copy it into your existing search path.
- 3. Add `src/nfd_common.c` to your project.
- 4. Add `src/nfd_<platform>` to your project, where `<platform>` is the NFD backend for the platform you are fixing to build.
- 5. On Visual Studio, define `_CRT_SECURE_NO_WARNINGS` to avoid warnings.
 
 ### Compiling Your Programs ###
 
@@ -136,6 +131,7 @@ I accept quality code patches, or will resolve these and other matters through s
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
  - No support for selecting folders instead of files.
  - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
+ - No support for mingw building.  Open to pull requests that support the new Premake build system AND contain build instructions that include how to install the toolchain from scratch.
 
 # Copyright and Credit #
 

@@ -110,21 +110,28 @@ newaction
    trigger = "dist",
    description = "Create distributable premake dirs (maintainer only)",
    execute = function()
-      types_to_create =
-         {
-            "vs2010",
-            "xcode4",
-            "gmake"
-         }
 
-      for i,v in ipairs(types_to_create) do
-         local premake_file = "./"..v.."/premake5.lua"
-         os.mkdir(v)
-         os.execute("cp premake5.lua "..v)
-         os.execute("premake5 --file="..premake_file.." "..v)
-         os.execute("rm "..premake_file)
+
+      local premake_do_action = function(action,os_str,special)
+         local premake_dir
+         if special then
+            premake_dir = "./"..action.."_"..os_str
+         else
+            premake_dir = "./"..action
+         end
+         local premake_path = premake_dir.."/premake5.lua"
+
+         os.execute("mkdir "..premake_dir)
+         os.execute("cp premake5.lua "..premake_dir)
+         os.execute("premake5 --os="..os_str.." --file="..premake_path.." "..action)
+         os.execute("rm "..premake_path)
       end
       
+      premake_do_action("vs2010", "windows", false)
+      premake_do_action("xcode4", "macosx", false)
+      premake_do_action("gmake", "linux", true)
+      premake_do_action("gmake", "macosx", true)
+      premake_do_action("gmake", "windows", true)
    end
 }
 
@@ -166,7 +173,10 @@ newaction
             "makefiles",
             "gmake",
             "vs2010",
-            "xcode4"
+            "xcode4",
+            "gmake_linux",
+            "gmake_macosx",
+            "gmake_windows"
         }
 
         for i,v in ipairs( directories_to_delete ) do

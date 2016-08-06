@@ -98,11 +98,11 @@ On Windows, ensure you are building against `comctl32.lib`.
 
 See `NFD.h` for API calls.  See `tests/*.c` for example code.
 
-See `tests/SConstruct` for a working build script that compiles on all platforms.
+After compiling, `build/bin` contains compiled test programs.
 
 ## File Filter Syntax ##
 
-There is a form of file filtering in every file dialog, but no consistent means of supporting it.  NFD provides support for filtering files by groups of extensions, providing its own descriptions (where applicable) for the extensions.
+There is a form of file filtering in every file dialog API, but no consistent means of supporting it.  NFD provides support for filtering files by groups of extensions, providing its own descriptions (where applicable) for the extensions.
 
 A wildcard filter is always added to every dialog.
 

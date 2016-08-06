@@ -85,8 +85,8 @@ The makefile offers four options, with `release_x64` as the default.
 ### Compiling Your Programs ###
 
  1. Add `src/include` to your include search path.
- 2. Add `nfd.lib` to the list of list of static libraries to link against.
- 3. Add `src/` to the library search path.
+ 2. Add `nfd.lib` or `nfd_d.lib` to the list of list of static libraries to link against (for release or debug, respectively).
+ 3. Add `build/<debug|release>/<arch>` to the library search path.
 
 On Linux, you must compile and link against GTK+.  Recommend use of `pkg-config --cflags --libs gtk+-3.0`.
 
@@ -125,7 +125,7 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 
 # Known Limitations #
 
-I accept quality code patches, or will resolve these and other matters through support.
+I accept quality code patches, or will resolve these and other matters through support.  See [submitting a pull request](docs/submitting_a_pull_request.md) for details.
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.

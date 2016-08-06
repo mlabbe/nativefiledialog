@@ -4,6 +4,8 @@ Most of the building instructions are included in [README.md](/README.md). This 
 
 ## Running Premake5 Directly ##
 
+*You shouldn't have to run Premake5 directly to build Native File Dialog.  This is for package maintainers or people with exotic demands only!*
+
 Premake5 is still in development.  The current version, as of this writing (Premake 5, alpha 9) is insufficient to build NFD.  This is due to a bug which has been fixed in the official repo's master branch and is expected to make its way into alpha 10.
 
 1. [Clone premake-core](https://github.com/premake/premake-core)
@@ -13,7 +15,7 @@ Premake5 is still in development.  The current version, as of this writing (Prem
 
 ### Package Maintainer Only ###
 
-I support a custom Premake action: `premake5 dist`, which generates all of the checked in project types in subdirectories.  It is useful to run this command if you are submitting a pull request to test all of the supported premake configurations.  Do not check in the built projects; I will do so before deploying your change.
+I support a custom Premake action: `premake5 dist`, which generates all of the checked in project types in subdirectories.  It is useful to run this command if you are submitting a pull request to test all of the supported premake configurations.  Do not check in the built projects; I will do so before accepting your pull request.
 
 ## SCons build (deprecated) ##
 

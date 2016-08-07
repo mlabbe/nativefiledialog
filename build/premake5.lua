@@ -101,7 +101,10 @@ local make_test = function(name)
       
     filter {"configurations:Debug", "system:linux"}
       linkoptions {"-lnfd_d `pkg-config --libs gtk+-3.0`"}
-   
+
+    filter {"action:gmake", "system:windows"}
+      links {"ole32", "uuid"}
+
 end
       
 make_test("test_opendialog")

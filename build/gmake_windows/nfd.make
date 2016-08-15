@@ -12,9 +12,9 @@ endif
 
 ifeq ($(config),release_x64)
   RESCOMP = windres
-  TARGETDIR = ../lib/Release/x64
+  TARGETDIR = ../../build/lib/Release/x64
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../obj/x64/Release/nfd
+  OBJDIR = ../../build/obj/x64/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -39,9 +39,9 @@ endif
 
 ifeq ($(config),release_x86)
   RESCOMP = windres
-  TARGETDIR = ../lib/Release/x86
+  TARGETDIR = ../../build/lib/Release/x86
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../obj/x86/Release/nfd
+  OBJDIR = ../../build/obj/x86/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -66,9 +66,9 @@ endif
 
 ifeq ($(config),debug_x64)
   RESCOMP = windres
-  TARGETDIR = ../lib/Debug/x64
+  TARGETDIR = ../../build/lib/Debug/x64
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../obj/x64/Debug/nfd
+  OBJDIR = ../../build/obj/x64/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -93,9 +93,9 @@ endif
 
 ifeq ($(config),debug_x86)
   RESCOMP = windres
-  TARGETDIR = ../lib/Debug/x86
+  TARGETDIR = ../../build/lib/Debug/x86
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../obj/x86/Debug/nfd
+  OBJDIR = ../../build/obj/x86/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=

@@ -56,12 +56,13 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Changelog ##
 
-The current version is 1.1.
+The current version is 1.1.1
 
 release | what's new                  | date
 --------|-----------------------------|---------
-1.0     | initial                     | oct 2014
-1.1     | premake5; scons deprecated  | aug 2016
+1.0.0   | initial                     | oct 2014
+1.1.0   | premake5; scons deprecated  | aug 2016
+1.1.1   | mingw support, build fixes  | aug 2016
 
 ## Building ##
 

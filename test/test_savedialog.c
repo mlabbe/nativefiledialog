@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//.
+
 /* this test should compile on all supported platforms */
 
 int main( void )

@@ -12,9 +12,9 @@ endif
 
 ifeq ($(config),release_x64)
   RESCOMP = windres
-  TARGETDIR = ../bin
+  TARGETDIR = ../../build/bin
   TARGET = $(TARGETDIR)/test_opendialogmultiple.exe
-  OBJDIR = ../obj/x64/Release/test_opendialogmultiple
+  OBJDIR = ../../build/obj/x64/Release/test_opendialogmultiple
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -22,9 +22,9 @@ ifeq ($(config),release_x64)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/Release/x64/nfd.lib
-  LDDEPS += ../lib/Release/x64/nfd.lib
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -L../lib/Release/x64 -m64 -s
+  LIBS += ../../build/lib/Release/x64/nfd.lib -lole32 -luuid
+  LDDEPS += ../../build/lib/Release/x64/nfd.lib
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -L../../build/lib/Release/x64 -m64 -s
   LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -39,9 +39,9 @@ endif
 
 ifeq ($(config),release_x86)
   RESCOMP = windres
-  TARGETDIR = ../bin
+  TARGETDIR = ../../build/bin
   TARGET = $(TARGETDIR)/test_opendialogmultiple.exe
-  OBJDIR = ../obj/x86/Release/test_opendialogmultiple
+  OBJDIR = ../../build/obj/x86/Release/test_opendialogmultiple
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -49,9 +49,9 @@ ifeq ($(config),release_x86)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/Release/x86/nfd.lib
-  LDDEPS += ../lib/Release/x86/nfd.lib
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -L../lib/Release/x86 -m32 -s
+  LIBS += ../../build/lib/Release/x86/nfd.lib -lole32 -luuid
+  LDDEPS += ../../build/lib/Release/x86/nfd.lib
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -L../../build/lib/Release/x86 -m32 -s
   LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -66,9 +66,9 @@ endif
 
 ifeq ($(config),debug_x64)
   RESCOMP = windres
-  TARGETDIR = ../bin
+  TARGETDIR = ../../build/bin
   TARGET = $(TARGETDIR)/test_opendialogmultiple_d.exe
-  OBJDIR = ../obj/x64/Debug/test_opendialogmultiple
+  OBJDIR = ../../build/obj/x64/Debug/test_opendialogmultiple
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -76,9 +76,9 @@ ifeq ($(config),debug_x64)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lnfd_d
+  LIBS += -lnfd_d -lole32 -luuid
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -L../lib/Debug/x64 -m64
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -L../../build/lib/Debug/x64 -m64
   LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -93,9 +93,9 @@ endif
 
 ifeq ($(config),debug_x86)
   RESCOMP = windres
-  TARGETDIR = ../bin
+  TARGETDIR = ../../build/bin
   TARGET = $(TARGETDIR)/test_opendialogmultiple_d.exe
-  OBJDIR = ../obj/x86/Debug/test_opendialogmultiple
+  OBJDIR = ../../build/obj/x86/Debug/test_opendialogmultiple
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -103,9 +103,9 @@ ifeq ($(config),debug_x86)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -lnfd_d
+  LIBS += -lnfd_d -lole32 -luuid
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -L../lib/Debug/x86 -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -L../../build/lib/Debug/x86 -m32
   LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

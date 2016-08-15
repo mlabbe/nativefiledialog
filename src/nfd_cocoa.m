@@ -122,7 +122,8 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
                             nfdchar_t **outPath )
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
+
+    NSWindow *keyWindow = [[NSApplication sharedApplication] keyWindow];    
     NSOpenPanel *dialog = [NSOpenPanel openPanel];
     [dialog setAllowsMultipleSelection:NO];
 
@@ -152,6 +153,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     }
     [pool release];
 
+    [keyWindow makeKeyAndOrderFront:nil];
     return nfdResult;
 }
 

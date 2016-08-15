@@ -11,7 +11,7 @@ Features:
  - Paid support available.
  - Multiple file selection support.
  - 64-bit and 32-bit friendly.
- - GCC, Clang and Visual Studio supported.
+ - GCC, Clang, Mingw and Visual Studio supported.
  - No third party dependencies.
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
@@ -142,6 +142,8 @@ Native File Dialog by Michael Labbe
 <mike@frogtoss.com>
 
 Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
+
+[Denis Kolodin](https://github.com/DenisKolodin) for mingw support.
 
 ## Support ##
 

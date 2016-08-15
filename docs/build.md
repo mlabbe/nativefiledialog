@@ -26,3 +26,6 @@ After installing SCons, build it with:
     cd src
     scons debug=[0,1]
 
+## Compiling with Mingw ##
+
+Use the Makefile in `build/gmake_windows` to build Native File Dialog with mingw.  This is tested against the [msys2 distribution](https://msys2.github.io/).

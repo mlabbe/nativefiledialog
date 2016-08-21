@@ -1,0 +1,17 @@
+version: 1.0.{build}
+
+platform:
+ - x86
+configuration:
+ - Release
+
+clone_folder: c:\nfd
+
+before_build:
+- call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
+
+build_script:
+- cd build\vs2010
+- msbuild NativeFileDialog.sln /p:Configuration=Release /p:Platform="Win32"
+
+test: off

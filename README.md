@@ -1,6 +1,6 @@
 # Native File Dialog #
 
-A tiny, neat C library that portably invokes native file open and save dialogs.  Write dialog code once and have it pop up native dialogs on all supported platforms.  Avoid linking large dependencies like wxWidgets and qt.
+A tiny, neat C library that portably invokes native file open, folder select and save dialogs.  Write dialog code once and have it pop up native dialogs on all supported platforms.  Avoid linking large dependencies like wxWidgets and qt.
 
 Features:
 
@@ -11,8 +11,8 @@ Features:
  - Paid support available.
  - Multiple file selection support.
  - 64-bit and 32-bit friendly.
- - GCC, Clang, Mingw and Visual Studio supported.
- - No third party dependencies.
+ - GCC, Clang, Xcode, Mingw and Visual Studio supported.
+ - No third party dependencies for building or linking.
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
  - GTK+3 dialog on Linux.
@@ -63,6 +63,7 @@ release | what's new                  | date
 1.0.0   | initial                     | oct 2014
 1.1.0   | premake5; scons deprecated  | aug 2016
 1.1.1   | mingw support, build fixes  | aug 2016
+1.1.2   | test_pickfolder() added     | aug 2016
 
 ## Building ##
 
@@ -129,10 +130,8 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 I accept quality code patches, or will resolve these and other matters through support.  See [submitting pull requests](docs/submitting_pull_requests.md) for details.
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
- - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, though.
- - No support for selecting folders instead of files.
+ - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
  - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
- - No support for mingw building.  Open to pull requests that support the new Premake build system AND contain build instructions that include how to install the toolchain from scratch.
 
 # Copyright and Credit #
 

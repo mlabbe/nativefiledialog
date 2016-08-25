@@ -16,9 +16,10 @@ Here are the rules:
 
 - **Do not change the externally facing API**.  NFD needs to maintain ABI compatibility.
 
+## Submitting Cloud Autobuild systems ##
+
+I have received a few pull requests for Travis and AppVeyor-based autobuilding which I have not accepted.  NativeFileDialog is officially covered by my private BuildBot network which supports all three target OSes, both CPU architectures and four compilers.  I take the view that having a redundant, lesser autobuild system does not improve coverage: it gives a false positive when partial building succeeds.  Please do not invest time into cloud-based building with the hope of a pull request being accepted.
+
 ## Contact Me ##
 
 Despite all of the "do nots" above, I am happy to recieve new pull requests!  If you have any questions about style, or what I would need to accept your specific request, please contact me ahead of submitting the pull request by opening an issue on Github with your question.  I will do my best to answer you.
-
-
-

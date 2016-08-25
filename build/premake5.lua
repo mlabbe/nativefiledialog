@@ -51,6 +51,9 @@ workspace "NativeFileDialog"
       language "C++"
       files {root_dir.."src/nfd_win.cpp"}
 
+    filter {"action:gmake or action:xcode4"}
+      buildoptions {"-fno-exceptions"}
+
     filter "system:macosx"
       language "C"
       files {root_dir.."src/nfd_cocoa.m"}

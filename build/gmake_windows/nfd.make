@@ -12,14 +12,14 @@ endif
 
 ifeq ($(config),release_x64)
   RESCOMP = windres
-  TARGETDIR = ../../build/lib/Release/x64
+  TARGETDIR = ../lib/Release/x64
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../../build/obj/x64/Release/nfd
+  OBJDIR = ../obj/x64/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fno-exceptions
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
@@ -39,14 +39,14 @@ endif
 
 ifeq ($(config),release_x86)
   RESCOMP = windres
-  TARGETDIR = ../../build/lib/Release/x86
+  TARGETDIR = ../lib/Release/x86
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../../build/obj/x86/Release/nfd
+  OBJDIR = ../obj/x86/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fno-exceptions
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
@@ -66,14 +66,14 @@ endif
 
 ifeq ($(config),debug_x64)
   RESCOMP = windres
-  TARGETDIR = ../../build/lib/Debug/x64
+  TARGETDIR = ../lib/Debug/x64
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../../build/obj/x64/Debug/nfd
+  OBJDIR = ../obj/x64/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -fno-exceptions
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
@@ -93,14 +93,14 @@ endif
 
 ifeq ($(config),debug_x86)
   RESCOMP = windres
-  TARGETDIR = ../../build/lib/Debug/x86
+  TARGETDIR = ../lib/Debug/x86
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../../build/obj/x86/Debug/nfd
+  OBJDIR = ../obj/x86/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g -fno-exceptions
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=

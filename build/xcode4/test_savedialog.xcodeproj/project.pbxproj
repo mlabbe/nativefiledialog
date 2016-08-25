@@ -7,115 +7,115 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		600DF7C85EB9CC00D69BF52FB5CF7000318BA799E2180A00 /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF42C3AA2F9D800D2AB422FE4526805D9A0C5EC770C80 /* libnfd.a */; };
-		D4E5D913B762400071DC6C0248A4F00541918B2261D4000 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBBC4EDA893A8800D5925C05D69D78009728CBB74CBC7800 /* AppKit.framework */; };
-		ED4CE49BDAA6700A01B51B5806AC80038E21E50DD9FA600 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6295A4B74E000C0EF210A2FBBE8004EE73ACBB3A91400 /* Foundation.framework */; };
-		F9C6A671D683600099B0B0EE2DE8D80012C84766DFF6F100 /* test_savedialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 6753EC0B8B1CE4002EE1F13FBD162E00AFD3132736F56800 /* test_savedialog.c */; };
+		B762408A08F77A97261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893A8412C6BF137F4CBC7A52 /* AppKit.framework */; };
+		BDAA66E6F02B5DF3DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B74DEAEE9148B1BB3A914EE /* Foundation.framework */; };
+		BDAFE749B7152E16153F5589 /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7F10B128DC54DEF09776F1 /* libnfd.a */; };
+		D68362BEE24F540BDFF6F0FE /* test_savedialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B1CE4063C0302B336F56A46 /* test_savedialog.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F815FDB657D02800D15C3BB3513630005DA27B0844D18800 /* PBXContainerItemProxy */ = {
+		57D02ABA6A64EC4744D188FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9C4B208142B28800A252A5750767E000B0DF2675BBD68800 /* nfd.xcodeproj */;
+			containerPortal = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = BEE4B8BD4E28080096E0E38E7CCE600067D0FD53D60FB800;
+			remoteGlobalIDString = 4E280AA733A1E674D60FB8E7;
 			remoteInfo = libnfd.a;
 		};
-		FA883EECAA0AA000D3CE7CE9A370A0006014BC3E970BFC00 /* PBXContainerItemProxy */ = {
+		AA0A9D53BC9F5EE0970BFB93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9C4B208142B28800A252A5750767E000B0DF2675BBD68800 /* nfd.xcodeproj */;
+			containerPortal = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = EE83A092ED35A800D60763CF9188480012A9D132A3C09000;
+			remoteGlobalIDString = ED35A9AD7FCCBFDAA3C08FED;
 			remoteInfo = libnfd.a;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6753EC0B8B1CE4002EE1F13FBD162E00AFD3132736F56800 /* test_savedialog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_savedialog.c; path = ../../test/test_savedialog.c; sourceTree = "<group>"; };
-		71D6295A4B74E000C0EF210A2FBBE8004EE73ACBB3A91400 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9C4B208142B28800A252A5750767E000B0DF2675BBD68800 /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
-		AC2BFB5434DE8800AE39F8F05B04B800C34822E3C20BB000 /* test_savedialog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_savedialog; path = test_savedialog; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBBC4EDA893A8800D5925C05D69D78009728CBB74CBC7800 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		34DE87E79A0B7B14C20BAE27 /* test_savedialog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_savedialog; path = test_savedialog; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B74DEAEE9148B1BB3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		893A8412C6BF137F4CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		8B1CE4063C0302B336F56A46 /* test_savedialog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_savedialog.c; path = ../../test/test_savedialog.c; sourceTree = "<group>"; };
+		EAA847CCB2AE119971CD760C /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D68D68E8152A200CB5F75542440C800447125EAB366A800 /* Frameworks */ = {
+		8152A1D718B30684B366A817 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED4CE49BDAA6700A01B51B5806AC80038E21E50DD9FA600 /* Foundation.framework in Frameworks */,
-				D4E5D913B762400071DC6C0248A4F00541918B2261D4000 /* AppKit.framework in Frameworks */,
-				600DF7C85EB9CC00D69BF52FB5CF7000318BA799E2180A00 /* libnfd.a in Frameworks */,
+				BDAA66E6F02B5DF3DD9FA526 /* Foundation.framework in Frameworks */,
+				B762408A08F77A97261D3ECA /* AppKit.framework in Frameworks */,
+				BDAFE749B7152E16153F5589 /* libnfd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		49755AD7BBF7680080163982A7E87000BFF7C341FA201000 /* Frameworks */ = {
+		5D4848BA4E548CA76476DEFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71D6295A4B74E000C0EF210A2FBBE8004EE73ACBB3A91400 /* Foundation.framework */,
-				DBBC4EDA893A8800D5925C05D69D78009728CBB74CBC7800 /* AppKit.framework */,
+				EC7F10B128DC54DEF09776F1 /* libnfd.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D968EAAA9FA9897E0E0A4EA /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				EAA847CCB2AE119971CD760C /* nfd.xcodeproj */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		A6C936B4B32D40A1EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				34DE87E79A0B7B14C20BAE27 /* test_savedialog */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBF767817185A0AEFA200DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4B74DEAEE9148B1BB3A914EE /* Foundation.framework */,
+				893A8412C6BF137F4CBC7A52 /* AppKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A679D81DD43C50006908CF9A26C27800E911170F906DB80 /* test_savedialog */ = {
+		D43C4D1E918E4A6BF906DB5E /* test_savedialog */ = {
 			isa = PBXGroup;
 			children = (
-				6753EC0B8B1CE4002EE1F13FBD162E00AFD3132736F56800 /* test_savedialog.c */,
-				49755AD7BBF7680080163982A7E87000BFF7C341FA201000 /* Frameworks */,
-				DE2FD571A6C938008E134D4D9B3FB000BA17F9BDEA135000 /* Products */,
-				DE2FDC7F9D9690008E13545B920D0800BA1800CBE0E0A800 /* Projects */,
+				8B1CE4063C0302B336F56A46 /* test_savedialog.c */,
+				BBF767817185A0AEFA200DC1 /* Frameworks */,
+				A6C936B4B32D40A1EA134CF4 /* Products */,
+				9D968EAAA9FA9897E0E0A4EA /* Projects */,
 			);
 			name = test_savedialog;
-			sourceTree = "<group>";
-		};
-		C1B317315D484800D7CC7DEB745AE000DC0CAE626476E000 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EDF42C3AA2F9D800D2AB422FE4526805D9A0C5EC770C80 /* libnfd.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DE2FD571A6C938008E134D4D9B3FB000BA17F9BDEA135000 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC2BFB5434DE8800AE39F8F05B04B800C34822E3C20BB000 /* test_savedialog */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DE2FDC7F9D9690008E13545B920D0800BA1800CBE0E0A800 /* Projects */ = {
-			isa = PBXGroup;
-			children = (
-				9C4B208142B28800A252A5750767E000B0DF2675BBD68800 /* nfd.xcodeproj */,
-			);
-			name = Projects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A116C49EC7180004357AA46E5D78000CF9DE99BD972E000 /* test_savedialog */ = {
+		EC717EEDFF06407AD972DD2D /* test_savedialog */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D68D68D6F8DEA00CB5F7553127C1000447125E9A1A1F000 /* Build configuration list for PBXNativeTarget "test_savedialog" */;
+			buildConfigurationList = 6F8DEA3606EE4EE3A1A1F076 /* Build configuration list for PBXNativeTarget "test_savedialog" */;
 			buildPhases = (
-				D68D691F13A2280CB5F755794284800447125EE234E2800 /* Resources */,
-				D68D6925AE73C00CB5F7557FDD56000447125EE8CFB4400 /* Sources */,
-				D68D68E8152A200CB5F75542440C800447125EAB366A800 /* Frameworks */,
+				F13A2277889A8724234E28B7 /* Resources */,
+				5AE73BCEF247A07B8CFB420E /* Sources */,
+				8152A1D718B30684B366A817 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C1C611684B008800D7DF782262132000DC1FA899522F2000 /* PBXTargetDependency */,
+				4B0085C33C0CC9B0522F1C03 /* PBXTargetDependency */,
 			);
 			name = test_savedialog;
 			productInstallPath = "$(HOME)/bin";
 			productName = test_savedialog;
-			productReference = AC2BFB5434DE8800AE39F8F05B04B800C34822E3C20BB000 /* test_savedialog */;
+			productReference = 34DE87E79A0B7B14C20BAE27 /* test_savedialog */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -126,33 +126,33 @@
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_savedialog" */;
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
-			mainGroup = A679D81DD43C50006908CF9A26C27800E911170F906DB80 /* test_savedialog */;
+			mainGroup = D43C4D1E918E4A6BF906DB5E /* test_savedialog */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C1B317315D484800D7CC7DEB745AE000DC0CAE626476E000 /* Products */;
-					ProjectRef = 9C4B208142B28800A252A5750767E000B0DF2675BBD68800 /* nfd.xcodeproj */;
+					ProductGroup = 5D4848BA4E548CA76476DEFA /* Products */;
+					ProjectRef = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				6A116C49EC7180004357AA46E5D78000CF9DE99BD972E000 /* test_savedialog */,
+				EC717EEDFF06407AD972DD2D /* test_savedialog */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EDF42C3AA2F9D800D2AB422FE4526805D9A0C5EC770C80 /* libnfd.a */ = {
+		EC7F10B128DC54DEF09776F1 /* libnfd.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libnfd.a;
-			remoteRef = F815FDB657D02800D15C3BB3513630005DA27B0844D18800 /* PBXContainerItemProxy */;
+			remoteRef = 57D02ABA6A64EC4744D188FA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D68D691F13A2280CB5F755794284800447125EE234E2800 /* Resources */ = {
+		F13A2277889A8724234E28B7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -162,21 +162,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D68D6925AE73C00CB5F7557FDD56000447125EE8CFB4400 /* Sources */ = {
+		5AE73BCEF247A07B8CFB420E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9C6A671D683600099B0B0EE2DE8D80012C84766DFF6F100 /* test_savedialog.c in Sources */,
+				D68362BEE24F540BDFF6F0FE /* test_savedialog.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C1C611684B008800D7DF782262132000DC1FA899522F2000 /* PBXTargetDependency */ = {
+		4B0085C33C0CC9B0522F1C03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = libnfd.a;
-			targetProxy = FA883EECAA0AA000D3CE7CE9A370A0006014BC3E970BFC00 /* PBXContainerItemProxy */;
+			targetProxy = AA0A9D53BC9F5EE0970BFB93 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -184,30 +184,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2E9E40D6D900A00FCBFF138BAF30000BE5660EA31120000 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../bin;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = test_savedialog;
-			};
-			name = Release;
-		};
-		5FE1F55A0F8D0000E2949446D2F8C0006EA12D2E119C6800 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../bin;
-				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = test_savedialog_d;
-			};
-			name = Debug;
-		};
-		AB8695E00EFAC800AD94937C3520F800C2A2BD6F9C27F000 /* Release */ = {
+		0EFAC8E77427BC149C27EF27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -233,7 +210,30 @@
 			};
 			name = Release;
 		};
-		AF887F5B5BD5F802111EEAFCCCFFA0025521F26BCEBF600 /* Debug */ = {
+		0F8CFFFC79DCD029119C663C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = test_savedialog_d;
+			};
+			name = Debug;
+		};
+		6D9009F6AB14996331120036 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = test_savedialog;
+			};
+			name = Release;
+		};
+		B5BD5F6DA6C9A35ABCEBF5AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -270,21 +270,21 @@
 		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_savedialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AB8695E00EFAC800AD94937C3520F800C2A2BD6F9C27F000 /* Release */,
-				AB8695E00EFAC800AD94937C3520F800C2A2BD6F9C27F000 /* Release */,
-				AF887F5B5BD5F802111EEAFCCCFFA0025521F26BCEBF600 /* Debug */,
-				AF887F5B5BD5F802111EEAFCCCFFA0025521F26BCEBF600 /* Debug */,
+				0EFAC8E77427BC149C27EF27 /* Release */,
+				0EFAC8E77427BC149C27EF27 /* Release */,
+				B5BD5F6DA6C9A35ABCEBF5AD /* Debug */,
+				B5BD5F6DA6C9A35ABCEBF5AD /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D68D68D6F8DEA00CB5F7553127C1000447125E9A1A1F000 /* Build configuration list for PBXNativeTarget "test_savedialog" */ = {
+		6F8DEA3606EE4EE3A1A1F076 /* Build configuration list for PBXNativeTarget "test_savedialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2E9E40D6D900A00FCBFF138BAF30000BE5660EA31120000 /* Release */,
-				2E9E40D6D900A00FCBFF138BAF30000BE5660EA31120000 /* Release */,
-				5FE1F55A0F8D0000E2949446D2F8C0006EA12D2E119C6800 /* Debug */,
-				5FE1F55A0F8D0000E2949446D2F8C0006EA12D2E119C6800 /* Debug */,
+				6D9009F6AB14996331120036 /* Release */,
+				6D9009F6AB14996331120036 /* Release */,
+				0F8CFFFC79DCD029119C663C /* Debug */,
+				0F8CFFFC79DCD029119C663C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

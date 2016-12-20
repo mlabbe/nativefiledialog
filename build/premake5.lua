@@ -109,8 +109,7 @@ local make_test = function(name)
       links {"ole32", "uuid"}
 
 end
-
-make_test("test_pickfolder")
+      
 make_test("test_opendialog")
 make_test("test_opendialogmultiple")
 make_test("test_savedialog")

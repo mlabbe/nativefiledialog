@@ -18,6 +18,12 @@ Features:
  - GTK+3 dialog on Linux.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
+
+Branch  | Linux/OSX | Windows
+------------- | ------------- | -------------
+master |[![Build status](https://travis-ci.org/mlabbe/nativefiledialog.svg?branch=master)](https://travis-ci.org/mlabbe/nativefiledialog) | [![Build status](https://ci.appveyor.com/api/projects/status/s29llemvnadkw83c/branch/master?svg=true)](https://ci.appveyor.com/project/mlabbe/nativefiledialog/branch/master)
+devel | [![Build Status](https://travis-ci.org/mlabbe/nativefiledialog.svg?branch=devel)](https://travis-ci.org/mlabbe/nativefiledialog) | [![Build status](https://ci.appveyor.com/api/projects/status/s29llemvnadkw83c/branch/devel?svg=true)](https://ci.appveyor.com/project/mlabbe/nativefiledialog/branch/devel)
+
 # Example Usage #
 
 ```C

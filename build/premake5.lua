@@ -7,6 +7,21 @@
 -- properly.  Build premake5 from Github master, or, presumably,
 -- use alpha 10 in the future.
 
+
+newoption {
+   trigger     = "linux_backend",
+   value       = "B",
+   description = "Choose a backend for linux",
+   allowed = {
+      { "zenity", "Zenity - run the zenity cli tool to generate a dialog." },
+      { "gtk3", "GTK 3 - link to and use gtk3 directlt" }
+   }
+}
+
+if not _OPTIONS["linux_backend"] then
+   _OPTIONS["linux_backend"] = "zenity"
+end
+
 workspace "NativeFileDialog"
   -- these dir specifications assume the generated files have been moved
   -- into a subdirectory.  ex: $root/build/makefile
@@ -58,10 +73,16 @@ workspace "NativeFileDialog"
       language "C"
       files {root_dir.."src/nfd_cocoa.m"}
 
-    filter "system:linux"
+
+
+    filter {"system:linux", "options:linux_backend=gtk3"}
       language "C"
       files {root_dir.."src/nfd_gtk.c"}
       buildoptions {"`pkg-config --cflags gtk+-3.0`"}
+    filter {"system:linux", "options:linux_backend=zenity"}
+      language "C"
+      files {root_dir.."src/nfd_zenity.c"}
+
 
     -- visual studio filters
     filter "action:vs*"
@@ -96,14 +117,20 @@ local make_test = function(name)
     filter {"configurations:Debug"}
       targetsuffix "_d"
 
-    filter {"configurations:Release", "system:linux"}
+    filter {"configurations:Release", "system:linux", "options:linux_backend=gtk3"}
       linkoptions {"-lnfd `pkg-config --libs gtk+-3.0`"}
+    filter {"configurations:Release", "system:linux", "options:linux_backend=zenity"}
+      linkoptions {"-lnfd"}
 
     filter {"system:macosx"}
       links {"Foundation.framework", "AppKit.framework"}
       
-    filter {"configurations:Debug", "system:linux"}
+    filter {"configurations:Debug", "system:linux", "options:linux_backend=gtk3"}
       linkoptions {"-lnfd_d `pkg-config --libs gtk+-3.0`"}
+    filter {"configurations:Debug", "system:linux", "options:linux_backend=zenity"}
+      linkoptions {"-lnfd_d"}
+
+
 
     filter {"action:gmake", "system:windows"}
       links {"ole32", "uuid"}

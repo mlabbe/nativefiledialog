@@ -6,8 +6,6 @@ Most of the building instructions are included in [README.md](/README.md). This 
 
 *You shouldn't have to run Premake5 directly to build Native File Dialog.  This is for package maintainers or people with exotic demands only!*
 
-Premake5 is still in development.  The current version, as of this writing (Premake 5, alpha 9) is insufficient to build NFD.  This is due to a bug which has been fixed in the official repo's master branch and is expected to make its way into alpha 10.
-
 1. [Clone premake-core](https://github.com/premake/premake-core)
 2. [Follow instructions on how to build premake](https://github.com/premake/premake-core/wiki/Building-Premake)
 3. `cd` to `build`

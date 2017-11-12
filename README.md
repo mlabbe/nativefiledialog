@@ -16,6 +16,7 @@ Features:
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
  - GTK+3 dialog on Linux.
+ - Optional Zenity support on Linux to avoid linking GTK+.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
@@ -56,14 +57,13 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Changelog ##
 
-The current version is 1.1.1
-
 release | what's new                  | date
 --------|-----------------------------|---------
 1.0.0   | initial                     | oct 2014
 1.1.0   | premake5; scons deprecated  | aug 2016
 1.1.1   | mingw support, build fixes  | aug 2016
 1.1.2   | test_pickfolder() added     | aug 2016
+1.1.3   | zenity linux backend added  | nov 2017
 
 ## Building ##
 
@@ -77,7 +77,7 @@ Previously, NFD used SCons to build.  It still works, but is now deprecated; upd
 
 ### Makefiles ###
 
-The makefile offers four options, with `release_x64` as the default.
+The makefile offers five options, with `release_x64` as the default.
 
     make config=release_x86
     make config=release_x64
@@ -90,10 +90,15 @@ The makefile offers four options, with `release_x64` as the default.
  2. Add `nfd.lib` or `nfd_d.lib` to the list of list of static libraries to link against (for release or debug, respectively).
  3. Add `build/<debug|release>/<arch>` to the library search path.
 
-On Linux, you must compile and link against GTK+.  Recommend use of `pkg-config --cflags --libs gtk+-3.0`.
+#### Linux ####
+On Linux, you have the option of compiling and linking against GTK+.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
 
-On Mac OS X, add `AppKit` to the list of frameworks.
+Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
 
+#### MacOS ####
+On Mac OS, add `AppKit` to the list of frameworks.
+
+#### Windows ####
 On Windows, ensure you are building against `comctl32.lib`.
 
 ## Usage ##
@@ -131,11 +136,10 @@ I accept quality code patches, or will resolve these and other matters through s
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
- - On Linux, GTK+ cannot be uninitialized to save memory.  Launching a file dialog costs memory.  I am open to accepting an alternative `nfd_zenity.c` implementation which uses Zenity and pipes.
 
 # Copyright and Credit #
 
-Copyright &copy; 2014-2016 [Frogtoss Games](http://www.frogtoss.com), Inc.
+Copyright &copy; 2014-2017 [Frogtoss Games](http://www.frogtoss.com), Inc.
 File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe
@@ -144,6 +148,8 @@ Native File Dialog by Michael Labbe
 Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
 
 [Denis Kolodin](https://github.com/DenisKolodin) for mingw support.
+
+[Tom Mason](https://github.com/wheybags) for Zenity support.
 
 ## Support ##
 

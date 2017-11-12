@@ -11,15 +11,15 @@
 newoption {
    trigger     = "linux_backend",
    value       = "B",
-   description = "Choose a backend for linux",
+   description = "Choose a dialog backend for linux",
    allowed = {
-      { "zenity", "Zenity - run the zenity cli tool to generate a dialog." },
-      { "gtk3", "GTK 3 - link to and use gtk3 directlt" }
+      { "gtk3", "GTK 3 - link to gtk3 directly" },      
+      { "zenity", "Zenity - generate dialogs on the end users machine with zenity" }
    }
 }
 
 if not _OPTIONS["linux_backend"] then
-   _OPTIONS["linux_backend"] = "zenity"
+   _OPTIONS["linux_backend"] = "gtk3"
 end
 
 workspace "NativeFileDialog"
@@ -149,26 +149,40 @@ newaction
    execute = function()
 
 
-      local premake_do_action = function(action,os_str,special)
+      local premake_do_action = function(action,os_str,special,args)
          local premake_dir
          if special then
-            premake_dir = "./"..action.."_"..os_str
+            if args['linux_backend'] ~= nil then
+               premake_dir = "./"..action.."_"..os_str..'_zenity'
+            else
+               premake_dir = "./"..action.."_"..os_str
+            end
          else
             premake_dir = "./"..action
          end
          local premake_path = premake_dir.."/premake5.lua"
 
+         -- create an args str to pass along to premake
+         arg_str = ''
+         for arg, val in pairs(args) do
+            arg_str = ' --'..arg..'='..val
+         end
+
          os.execute("mkdir "..premake_dir)
          os.execute("cp premake5.lua "..premake_dir)
-         os.execute("premake5 --os="..os_str.." --file="..premake_path.." "..action)
+         os.execute("premake5 --os=" ..os_str..
+                       " --file="..premake_path..
+                       arg_str..
+                       " "..action)
          os.execute("rm "..premake_path)
       end
       
-      premake_do_action("vs2010", "windows", false)
-      premake_do_action("xcode4", "macosx", false)
-      premake_do_action("gmake", "linux", true)
-      premake_do_action("gmake", "macosx", true)
-      premake_do_action("gmake", "windows", true)
+      premake_do_action("vs2010", "windows", false,{})
+      premake_do_action("xcode4", "macosx", false,{})
+      premake_do_action("gmake", "linux", true,{})
+      premake_do_action("gmake", "linux", true,{linux_backend='zenity'})
+      premake_do_action("gmake", "macosx", true,{})
+      premake_do_action("gmake", "windows", true,{})
    end
 }
 

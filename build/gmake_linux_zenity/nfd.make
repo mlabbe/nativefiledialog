@@ -11,15 +11,7 @@ endif
 .PHONY: clean prebuild prelink
 
 ifeq ($(config),release_x64)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
+  RESCOMP = windres
   TARGETDIR = ../lib/Release/x64
   TARGET = $(TARGETDIR)/libnfd.a
   OBJDIR = ../obj/x64/Release/nfd
@@ -32,7 +24,7 @@ ifeq ($(config),release_x64)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m64
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -46,15 +38,7 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),release_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
+  RESCOMP = windres
   TARGETDIR = ../lib/Release/x86
   TARGET = $(TARGETDIR)/libnfd.a
   OBJDIR = ../obj/x86/Release/nfd
@@ -67,7 +51,7 @@ ifeq ($(config),release_x86)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -81,15 +65,7 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),debug_x64)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
+  RESCOMP = windres
   TARGETDIR = ../lib/Debug/x64
   TARGET = $(TARGETDIR)/libnfd_d.a
   OBJDIR = ../obj/x64/Debug/nfd
@@ -102,7 +78,7 @@ ifeq ($(config),debug_x64)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m64
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -116,15 +92,7 @@ all: prebuild prelink $(TARGET)
 endif
 
 ifeq ($(config),debug_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
+  RESCOMP = windres
   TARGETDIR = ../lib/Debug/x86
   TARGET = $(TARGETDIR)/libnfd_d.a
   OBJDIR = ../obj/x86/Debug/nfd
@@ -137,7 +105,7 @@ ifeq ($(config),debug_x86)
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m32
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -151,8 +119,8 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/nfd_cocoa.o \
 	$(OBJDIR)/nfd_common.o \
+	$(OBJDIR)/nfd_zenity.o \
 
 RESOURCES := \
 
@@ -204,7 +172,7 @@ endif
 	$(SILENT) $(CC) -x c-header $(ALL_CFLAGS) -o "$@" -MF "$(@:%.gch=%.d)" -c "$<"
 endif
 
-$(OBJDIR)/nfd_cocoa.o: ../../src/nfd_cocoa.m
+$(OBJDIR)/nfd_common.o: ../../src/nfd_common.c
 	@echo $(notdir $<)
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) mkdir -p $(OBJDIR)
@@ -212,7 +180,7 @@ else
 	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
 endif
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/nfd_common.o: ../../src/nfd_common.c
+$(OBJDIR)/nfd_zenity.o: ../../src/nfd_zenity.c
 	@echo $(notdir $<)
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) mkdir -p $(OBJDIR)

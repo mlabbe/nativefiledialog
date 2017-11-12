@@ -11,6 +11,7 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\nfd_common.h" />
+    <ClInclude Include="..\..\src\simple_exec.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\nfd_common.c" />

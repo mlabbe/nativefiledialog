@@ -53,7 +53,7 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
 ![GTK3 on Linux](screens/open_gtk3.png?raw=true)
-![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
+![Cocoa on Yosemite](screens/open_cocoa.jpg?raw=true)
 
 ## Changelog ##
 
@@ -64,6 +64,7 @@ release | what's new                  | date
 1.1.1   | mingw support, build fixes  | aug 2016
 1.1.2   | test_pickfolder() added     | aug 2016
 1.1.3   | zenity linux backend added  | nov 2017
+        | fix char type in decls      |
 
 ## Building ##
 

@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <windows.h>
-#include <ShObjIdl.h>
+#include <shobjidl.h>
 #include "nfd_common.h"
 
 

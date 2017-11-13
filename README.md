@@ -64,7 +64,7 @@ release | what's new                  | date
 1.1.1   | mingw support, build fixes  | aug 2016
 1.1.2   | test_pickfolder() added     | aug 2016
 1.1.3   | zenity linux backend added  | nov 2017
-        | fix char type in decls      |
+1.1.3   | fix char type in decls      | nov 2017
 
 ## Building ##
 

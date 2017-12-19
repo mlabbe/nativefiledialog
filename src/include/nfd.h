@@ -35,23 +35,42 @@ typedef enum {
 
 /* nfd_<targetplatform>.c */
 
-/* single file open dialog */    
+/* single file open dialog */ 
+nfdresult_t NFD_OpenDialogTitled( const nfdchar_t *title,
+							      const nfdchar_t *filterList,
+                                  const nfdchar_t *defaultPath,
+                                  nfdchar_t **outPath );
+                                     
 nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath );
 
 /* multiple file open dialog */    
+nfdresult_t NFD_OpenDialogMultipleTitled( const nfdchar_t *title,
+									      const nfdchar_t *filterList,
+                                          const nfdchar_t *defaultPath,
+                                          nfdpathset_t *outPaths );
+
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths );
 
 /* save dialog */
+nfdresult_t NFD_SaveDialogTitled( const nfdchar_t *title,
+								  const nfdchar_t *filterList,
+                                  const nfdchar_t *defaultPath,
+                                  nfdchar_t **outPath );
+
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath );
 
 
 /* select folder dialog */
+nfdresult_t NFD_PickFolderTitled( const nfdchar_t *title,
+								  const nfdchar_t *defaultPath,
+								  nfdchar_t **outPath);
+
 nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
                             nfdchar_t **outPath);
 

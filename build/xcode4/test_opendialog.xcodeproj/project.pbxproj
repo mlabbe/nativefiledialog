@@ -7,115 +7,117 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B762408A08F77A97261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893A8412C6BF137F4CBC7A52 /* AppKit.framework */; };
-		BDAA66E6F02B5DF3DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B74DEAEE9148B1BB3A914EE /* Foundation.framework */; };
-		BDAFE749B7152E16153F5589 /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC7F10B128DC54DEF09776F1 /* libnfd.a */; };
-		DA9A5B44E6664C91E40DE984 /* test_opendialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 3014192CE0FA37D9DBEC9F6C /* test_opendialog.c */; };
+		600DF7C85EB9CACFD69BF52FB5CF7341318BA799E218090F /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */; };
+		711A18F3DA9A5B441104237031FFCE368A1BB9E8E40DE984 /* test_opendialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF5AAD3014192CE74D5FE1620D63DE683E81C8DBEC9F6C /* test_opendialog.c */; };
+		D4E5D913B762408A71DC6C0248A4EFC541918B2261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */; };
+		ED4CE49BDAA66E6A01B51B5806AC75838E21E50DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		57D02ABA6A64EC4744D188FA /* PBXContainerItemProxy */ = {
+		F815FDB657D02ABAD15C3BB351362C2C5DA27B0844D188FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
+			containerPortal = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4E280AA733A1E674D60FB8E7;
+			remoteGlobalIDString = BEE4B8BD4E280AA796E0E38E7CCE5E9967D0FD53D60FB8E7;
 			remoteInfo = libnfd.a;
 		};
-		AA0A9D53BC9F5EE0970BFB93 /* PBXContainerItemProxy */ = {
+		FA883EECAA0A9D53D3CE7CE9A3709EC56014BC3E970BFB93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
+			containerPortal = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = ED35A9AD7FCCBFDAA3C08FED;
+			remoteGlobalIDString = EE83A092ED35A9ADD60763CF9188475F12A9D132A3C08FED;
 			remoteInfo = libnfd.a;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3014192CE0FA37D9DBEC9F6C /* test_opendialog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_opendialog.c; path = ../../test/test_opendialog.c; sourceTree = "<group>"; };
-		4B74DEAEE9148B1BB3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		60AA47EAC5D73B17EDD76E2A /* test_opendialog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_opendialog; path = test_opendialog; sourceTree = BUILT_PRODUCTS_DIR; };
-		893A8412C6BF137F4CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		EAA847CCB2AE119971CD760C /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
+		1FBF5AAD3014192CE74D5FE1620D63DE683E81C8DBEC9F6C /* test_opendialog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_opendialog.c; path = ../../test/test_opendialog.c; sourceTree = "<group>"; };
+		71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
+		DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E34C4B4560AA47EAE55A48E186D0779CFA6872D4EDD76E2A /* test_opendialog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_opendialog; path = test_opendialog; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D3B0D85A6B113D0705C4DE9A /* Frameworks */ = {
+		C757F47DD3B0D85A854E9343769EFF0CFE6043DA05C4DE9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDAA66E6F02B5DF3DD9FA526 /* Foundation.framework in Frameworks */,
-				B762408A08F77A97261D3ECA /* AppKit.framework in Frameworks */,
-				BDAFE749B7152E16153F5589 /* libnfd.a in Frameworks */,
+				ED4CE49BDAA66E6A01B51B5806AC75838E21E50DD9FA526 /* Foundation.framework in Frameworks */,
+				D4E5D913B762408A71DC6C0248A4EFC541918B2261D3ECA /* AppKit.framework in Frameworks */,
+				600DF7C85EB9CACFD69BF52FB5CF7341318BA799E218090F /* libnfd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5D4848BA4E548CA76476DEFA /* Products */ = {
+		49755AD7BBF7678180163982A7E87333BFF7C341FA200DC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EC7F10B128DC54DEF09776F1 /* libnfd.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9D968EAAA9FA9897E0E0A4EA /* Projects */ = {
-			isa = PBXGroup;
-			children = (
-				EAA847CCB2AE119971CD760C /* nfd.xcodeproj */,
-			);
-			name = Projects;
-			sourceTree = "<group>";
-		};
-		A6C936B4B32D40A1EA134CF4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				60AA47EAC5D73B17EDD76E2A /* test_opendialog */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		BBF767817185A0AEFA200DC1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4B74DEAEE9148B1BB3A914EE /* Foundation.framework */,
-				893A8412C6BF137F4CBC7A52 /* AppKit.framework */,
+				71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */,
+				DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FDE62101BB381E4E22B0AF41 /* test_opendialog */ = {
+		696CD58FDE62101C925C4D5506C4BF36EAE06AC22B0AF41 /* test_opendialog */ = {
 			isa = PBXGroup;
 			children = (
-				3014192CE0FA37D9DBEC9F6C /* test_opendialog.c */,
-				BBF767817185A0AEFA200DC1 /* Frameworks */,
-				A6C936B4B32D40A1EA134CF4 /* Products */,
-				9D968EAAA9FA9897E0E0A4EA /* Projects */,
+				1FBF5AAD3014192CE74D5FE1620D63DE683E81C8DBEC9F6C /* test_opendialog.c */,
+				49755AD7BBF7678180163982A7E87333BFF7C341FA200DC1 /* Frameworks */,
+				DE2FD571A6C936B48E134D4D9B3FADE6BA17F9BDEA134CF4 /* Products */,
+				DE2FDC7F9D968EAA8E13545B920D05DCBA1800CBE0E0A4EA /* Projects */,
 			);
 			name = test_opendialog;
+			sourceTree = "<group>";
+		};
+		C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE2FD571A6C936B48E134D4D9B3FADE6BA17F9BDEA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E34C4B4560AA47EAE55A48E186D0779CFA6872D4EDD76E2A /* test_opendialog */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE2FDC7F9D968EAA8E13545B920D05DCBA1800CBE0E0A4EA /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */,
+				9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */,
+			);
+			name = Projects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A7F3CA90BA888C1D94F528D0 /* test_opendialog */ = {
+		A20AA503A7F3CA907B50E300A159CC02797225594F528D0 /* test_opendialog */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C1EC20B9594C8566F40026F9 /* Build configuration list for PBXNativeTarget "test_opendialog" */;
+			buildConfigurationList = C757F47CC1EC20B9854E934264DA476BFE6043D8F40026F9 /* Build configuration list for PBXNativeTarget "test_opendialog" */;
 			buildPhases = (
-				439858FADAF8BDA775AC5F3A /* Resources */,
-				AD45725144A5D6FEDF597891 /* Sources */,
-				D3B0D85A6B113D0705C4DE9A /* Frameworks */,
+				C757F481439858FA854E9346E6867FACFE6043DD75AC5F3A /* Resources */,
+				C757F481AD457251854E934750339903FE6043DDDF597891 /* Sources */,
+				C757F47DD3B0D85A854E9343769EFF0CFE6043DA05C4DE9A /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4B0085C33C0CC9B0522F1C03 /* PBXTargetDependency */,
+				C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */,
+				C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */,
 			);
 			name = test_opendialog;
 			productInstallPath = "$(HOME)/bin";
 			productName = test_opendialog;
-			productReference = 60AA47EAC5D73B17EDD76E2A /* test_opendialog */;
+			productReference = E34C4B4560AA47EAE55A48E186D0779CFA6872D4EDD76E2A /* test_opendialog */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -126,33 +128,37 @@
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_opendialog" */;
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
-			mainGroup = FDE62101BB381E4E22B0AF41 /* test_opendialog */;
+			mainGroup = 696CD58FDE62101C925C4D5506C4BF36EAE06AC22B0AF41 /* test_opendialog */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 5D4848BA4E548CA76476DEFA /* Products */;
-					ProjectRef = EAA847CCB2AE119971CD760C /* nfd.xcodeproj */;
+					ProductGroup = C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */;
+					ProjectRef = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
+				},
+				{
+					ProductGroup = C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */;
+					ProjectRef = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				A7F3CA90BA888C1D94F528D0 /* test_opendialog */,
+				A20AA503A7F3CA907B50E300A159CC02797225594F528D0 /* test_opendialog */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EC7F10B128DC54DEF09776F1 /* libnfd.a */ = {
+		EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libnfd.a;
-			remoteRef = 57D02ABA6A64EC4744D188FA /* PBXContainerItemProxy */;
+			remoteRef = F815FDB657D02ABAD15C3BB351362C2C5DA27B0844D188FA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		439858FADAF8BDA775AC5F3A /* Resources */ = {
+		C757F481439858FA854E9346E6867FACFE6043DD75AC5F3A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -162,21 +168,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AD45725144A5D6FEDF597891 /* Sources */ = {
+		C757F481AD457251854E934750339903FE6043DDDF597891 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA9A5B44E6664C91E40DE984 /* test_opendialog.c in Sources */,
+				711A18F3DA9A5B441104237031FFCE368A1BB9E8E40DE984 /* test_opendialog.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4B0085C33C0CC9B0522F1C03 /* PBXTargetDependency */ = {
+		C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = libnfd.a;
-			targetProxy = AA0A9D53BC9F5EE0970BFB93 /* PBXContainerItemProxy */;
+			targetProxy = FA883EECAA0A9D53D3CE7CE9A3709EC56014BC3E970BFB93 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -184,7 +190,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		188342B0098F869D1FB1D8F0 /* Debug */ = {
+		CC378727888E12FF4EEA26144BF9D4B1DAF6BEFB8A9D793F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = test_opendialog_d;
+			};
+			name = Debug;
+		};
+		DAEB1F1D2B21E9B9D4C12C487884DFEB96579BF9EEA3DFF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = test_opendialog;
+			};
+			name = Release;
+		};
+		E2A6E5D13AC688EAE4B4E36D60ECB89CF9C30D60C7F3AF2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					../lib/Release/x86,
+				);
+				OBJROOT = ../obj/x86/Release/test_opendialog;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../bin;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Release;
+		};
+		FD26DF03188342B0134045BD2F95DDE2178076341FB1D8F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
@@ -215,76 +271,27 @@
 			};
 			name = Debug;
 		};
-		2B21E9B968A67926EEA3DFF9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../bin;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = test_opendialog;
-			};
-			name = Release;
-		};
-		3AC688EA9FF37C17C7F3AF2A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
-				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = (
-					../lib/Release/x86,
-				);
-				OBJROOT = ../obj/x86/Release/test_opendialog;
-				ONLY_ACTIVE_ARCH = NO;
-				SYMROOT = ../bin;
-				USER_HEADER_SEARCH_PATHS = (
-					../../src/include,
-				);
-			};
-			name = Release;
-		};
-		888E12FFF2DDE32C8A9D793F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../bin;
-				GCC_DYNAMIC_NO_PIC = NO;
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = test_opendialog_d;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_opendialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3AC688EA9FF37C17C7F3AF2A /* Release */,
-				3AC688EA9FF37C17C7F3AF2A /* Release */,
-				188342B0098F869D1FB1D8F0 /* Debug */,
-				188342B0098F869D1FB1D8F0 /* Debug */,
+				E2A6E5D13AC688EAE4B4E36D60ECB89CF9C30D60C7F3AF2A /* Release */,
+				E2A6E5D13AC688EAE4B4E36D60ECB89CF9C30D60C7F3AF2A /* Release */,
+				FD26DF03188342B0134045BD2F95DDE2178076341FB1D8F0 /* Debug */,
+				FD26DF03188342B0134045BD2F95DDE2178076341FB1D8F0 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C1EC20B9594C8566F40026F9 /* Build configuration list for PBXNativeTarget "test_opendialog" */ = {
+		C757F47CC1EC20B9854E934264DA476BFE6043D8F40026F9 /* Build configuration list for PBXNativeTarget "test_opendialog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2B21E9B968A67926EEA3DFF9 /* Release */,
-				2B21E9B968A67926EEA3DFF9 /* Release */,
-				888E12FFF2DDE32C8A9D793F /* Debug */,
-				888E12FFF2DDE32C8A9D793F /* Debug */,
+				DAEB1F1D2B21E9B9D4C12C487884DFEB96579BF9EEA3DFF9 /* Release */,
+				DAEB1F1D2B21E9B9D4C12C487884DFEB96579BF9EEA3DFF9 /* Release */,
+				CC378727888E12FF4EEA26144BF9D4B1DAF6BEFB8A9D793F /* Debug */,
+				CC378727888E12FF4EEA26144BF9D4B1DAF6BEFB8A9D793F /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

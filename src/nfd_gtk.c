@@ -168,6 +168,15 @@ static void WaitForCleanup(void)
 nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+	return NFD_OpenDialogTitled("Open file", filterList, 
+									defaultPath, outPath );
+}
+
+nfdresult_t NFD_OpenDialogTitled( const nfdchar_t *title,
+							      const nfdchar_t *filterList,
+                                  const nfdchar_t *defaultPath,
+                                  nfdchar_t **outPath )
 {    
     GtkWidget *dialog;
     nfdresult_t result;
@@ -178,7 +187,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         return NFD_ERROR;
     }
 
-    dialog = gtk_file_chooser_dialog_new( "Open File",
+    dialog = gtk_file_chooser_dialog_new( title,
                                           NULL,
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
@@ -221,10 +230,18 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
     return result;
 }
 
-
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
+{
+	return NFD_OpenDialogMultipleTitled( "Open Files", filterList, 
+											defaultPath, outPaths);
+}
+
+nfdresult_t NFD_OpenDialogMultipleTitled( const nfdchar_t *title,
+									      const nfdchar_t *filterList,
+                                          const nfdchar_t *defaultPath,
+                                          nfdpathset_t *outPaths )
 {
     GtkWidget *dialog;
     nfdresult_t result;
@@ -235,7 +252,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         return NFD_ERROR;
     }
 
-    dialog = gtk_file_chooser_dialog_new( "Open Files",
+    dialog = gtk_file_chooser_dialog_new( title,
                                           NULL,
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
@@ -273,6 +290,15 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {
+	return NFD_SaveDialogTitled("Save File", filterList, 
+									defaultPath, outPath);
+}
+
+nfdresult_t NFD_SaveDialogTitled( const nfdchar_t *title,
+								  const nfdchar_t *filterList,
+                                  const nfdchar_t *defaultPath,
+                                  nfdchar_t **outPath )
+{
     GtkWidget *dialog;
     nfdresult_t result;
 
@@ -282,7 +308,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         return NFD_ERROR;
     }
 
-    dialog = gtk_file_chooser_dialog_new( "Save File",
+    dialog = gtk_file_chooser_dialog_new( title,
                                           NULL,
                                           GTK_FILE_CHOOSER_ACTION_SAVE,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
@@ -326,7 +352,16 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 }
 
 nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
-    nfdchar_t **outPath)
+						   nfdchar_t **outPath)
+{
+	return NFD_PickFolderTitled( "Select folder", defaultPath, outPath);
+}
+
+
+
+nfdresult_t NFD_PickFolderTitled( const nfdchar_t *title,
+								  const nfdchar_t *defaultPath,
+								  nfdchar_t **outPath)
 {
     GtkWidget *dialog;
     nfdresult_t result;
@@ -337,7 +372,7 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
         return NFD_ERROR;
     }
 
-    dialog = gtk_file_chooser_dialog_new( "Select folder",
+    dialog = gtk_file_chooser_dialog_new( title,
                                           NULL,
                                           GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                           "_Cancel", GTK_RESPONSE_CANCEL,

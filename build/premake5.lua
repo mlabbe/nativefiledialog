@@ -12,7 +12,7 @@ workspace "NativeFileDialog"
   -- into a subdirectory.  ex: $root/build/makefile
   local root_dir = path.join(path.getdirectory(_SCRIPT),"../../")
   local build_dir = path.join(root_dir,"build/")
-  configurations { "Release", "Debug" }
+  configurations { "Release", "ReleaseDLL", "Debug", "DebugDLL" }
   platforms {"x64", "x86"}
 
   objdir(path.join(build_dir, "obj/"))
@@ -36,6 +36,9 @@ workspace "NativeFileDialog"
 
   project "nfd"
     kind "StaticLib"
+    filter "configurations:*DLL"
+      kind "SharedLib"
+    filter {}
 
     -- common files
     files {root_dir.."src/*.h",

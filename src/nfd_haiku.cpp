@@ -130,8 +130,7 @@ DialogHandler::MessageReceived(BMessage *msg)
 			msg->GetInfo("refs", NULL, &mResponseData.open.count);
 			mResponseData.open.refs = new entry_ref[mResponseData.open.count];
 			for (int32 i = 0; i < mResponseData.open.count; i++) {
-				entry_ref ref;
-				msg->FindRef("refs", i, mResponseData.open.refs + i);
+				msg->FindRef("refs", i, &mResponseData.open.refs[i]);
 			}
 			break;
 		}
@@ -211,11 +210,12 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 				NFDi_SetError("Got invalid count of refs back");
 				return NFD_ERROR;
 			}
-			
-			size_t length = NFDi_UTF8_Strlen((nfdchar_t *)data.open.refs[0].name) + 1;
+
+			BPath path(&data.open.refs[0]);
+			size_t length = NFDi_UTF8_Strlen((nfdchar_t *)path.Path()) + 1;
 
 			*outPath = (nfdchar_t *)NFDi_Malloc(length);
-			NFDi_SafeStrncpy(*outPath, data.open.refs[0].name, length);
+			NFDi_SafeStrncpy(*outPath, path.Path(), length);
 
 			if (filter)
 				delete filter;
@@ -279,8 +279,10 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 			return NFD_CANCEL;
 		case kOpenResponse: {
 			size_t total_length = 0;
+			BPath paths[data.open.count];
 			for (int i = 0; i < data.open.count; i++) {
-				total_length += NFDi_UTF8_Strlen((nfdchar_t *)data.open.refs[i].name) + 1;
+				paths[i] = BPath(&data.open.refs[i]);
+				total_length += NFDi_UTF8_Strlen((nfdchar_t *)paths[i].Path()) + 1;
 			}
 			
 			outPaths->indices = (size_t *)NFDi_Malloc(sizeof(size_t) * data.open.count);
@@ -289,8 +291,8 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 
 			nfdchar_t *buflocation = outPaths->buf;
 			for (int i = 0; i < data.open.count; i++) {
-				size_t length = NFDi_UTF8_Strlen((nfdchar_t *)data.open.refs[i].name) + 1;
-				NFDi_SafeStrncpy(buflocation, (nfdchar_t *)data.open.refs[i].name, length);
+				size_t length = NFDi_UTF8_Strlen((nfdchar_t *)paths[i].Path()) + 1;
+				NFDi_SafeStrncpy(buflocation, (nfdchar_t *)paths[i].Path(), length);
 				outPaths->indices[i] = buflocation - outPaths->buf;
 				buflocation += length;
 			}

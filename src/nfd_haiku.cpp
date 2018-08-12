@@ -133,7 +133,6 @@ DialogHandler::MessageReceived(BMessage *msg)
 				entry_ref ref;
 				msg->FindRef("refs", i, mResponseData.open.refs + i);
 			}
-			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 		
@@ -141,13 +140,11 @@ DialogHandler::MessageReceived(BMessage *msg)
 			mResponseId = kSaveResponse;
 			msg->FindRef("directory", &mResponseData.save.directory);
 			msg->FindString("name", &mResponseData.save.filename);
-			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 		
 		case B_CANCEL: {
 			mResponseId = kCancelResponse;
-			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 		
@@ -191,7 +188,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 	
 	handler->Wait();
 
-	response_data &data = handler->ResponseData();
+	response_data data = handler->ResponseData();
 	int32 response = handler->ResponseId();
 	handler->PostMessage(B_QUIT_REQUESTED);
 
@@ -267,7 +264,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 	
 	handler->Wait();
 
-	response_data &data = handler->ResponseData();
+	response_data data = handler->ResponseData();
 	int32 response = handler->ResponseId();
 
 	handler->PostMessage(B_QUIT_REQUESTED);
@@ -337,7 +334,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	
 	handler->Wait();
 
-	response_data &data = handler->ResponseData();
+	response_data data = handler->ResponseData();
 	int32 response = handler->ResponseId();
 	handler->PostMessage(B_QUIT_REQUESTED);
 

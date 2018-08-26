@@ -353,9 +353,17 @@ static nfdresult_t SetDefaultPath( IFileDialog *dialog, const char *defaultPath 
 /* public */
 
 
-nfdresult_t NFD_OpenDialog( const char *filterList,
+nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+    return NFD_OpenDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_OpenDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     nfdresult_t nfdResult = NFD_ERROR;
     
@@ -396,7 +404,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     }    
 
     // Show the dialog.
-    result = fileOpenDialog->Show(NULL);
+    result = fileOpenDialog->Show(reinterpret_cast<HWND>(parent));
     if ( SUCCEEDED(result) )
     {
         // Get the file name
@@ -445,6 +453,14 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
+{
+    return NFD_OpenDialogMultipleEx(filterList, defaultPath, outPaths, NULL);
+}
+
+nfdresult_t NFD_OpenDialogMultipleEx( const nfdchar_t *filterList,
+                                      const nfdchar_t *defaultPath,
+                                      nfdpathset_t *outPaths,
+                                      void *parent )
 {
     nfdresult_t nfdResult = NFD_ERROR;
     
@@ -499,7 +515,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     }
  
     // Show the dialog.
-    result = fileOpenDialog->Show(NULL);
+    result = fileOpenDialog->Show(reinterpret_cast<HWND>(parent));
     if ( SUCCEEDED(result) )
     {
         IShellItemArray *shellItems;
@@ -537,6 +553,14 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+    return NFD_SaveDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_SaveDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     nfdresult_t nfdResult = NFD_ERROR;
     
@@ -576,7 +600,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     }
 
     // Show the dialog.
-    result = fileSaveDialog->Show(NULL);
+    result = fileSaveDialog->Show(reinterpret_cast<HWND>(parent));
     if ( SUCCEEDED(result) )
     {
         // Get the file name
@@ -669,8 +693,15 @@ private:
     T* mPtr;
 };
 
-nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
-    nfdchar_t **outPath)
+nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath, 
+                            nfdchar_t **outPath )
+{
+    return NFD_PickFolderEx(defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_PickFolderEx( const nfdchar_t *defaultPath, 
+                            nfdchar_t **outPath,
+                            void *parent )
 {
     // Init COM
     AutoCoInit autoCoInit;
@@ -714,7 +745,7 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     }
 
     // Show the dialog to the user
-    const HRESULT result = pFileDialog->Show(NULL);
+    const HRESULT result = pFileDialog->Show(reinterpret_cast<HWND>(parent));
     if (result == HRESULT_FROM_WIN32(ERROR_CANCELLED))
     {
         return NFD_CANCEL;

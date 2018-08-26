@@ -39,21 +39,35 @@ typedef enum {
 nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath );
+nfdresult_t NFD_OpenDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent );
 
 /* multiple file open dialog */    
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths );
+nfdresult_t NFD_OpenDialogMultipleEx( const nfdchar_t *filterList,
+                                      const nfdchar_t *defaultPath,
+                                      nfdpathset_t *outPaths,
+                                      void *parent );
 
 /* save dialog */
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath );
-
+nfdresult_t NFD_SaveDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent );
 
 /* select folder dialog */
 nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
-                            nfdchar_t **outPath);
+                            nfdchar_t **outPath );
+nfdresult_t NFD_PickFolderEx( const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent );
 
 /* nfd_common.c */
 

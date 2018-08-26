@@ -168,6 +168,14 @@ static void WaitForCleanup(void)
 nfdresult_t NFD_OpenDialog( const char *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+    return NFD_OpenDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_OpenDialogEx( const char *filterList,
+                            const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath,
+                            void *parent )
 {    
     GtkWidget *dialog;
     nfdresult_t result;
@@ -179,7 +187,7 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     }
 
     dialog = gtk_file_chooser_dialog_new( "Open File",
-                                          NULL,
+                                          (GtkWindow*)(parent),
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
                                           "_Open", GTK_RESPONSE_ACCEPT,
@@ -221,10 +229,17 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     return result;
 }
 
-
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
+{
+    NFD_OpenDialogMultipleEx(filterList, defaultPath, outPaths, NULL);
+}
+
+nfdresult_t NFD_OpenDialogMultipleEx( const nfdchar_t *filterList,
+                                      const nfdchar_t *defaultPath,
+                                      nfdpathset_t *outPaths,
+                                      void *parent )
 {
     GtkWidget *dialog;
     nfdresult_t result;
@@ -236,7 +251,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     }
 
     dialog = gtk_file_chooser_dialog_new( "Open Files",
-                                          NULL,
+                                          (GtkWindow*)(parent),
                                           GTK_FILE_CHOOSER_ACTION_OPEN,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
                                           "_Open", GTK_RESPONSE_ACCEPT,
@@ -273,6 +288,14 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
 {
+    NFD_SaveDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_SaveDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
+{
     GtkWidget *dialog;
     nfdresult_t result;
 
@@ -283,7 +306,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     }
 
     dialog = gtk_file_chooser_dialog_new( "Save File",
-                                          NULL,
+                                          (GtkWindow*)(parent),
                                           GTK_FILE_CHOOSER_ACTION_SAVE,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
                                           "_Save", GTK_RESPONSE_ACCEPT,
@@ -325,8 +348,15 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     return result;
 }
 
-nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
-    nfdchar_t **outPath)
+nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+    NFD_PickFolderEx(defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_PickFolderEx( const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     GtkWidget *dialog;
     nfdresult_t result;
@@ -338,7 +368,7 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     }
 
     dialog = gtk_file_chooser_dialog_new( "Select folder",
-                                          NULL,
+                                          (GtkWindow*)(parent),
                                           GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                           "_Cancel", GTK_RESPONSE_CANCEL,
                                           "_Select", GTK_RESPONSE_ACCEPT,

@@ -116,10 +116,17 @@ static nfdresult_t AllocPathSet( NSArray *urls, nfdpathset_t *pathset )
 
 /* public */
 
-
 nfdresult_t NFD_OpenDialog( const char *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+    NFD_OpenDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_OpenDialogEx( const char *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -157,10 +164,17 @@ nfdresult_t NFD_OpenDialog( const char *filterList,
     return nfdResult;
 }
 
-
 nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     const nfdchar_t *defaultPath,
                                     nfdpathset_t *outPaths )
+{
+    return NFD_OpenDialogMultipleEx(filterList, defaultPath, outPaths, NULL);
+}
+
+nfdresult_t NFD_OpenDialogMultipleEx( const nfdchar_t *filterList,
+                                      const nfdchar_t *defaultPath,
+                                      nfdpathset_t *outPaths,
+                                      void *parent )
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -197,10 +211,17 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     return nfdResult;
 }
 
-
 nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             const nfdchar_t *defaultPath,
                             nfdchar_t **outPath )
+{
+    return NFD_SaveDialogEx(filterList, defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_SaveDialogEx( const nfdchar_t *filterList,
+                              const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -236,8 +257,15 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     return nfdResult;
 }
 
-nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
-    nfdchar_t **outPath)
+nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+    return NFD_PickFolderEx(defaultPath, outPath, NULL);
+}
+
+nfdresult_t NFD_PickFolderEx( const nfdchar_t *defaultPath,
+                              nfdchar_t **outPath,
+                              void *parent )
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 

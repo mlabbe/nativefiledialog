@@ -270,6 +270,8 @@ static nfdresult_t AllocPathSet( IShellItemArray *shellItems, nfdpathset_t *path
 
         // Calculate length of name with UTF-8 encoding
         bufSize += GetUTF8ByteCountForWChar( name );
+        
+        CoTaskMemFree(name);
     }
 
     assert(bufSize);
@@ -304,6 +306,7 @@ static nfdresult_t AllocPathSet( IShellItemArray *shellItems, nfdpathset_t *path
         shellItem->GetDisplayName(SIGDN_FILESYSPATH, &name);
 
         int bytesWritten = CopyWCharToExistingNFDCharBuffer(name, p_buf);
+        CoTaskMemFree(name);
 
         ptrdiff_t index = p_buf - pathSet->buf;
         assert( index >= 0 );

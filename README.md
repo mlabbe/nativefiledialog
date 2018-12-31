@@ -15,8 +15,8 @@ Features:
  - No third party dependencies for building or linking.
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
- - GTK+3 dialog on Linux.
- - Optional Zenity support on Linux to avoid linking GTK+.
+ - GTK3 dialog on Linux.
+ - Optional Zenity support on Linux to avoid linking GTK.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
@@ -95,8 +95,12 @@ The makefile offers five options, with `release_x64` as the default.
  2. Add `nfd.lib` or `nfd_d.lib` to the list of list of static libraries to link against (for release or debug, respectively).
  3. Add `build/<debug|release>/<arch>` to the library search path.
 
-#### Linux ####
-On Linux, you have the option of compiling and linking against GTK+.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
+#### Linux GTK ####
+`apt-get libgtk-3-dev` installs the gtk dependency for library compilation.
+
+On Linux, you have the option of compiling and linking against GTK.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
+
+#### Linux Zenity ####
 
 Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
 

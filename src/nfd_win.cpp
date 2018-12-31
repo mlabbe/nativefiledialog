@@ -51,9 +51,9 @@ static void CopyWCharToNFDChar( const wchar_t *inStr, nfdchar_t **outStr )
 /* includes NULL terminator byte in return */
 static size_t GetUTF8ByteCountForWChar( const wchar_t *str )
 {
-    int bytesNeeded = WideCharToMultiByte( CP_UTF8, 0,
-                                           str, -1,
-                                           NULL, 0, NULL, NULL );
+    size_t bytesNeeded = WideCharToMultiByte( CP_UTF8, 0,
+                                              str, -1,
+                                              NULL, 0, NULL, NULL );
     assert( bytesNeeded );
     return bytesNeeded+1;
 }
@@ -152,12 +152,12 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     }
 
     /* filterCount plus 1 because we hardcode the *.* wildcard after the while loop */
-    COMDLG_FILTERSPEC *specList = (COMDLG_FILTERSPEC*)NFDi_Malloc( sizeof(COMDLG_FILTERSPEC) * (filterCount + 1) );
+    COMDLG_FILTERSPEC *specList = (COMDLG_FILTERSPEC*)NFDi_Malloc( sizeof(COMDLG_FILTERSPEC) * ((size_t)filterCount + 1) );
     if ( !specList )
     {
         return NFD_ERROR;
     }
-    for (size_t i = 0; i < filterCount+1; ++i )
+    for (UINT i = 0; i < filterCount+1; ++i )
     {
         specList[i].pszName = NULL;
         specList[i].pszSpec = NULL;

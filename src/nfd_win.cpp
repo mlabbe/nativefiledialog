@@ -4,6 +4,10 @@
   http://www.frogtoss.com/labs
  */
 
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h>  
+
 /* only locally define UNICODE in this compilation unit */
 #ifndef UNICODE
 #define UNICODE
@@ -371,6 +375,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 
     if ( !SUCCEEDED(result))
     {
+        fileOpenDialog = NULL;
         NFDi_SetError("Could not initialize COM.");
         goto end;
     }
@@ -441,7 +446,8 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         nfdResult = NFD_ERROR;
     }
 
- end:
+end:
+    fileOpenDialog->Release();
     ::CoUninitialize();
     
     return nfdResult;
@@ -472,6 +478,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                 
     if ( !SUCCEEDED(result) )
     {
+        fileOpenDialog = NULL;
         NFDi_SetError("Could not create dialog.");
         goto end;
     }
@@ -534,7 +541,10 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         nfdResult = NFD_ERROR;
     }
 
- end:
+end:
+    if ( fileOpenDialog )
+        fileOpenDialog->Release();
+
     ::CoUninitialize();
     
     return nfdResult;
@@ -565,6 +575,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 
     if ( !SUCCEEDED(result) )
     {
+        fileSaveDialog = NULL;
         NFDi_SetError("Could not create dialog.");
         goto end;
     }
@@ -624,7 +635,9 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         nfdResult = NFD_ERROR;
     }
     
- end:
+end:
+    if ( fileSaveDialog )
+        fileSaveDialog->Release();
     ::CoUninitialize();
         
     return nfdResult;

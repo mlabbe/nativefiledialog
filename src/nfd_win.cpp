@@ -415,6 +415,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         if ( !SUCCEEDED(result) )
         {
             NFDi_SetError("Could not get file path for selected.");
+            shellItem->Release();
             goto end;
         }
 
@@ -423,6 +424,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         if ( !*outPath )
         {
             /* error is malloc-based, error message would be redundant */
+            shellItem->Release();
             goto end;
         }
 
@@ -515,6 +517,7 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         
         if ( AllocPathSet( shellItems, outPaths ) == NFD_ERROR )
         {
+            shellItems->Release();
             goto end;
         }
 
@@ -594,6 +597,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         result = shellItem->GetDisplayName(::SIGDN_FILESYSPATH, &filePath);
         if ( !SUCCEEDED(result) )
         {
+            shellItem->Release();
             NFDi_SetError("Could not get file path for selected.");
             goto end;
         }
@@ -603,6 +607,7 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         if ( !*outPath )
         {
             /* error is malloc-based, error message would be redundant */
+            shellItem->Release();
             goto end;
         }
 
@@ -732,7 +737,8 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     ComPtr<IShellItem> pShellItem;
     if (!SUCCEEDED(pFileDialog->GetResult(&pShellItem)))
     {
-        return NFD_OKAY;
+        NFDi_SetError("Could not get shell item from dialog.");
+        return NFD_ERROR;
     }
 
     // Finally get the path

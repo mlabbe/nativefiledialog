@@ -64,9 +64,11 @@ release | what's new                  | date
 1.1.1   | mingw support, build fixes  | aug 2016
 1.1.2   | test_pickfolder() added     | aug 2016
 1.1.3   | zenity linux backend added  | nov 2017
-        | fix char type in decls      | nov 2017
+1.1.3   | fix char type in decls      | nov 2017
 1.1.4   | fix win32 memleaks          | dec 2018
-        | improve win32 errorhandling | dec 2018
+1.1.4   | improve win32 errorhandling | dec 2018
+1.1.4   | macos fix focus bug         | dec 2018
+   
 
 ## Building ##
 

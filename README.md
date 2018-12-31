@@ -51,9 +51,9 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 # Screenshots #
 
-![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
+![Windows 8 rendering an IFileOpenDialog](screens/open_win.png?raw=true)
 ![GTK3 on Linux](screens/open_gtk3.png?raw=true)
-![Cocoa on Yosemite](screens/open_cocoa.jpg?raw=true)
+![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
 
 ## Changelog ##
 

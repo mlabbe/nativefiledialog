@@ -27,6 +27,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
 #include <sys/wait.h>
 #include <stdarg.h>
 #include <fcntl.h>
+#include <signal.h>
 
 #define release_assert(x) do { int __release_assert_tmp__ = (x); assert(__release_assert_tmp__); } while(0)
 
@@ -41,6 +42,8 @@ enum RUN_COMMAND_ERROR
     COMMAND_RAN_OK = 0,
     COMMAND_NOT_FOUND = 1
 };
+
+void sigchldHandler(int p){}
 
 int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* const* allArgs)
 {
@@ -63,6 +66,9 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
 
     int errPipe[2];
     release_assert(pipe(errPipe) == 0);
+
+    void (*prev_handler)(int);
+    prevHandler = signal(SIGCHLD, sigchldHandler);
 
     pid_t pid;
     switch( pid = fork() )
@@ -174,6 +180,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
             }
         }
     }
+    signal(SIGCHLD, prevHandler);
 }
 
 int runCommand(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* command, ...)

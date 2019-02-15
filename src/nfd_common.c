@@ -50,6 +50,15 @@ void *NFDi_Malloc( size_t bytes )
     return ptr;
 }
 
+void *NFDi_Calloc( size_t num, size_t size )
+{
+    void *ptr = calloc(num, size);
+    if ( !ptr )
+        NFDi_SetError("NFDi_Calloc failed.");
+
+    return ptr;
+}
+
 void NFDi_Free( void *ptr )
 {
     assert(ptr);

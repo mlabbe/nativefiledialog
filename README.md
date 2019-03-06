@@ -19,6 +19,8 @@ Features:
  - Optional Zenity support on Linux to avoid linking GTK.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
+**Note:** I am considering deprecating mingw support on Windows.  Please contribute your thoughts at [this issue](https://github.com/mlabbe/nativefiledialog/issues/68).
+
 # Example Usage #
 
 ```C

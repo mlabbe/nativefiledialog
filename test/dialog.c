@@ -35,9 +35,9 @@ void dialog_opens()
 	nfdresult_t result = NFD_OpenDialogMultiple(NULL, defaultName, &pathSet);
 	if (result == NFD_OKAY)
 	{
+		size_t i;
 		size_t count = NFD_PathSet_GetCount(&pathSet);
 		printf("%d\n", (int)count);
-		size_t i;
 		for (i = 0; i < count; ++i)
 		{
 			nfdchar_t *path = NFD_PathSet_GetPath(&pathSet, i);

@@ -116,6 +116,22 @@ See `NFD.h` for API calls.  See `tests/*.c` for example code.
 
 After compiling, `build/bin` contains compiled test programs.
 
+Example `tests/dialog.c` is useful.
+- Contains all dialogs ( from other examples ).
+- Provides interactive commands `open/opens/save/browser/exit`.
+- Can be used as a cross-platform prebuilt binary tool, to help command line tools interactive with `open/save/browser-folder` dialogs.
+- Use it like this:
+```
+# open multiple files
+echo $'opens\nexit' | ./dialog
+
+# interactive
+./dialog
+\> open     # 'open dialog' will be shown.
+\> save     # 'save dialog' will be shown.
+\> exit     #  exit interactive program.
+```
+
 ## File Filter Syntax ##
 
 There is a form of file filtering in every file dialog API, but no consistent means of supporting it.  NFD provides support for filtering files by groups of extensions, providing its own descriptions (where applicable) for the extensions.

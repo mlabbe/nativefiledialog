@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dialog", "dialog.vcxproj", "{75FBC5F8-619D-F0CE-4A58-04233699771F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D94880B-C99D-887C-5219-9F7CBE21947C} = {5D94880B-C99D-887C-5219-9F7CBE21947C}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfd", "nfd.vcxproj", "{5D94880B-C99D-887C-5219-9F7CBE21947C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_pickfolder", "test_pickfolder.vcxproj", "{C7D1F254-335D-6019-3C6E-E30DA878BC19}"
@@ -31,6 +36,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Debug|Win32.Build.0 = Debug|Win32
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Debug|x64.ActiveCfg = Debug|x64
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Debug|x64.Build.0 = Debug|x64
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Release|Win32.ActiveCfg = Release|Win32
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Release|Win32.Build.0 = Release|Win32
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Release|x64.ActiveCfg = Release|x64
+		{75FBC5F8-619D-F0CE-4A58-04233699771F}.Release|x64.Build.0 = Release|x64
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Debug|Win32.Build.0 = Debug|Win32
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Debug|x64.ActiveCfg = Debug|x64

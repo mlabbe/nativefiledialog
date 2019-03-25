@@ -1,0 +1,300 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5F47E5795918116B46AA93B9 /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 386996E130517A9367AD3D21 /* libnfd.a */; };
+		A987D80200154274D88E5642 /* dialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 677C280A6AECFA3CEC599E4A /* dialog.c */; };
+		B762408A248A4EFC261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893A8412D69D7A444CBC7A52 /* AppKit.framework */; };
+		BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		57D02ABA51362C2C44D188FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4E280AA77CCE5E99D60FB8E7;
+			remoteInfo = libnfd.a;
+		};
+		AA0A9D53A3709EC5970BFB93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = ED35A9AD9188475FA3C08FED;
+			remoteInfo = libnfd.a;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		677C280A6AECFA3CEC599E4A /* dialog.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = dialog.c; path = ../../test/dialog.c; sourceTree = "<group>"; };
+		82AF6B998F6C1B0B045689D9 /* dialog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = dialog; path = dialog; sourceTree = BUILT_PRODUCTS_DIR; };
+		893A8412D69D7A444CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		9846A3FC8D2AFDEEAFFF123C /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAB17C89136C42FBA3037AC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */,
+				B762408A248A4EFC261D3ECA /* AppKit.framework in Frameworks */,
+				5F47E5795918116B46AA93B9 /* libnfd.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5D4848BA745AE3EC6476DEFA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				386996E130517A9367AD3D21 /* libnfd.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8155AC105F00AEC232A53250 /* dialog */ = {
+			isa = PBXGroup;
+			children = (
+				677C280A6AECFA3CEC599E4A /* dialog.c */,
+				BBF76781A7E87333FA200DC1 /* Frameworks */,
+				A6C936B49B3FADE6EA134CF4 /* Products */,
+				9D968EAA920D05DCE0E0A4EA /* Projects */,
+			);
+			name = dialog;
+			sourceTree = "<group>";
+		};
+		9D968EAA920D05DCE0E0A4EA /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */,
+				9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82AF6B998F6C1B0B045689D9 /* dialog */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBF76781A7E87333FA200DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */,
+				893A8412D69D7A444CBC7A52 /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A8FBB45F4C473D9167180A9F /* dialog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8ECC4E801A78B5A913EC328 /* Build configuration list for PBXNativeTarget "dialog" */;
+			buildPhases = (
+				4A98FD298353C39B12EAFB69 /* Resources */,
+				B4461680ED00DCF27C9814C0 /* Sources */,
+				DAB17C89136C42FBA3037AC9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4B0085C3621320F5522F1C03 /* PBXTargetDependency */,
+				4B0085C3621320F5522F1C03 /* PBXTargetDependency */,
+			);
+			name = dialog;
+			productInstallPath = "$(HOME)/bin";
+			productName = dialog;
+			productReference = 82AF6B998F6C1B0B045689D9 /* dialog */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "dialog" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = 8155AC105F00AEC232A53250 /* dialog */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5D4848BA745AE3EC6476DEFA /* Products */;
+					ProjectRef = 9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */;
+				},
+				{
+					ProductGroup = 5D4848BA745AE3EC6476DEFA /* Products */;
+					ProjectRef = 9846A3FC8D2AFDEEAFFF123C /* nfd.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				A8FBB45F4C473D9167180A9F /* dialog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		386996E130517A9367AD3D21 /* libnfd.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libnfd.a;
+			remoteRef = 57D02ABA51362C2C44D188FA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4A98FD298353C39B12EAFB69 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B4461680ED00DCF27C9814C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A987D80200154274D88E5642 /* dialog.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4B0085C3621320F5522F1C03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libnfd.a;
+			targetProxy = AA0A9D53A3709EC5970BFB93 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2E8EB428197ADA1A6160A268 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = dialog;
+			};
+			name = Release;
+		};
+		5CCBAC9969885C0BDE72CAD9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					../lib/Release/x86,
+				);
+				OBJROOT = ../obj/x86/Release/dialog;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../bin;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Release;
+		};
+		841775AE7D7D77207118D3EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CONFIGURATION_BUILD_DIR = ../bin;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = dialog_d;
+			};
+			name = Debug;
+		};
+		E23DAE9F34C3D99107083CDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					../lib/Debug/x86,
+				);
+				OBJROOT = ../obj/x86/Debug/dialog;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lnfd_d",
+				);
+				SYMROOT = ../bin;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "dialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CCBAC9969885C0BDE72CAD9 /* Release */,
+				5CCBAC9969885C0BDE72CAD9 /* Release */,
+				E23DAE9F34C3D99107083CDF /* Debug */,
+				E23DAE9F34C3D99107083CDF /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8ECC4E801A78B5A913EC328 /* Build configuration list for PBXNativeTarget "dialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E8EB428197ADA1A6160A268 /* Release */,
+				2E8EB428197ADA1A6160A268 /* Release */,
+				841775AE7D7D77207118D3EE /* Debug */,
+				841775AE7D7D77207118D3EE /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+};
+rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

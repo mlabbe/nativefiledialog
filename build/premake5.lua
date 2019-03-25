@@ -141,6 +141,7 @@ make_test("test_pickfolder")
 make_test("test_opendialog")
 make_test("test_opendialogmultiple")
 make_test("test_savedialog")
+make_test("dialog")
 
 newaction
 {

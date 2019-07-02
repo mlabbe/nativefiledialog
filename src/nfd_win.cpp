@@ -372,7 +372,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 
     ::IFileOpenDialog *fileOpenDialog(NULL);
 
-    if ( !SUCCEEDED(coResult))
+    if ( !SUCCEEDED(coResult) && coResult != RPC_E_CHANGED_MODE )
     {
         fileOpenDialog = NULL;
         NFDi_SetError("Could not initialize COM.");
@@ -449,7 +449,7 @@ end:
     if (fileOpenDialog)
         fileOpenDialog->Release();
 
-    if (SUCCEEDED(coResult))
+    if (SUCCEEDED(coResult) && coResult != RPC_E_CHANGED_MODE)
         ::CoUninitialize();
     
     return nfdResult;

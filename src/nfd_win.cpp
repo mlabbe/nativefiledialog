@@ -4,8 +4,8 @@
   http://www.frogtoss.com/labs
  */
 
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
 #include <crtdbg.h>  
 
 /* only locally define UNICODE in this compilation unit */
@@ -451,7 +451,7 @@ end:
 
     if (SUCCEEDED(coResult))
         ::CoUninitialize();
-
+    
     return nfdResult;
 }
 

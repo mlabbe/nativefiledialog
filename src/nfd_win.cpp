@@ -27,6 +27,33 @@
 #include "nfd_common.h"
 
 
+#define COM_INITFLAGS ::COINIT_APARTMENTTHREADED | ::COINIT_DISABLE_OLE1DDE
+
+static BOOL COMIsInitialized(HRESULT coResult)
+{
+    if (coResult == RPC_E_CHANGED_MODE)
+    {
+        // If COM was previously initialized with different init flags,
+        // NFD still needs to operate. Eat this warning.
+        return TRUE;
+    }
+
+    return SUCCEEDED(coResult);
+}
+
+static HRESULT COMInit(void)
+{
+    return ::CoInitializeEx(NULL, COM_INITFLAGS);
+}
+
+static void COMUninit(HRESULT coResult)
+{
+    // do not uninitialize if RPC_E_CHANGED_MODE occurred -- this
+    // case does not refcount COM.
+    if (SUCCEEDED(coResult))
+        ::CoUninitialize();
+}
+
 // allocs the space in outPath -- call free()
 static void CopyWCharToNFDChar( const wchar_t *inStr, nfdchar_t **outStr )
 {
@@ -364,22 +391,17 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
                             nfdchar_t **outPath )
 {
     nfdresult_t nfdResult = NFD_ERROR;
+
     
-    // Init COM library.
-    HRESULT coResult = ::CoInitializeEx(NULL,
-                                        ::COINIT_APARTMENTTHREADED |
-                                        ::COINIT_DISABLE_OLE1DDE );
-
-    ::IFileOpenDialog *fileOpenDialog(NULL);
-
-    if ( !SUCCEEDED(coResult))
-    {
-        fileOpenDialog = NULL;
+    HRESULT coResult = COMInit();
+    if (!COMIsInitialized(coResult))
+    {        
         NFDi_SetError("Could not initialize COM.");
-        goto end;
+        return nfdResult;
     }
 
     // Create dialog
+    ::IFileOpenDialog *fileOpenDialog(NULL);    
     HRESULT result = ::CoCreateInstance(::CLSID_FileOpenDialog, NULL,
                                         CLSCTX_ALL, ::IID_IFileOpenDialog,
                                         reinterpret_cast<void**>(&fileOpenDialog) );
@@ -449,8 +471,7 @@ end:
     if (fileOpenDialog)
         fileOpenDialog->Release();
 
-    if (SUCCEEDED(coResult))
-        ::CoUninitialize();
+    COMUninit(coResult);
     
     return nfdResult;
 }
@@ -460,20 +481,17 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
                                     nfdpathset_t *outPaths )
 {
     nfdresult_t nfdResult = NFD_ERROR;
-    
-    // Init COM library.
-    HRESULT coResult = ::CoInitializeEx(NULL,
-                                        ::COINIT_APARTMENTTHREADED |
-                                        ::COINIT_DISABLE_OLE1DDE );
-    if ( !SUCCEEDED(coResult))
+
+
+    HRESULT coResult = COMInit();
+    if (!COMIsInitialized(coResult))
     {
-        NFDi_SetError("Could not initialize COM.");
-        return NFD_ERROR;
+        NFDi_SetError("Could not initialize COM.");        
+        return nfdResult;
     }
 
-    ::IFileOpenDialog *fileOpenDialog(NULL);
-
     // Create dialog
+    ::IFileOpenDialog *fileOpenDialog(NULL);    
     HRESULT result = ::CoCreateInstance(::CLSID_FileOpenDialog, NULL,
                                         CLSCTX_ALL, ::IID_IFileOpenDialog,
                                         reinterpret_cast<void**>(&fileOpenDialog) );
@@ -547,8 +565,7 @@ end:
     if ( fileOpenDialog )
         fileOpenDialog->Release();
 
-    if (SUCCEEDED(coResult))
-        ::CoUninitialize();
+    COMUninit(coResult);
     
     return nfdResult;
 }
@@ -558,20 +575,16 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
                             nfdchar_t **outPath )
 {
     nfdresult_t nfdResult = NFD_ERROR;
-    
-    // Init COM library.
-    HRESULT coResult = ::CoInitializeEx(NULL,
-                                        ::COINIT_APARTMENTTHREADED |
-                                        ::COINIT_DISABLE_OLE1DDE );
-    if ( !SUCCEEDED(coResult))
+
+    HRESULT coResult = COMInit();
+    if (!COMIsInitialized(coResult))
     {
         NFDi_SetError("Could not initialize COM.");
-        return NFD_ERROR;
+        return nfdResult;        
     }
-
-    ::IFileSaveDialog *fileSaveDialog(NULL);
-
+    
     // Create dialog
+    ::IFileSaveDialog *fileSaveDialog(NULL);    
     HRESULT result = ::CoCreateInstance(::CLSID_FileSaveDialog, NULL,
                                         CLSCTX_ALL, ::IID_IFileSaveDialog,
                                         reinterpret_cast<void**>(&fileSaveDialog) );
@@ -642,9 +655,8 @@ end:
     if ( fileSaveDialog )
         fileSaveDialog->Release();
 
-    if (SUCCEEDED(coResult))
-        ::CoUninitialize();
-        
+    COMUninit(coResult);
+    
     return nfdResult;
 }
 
@@ -655,18 +667,15 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
 {
     nfdresult_t nfdResult = NFD_ERROR;
 
-    // Init COM
-    HRESULT coResult = ::CoInitializeEx(NULL,
-                                        ::COINIT_APARTMENTTHREADED |
-                                        ::COINIT_DISABLE_OLE1DDE);
-    if (!SUCCEEDED(coResult))
+    HRESULT coResult = COMInit();
+    if (!COMIsInitialized(coResult))
     {
         NFDi_SetError("CoInitializeEx failed.");
-        return NFD_ERROR;
+        return nfdResult;
     }
 
+    // Create dialog
     ::IFileOpenDialog *fileDialog(NULL);
-    
     if (!SUCCEEDED(CoCreateInstance(CLSID_FileOpenDialog,
                                     NULL,
                                     CLSCTX_ALL,
@@ -747,9 +756,8 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
 
     if (fileDialog)
         fileDialog->Release();
-    
-    if (SUCCEEDED(coResult))
-        ::CoUninitialize();
+
+    COMUninit(coResult);
 
     return nfdResult;
 }

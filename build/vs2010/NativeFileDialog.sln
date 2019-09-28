@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfd", "nfd.vcxproj", "{5D94880B-C99D-887C-5219-9F7CBE21947C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_pickfolder", "test_pickfolder.vcxproj", "{C7D1F254-335D-6019-3C6E-E30DA878BC19}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5D94880B-C99D-887C-5219-9F7CBE21947C} = {5D94880B-C99D-887C-5219-9F7CBE21947C}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_opendialog", "test_opendialog.vcxproj", "{86EEA43A-F279-12FF-FB8A-95F367956EFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5D94880B-C99D-887C-5219-9F7CBE21947C} = {5D94880B-C99D-887C-5219-9F7CBE21947C}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_opendialogmultiple", "test_opendialogmultiple.vcxproj", "{72399713-DE70-DFAA-E77A-43CE533106A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D94880B-C99D-887C-5219-9F7CBE21947C} = {5D94880B-C99D-887C-5219-9F7CBE21947C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_pickfolder", "test_pickfolder.vcxproj", "{C7D1F254-335D-6019-3C6E-E30DA878BC19}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5D94880B-C99D-887C-5219-9F7CBE21947C} = {5D94880B-C99D-887C-5219-9F7CBE21947C}
 	EndProjectSection
@@ -39,14 +39,6 @@ Global
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Release|Win32.Build.0 = Release|Win32
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Release|x64.ActiveCfg = Release|x64
 		{5D94880B-C99D-887C-5219-9F7CBE21947C}.Release|x64.Build.0 = Release|x64
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|Win32.Build.0 = Debug|Win32
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|x64.ActiveCfg = Debug|x64
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|x64.Build.0 = Debug|x64
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|Win32.ActiveCfg = Release|Win32
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|Win32.Build.0 = Release|Win32
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|x64.ActiveCfg = Release|x64
-		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|x64.Build.0 = Release|x64
 		{86EEA43A-F279-12FF-FB8A-95F367956EFF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{86EEA43A-F279-12FF-FB8A-95F367956EFF}.Debug|Win32.Build.0 = Debug|Win32
 		{86EEA43A-F279-12FF-FB8A-95F367956EFF}.Debug|x64.ActiveCfg = Debug|x64
@@ -63,6 +55,14 @@ Global
 		{72399713-DE70-DFAA-E77A-43CE533106A4}.Release|Win32.Build.0 = Release|Win32
 		{72399713-DE70-DFAA-E77A-43CE533106A4}.Release|x64.ActiveCfg = Release|x64
 		{72399713-DE70-DFAA-E77A-43CE533106A4}.Release|x64.Build.0 = Release|x64
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|Win32.Build.0 = Debug|Win32
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|x64.ActiveCfg = Debug|x64
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Debug|x64.Build.0 = Debug|x64
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|Win32.ActiveCfg = Release|Win32
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|Win32.Build.0 = Release|Win32
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|x64.ActiveCfg = Release|x64
+		{C7D1F254-335D-6019-3C6E-E30DA878BC19}.Release|x64.Build.0 = Release|x64
 		{23941773-8F1F-8537-9830-082C043BE137}.Debug|Win32.ActiveCfg = Debug|Win32
 		{23941773-8F1F-8537-9830-082C043BE137}.Debug|Win32.Build.0 = Debug|Win32
 		{23941773-8F1F-8537-9830-082C043BE137}.Debug|x64.ActiveCfg = Debug|x64

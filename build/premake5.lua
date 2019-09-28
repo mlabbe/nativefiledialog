@@ -28,7 +28,16 @@ workspace "NativeFileDialog"
   local root_dir = path.join(path.getdirectory(_SCRIPT),"../../")
   local build_dir = path.join(root_dir,"build/")
   configurations { "Release", "Debug" }
-  platforms {"x64", "x86"}
+
+  -- Apple stopped distributing an x86 toolchain.  Xcode 11 now fails to build with an 
+  -- error if the invalid architecture is present.
+  --
+  -- Add it back in here to build for legacy systems.
+  filter "system:macosx"
+    platforms {"x64"}
+  filter "system:windows or system:linux"
+    platforms {"x64", "x86"}
+  
 
   objdir(path.join(build_dir, "obj/"))
 

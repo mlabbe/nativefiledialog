@@ -7,117 +7,117 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		600DF7C85EB9CACFD69BF52FB5CF7341318BA799E218090F /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */; };
-		9260D3122DE64B06324ADD8E854BBDF8AB6274073759D946 /* test_pickfolder.c in Sources */ = {isa = PBXBuildFile; fileRef = 5F17C4F6A6C583CE26A5CA2AD8BECE80A796EC12529E0A0E /* test_pickfolder.c */; };
-		D4E5D913B762408A71DC6C0248A4EFC541918B2261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */; };
-		ED4CE49BDAA66E6A01B51B5806AC75838E21E50DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */; };
+		2DE64B06854BBDF83759D946 /* test_pickfolder.c in Sources */ = {isa = PBXBuildFile; fileRef = A6C583CED8BECE80529E0A0E /* test_pickfolder.c */; };
+		62D586CEA6E958009ABADD0E /* libnfd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 164F31368771D2283D387F76 /* libnfd.a */; };
+		B762408A248A4EFC261D3ECA /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893A8412D69D7A444CBC7A52 /* AppKit.framework */; };
+		BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F815FDB657D02ABAD15C3BB351362C2C5DA27B0844D188FA /* PBXContainerItemProxy */ = {
+		57D02ABA51362C2C44D188FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
+			containerPortal = 360631F05E40EAA245DC7830 /* nfd.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = BEE4B8BD4E280AA796E0E38E7CCE5E9967D0FD53D60FB8E7;
+			remoteGlobalIDString = 4E280AA77CCE5E99D60FB8E7;
 			remoteInfo = libnfd.a;
 		};
-		FA883EECAA0A9D53D3CE7CE9A3709EC56014BC3E970BFB93 /* PBXContainerItemProxy */ = {
+		AA0A9D53A3709EC5970BFB93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
+			containerPortal = 360631F05E40EAA245DC7830 /* nfd.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = EE83A092ED35A9ADD60763CF9188475F12A9D132A3C08FED;
+			remoteGlobalIDString = ED35A9AD9188475FA3C08FED;
 			remoteInfo = libnfd.a;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		43FDC050D96C690B460BBDECFF9298BD5B19E7E066998F4B /* test_pickfolder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_pickfolder; path = test_pickfolder; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F17C4F6A6C583CE26A5CA2AD8BECE80A796EC12529E0A0E /* test_pickfolder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_pickfolder.c; path = ../../test/test_pickfolder.c; sourceTree = "<group>"; };
-		71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
-		DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		360631F05E40EAA245DC7830 /* libnfd.a */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "nfd.xcodeproj"; path = nfd.xcodeproj; sourceTree = SOURCE_ROOT; };
+		4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		893A8412D69D7A444CBC7A52 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		A6C583CED8BECE80529E0A0E /* test_pickfolder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = test_pickfolder.c; path = ../../test/test_pickfolder.c; sourceTree = "<group>"; };
+		D96C690BFF9298BD66998F4B /* test_pickfolder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = test_pickfolder; path = test_pickfolder; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A1207234FD7590FB5F1710FAA063B7ADD828C1912F89973B /* Frameworks */ = {
+		FD7590FBA063B7AD2F89973B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED4CE49BDAA66E6A01B51B5806AC75838E21E50DD9FA526 /* Foundation.framework in Frameworks */,
-				D4E5D913B762408A71DC6C0248A4EFC541918B2261D3ECA /* AppKit.framework in Frameworks */,
-				600DF7C85EB9CACFD69BF52FB5CF7341318BA799E218090F /* libnfd.a in Frameworks */,
+				BDAA66E6806AC758DD9FA526 /* Foundation.framework in Frameworks */,
+				B762408A248A4EFC261D3ECA /* AppKit.framework in Frameworks */,
+				62D586CEA6E958009ABADD0E /* libnfd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		49755AD7BBF7678180163982A7E87333BFF7C341FA200DC1 /* Frameworks */ = {
+		5D4848BA745AE3EC6476DEFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71D6295A4B74DEAEC0EF210A2FBBE6E04EE73ACBB3A914EE /* Foundation.framework */,
-				DBBC4EDA893A8412D5925C05D69D7A449728CBB74CBC7A52 /* AppKit.framework */,
+				164F31368771D2283D387F76 /* libnfd.a */,
 			);
-			name = Frameworks;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		5EEF99048705BCC2217E9080D98BE7B4C706D257ABD04B02 /* test_pickfolder */ = {
+		8705BCC2D98BE7B4ABD04B02 /* test_pickfolder */ = {
 			isa = PBXGroup;
 			children = (
-				5F17C4F6A6C583CE26A5CA2AD8BECE80A796EC12529E0A0E /* test_pickfolder.c */,
-				49755AD7BBF7678180163982A7E87333BFF7C341FA200DC1 /* Frameworks */,
-				DE2FD571A6C936B48E134D4D9B3FADE6BA17F9BDEA134CF4 /* Products */,
-				DE2FDC7F9D968EAA8E13545B920D05DCBA1800CBE0E0A4EA /* Projects */,
+				A6C583CED8BECE80529E0A0E /* test_pickfolder.c */,
+				BBF76781A7E87333FA200DC1 /* Frameworks */,
+				A6C936B49B3FADE6EA134CF4 /* Products */,
+				9D968EAA920D05DCE0E0A4EA /* Projects */,
 			);
 			name = test_pickfolder;
 			sourceTree = "<group>";
 		};
-		C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */ = {
+		9D968EAA920D05DCE0E0A4EA /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DE2FD571A6C936B48E134D4D9B3FADE6BA17F9BDEA134CF4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				43FDC050D96C690B460BBDECFF9298BD5B19E7E066998F4B /* test_pickfolder */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DE2FDC7F9D968EAA8E13545B920D05DCBA1800CBE0E0A4EA /* Projects */ = {
-			isa = PBXGroup;
-			children = (
-				9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */,
-				9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */,
+				360631F05E40EAA245DC7830 /* nfd.xcodeproj */,
+				360631F05E40EAA245DC7830 /* nfd.xcodeproj */,
 			);
 			name = Projects;
+			sourceTree = "<group>";
+		};
+		A6C936B49B3FADE6EA134CF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D96C690BFF9298BD66998F4B /* test_pickfolder */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBF76781A7E87333FA200DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4B74DEAE2FBBE6E0B3A914EE /* Foundation.framework */,
+				893A8412D69D7A444CBC7A52 /* AppKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CBC272421075CB91A508B03F09DBCD03314EEF93FD7729D1 /* test_pickfolder */ = {
+		1075CB9109DBCD03FD7729D1 /* test_pickfolder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A1207233EBB0D95A5F1710F98E9F000CD828C1901DC4DF9A /* Build configuration list for PBXNativeTarget "test_pickfolder" */;
+			buildConfigurationList = EBB0D95A8E9F000C1DC4DF9A /* Build configuration list for PBXNativeTarget "test_pickfolder" */;
 			buildPhases = (
-				A12072386D5D119B5F1710FE104B384DD828C1949F7117DB /* Resources */,
-				A1207238D70A2AF25F1710FE79F851A4D828C195091E3132 /* Sources */,
-				A1207234FD7590FB5F1710FAA063B7ADD828C1912F89973B /* Frameworks */,
+				6D5D119B104B384D9F7117DB /* Resources */,
+				D70A2AF279F851A4091E3132 /* Sources */,
+				FD7590FBA063B7AD2F89973B /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */,
-				C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */,
+				4B0085C3621320F5522F1C03 /* PBXTargetDependency */,
+				4B0085C3621320F5522F1C03 /* PBXTargetDependency */,
 			);
 			name = test_pickfolder;
 			productInstallPath = "$(HOME)/bin";
 			productName = test_pickfolder;
-			productReference = 43FDC050D96C690B460BBDECFF9298BD5B19E7E066998F4B /* test_pickfolder */;
+			productReference = D96C690BFF9298BD66998F4B /* test_pickfolder */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -128,37 +128,37 @@
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_pickfolder" */;
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
-			mainGroup = 5EEF99048705BCC2217E9080D98BE7B4C706D257ABD04B02 /* test_pickfolder */;
+			mainGroup = 8705BCC2D98BE7B4ABD04B02 /* test_pickfolder */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */;
-					ProjectRef = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
+					ProductGroup = 5D4848BA745AE3EC6476DEFA /* Products */;
+					ProjectRef = 360631F05E40EAA245DC7830 /* nfd.xcodeproj */;
 				},
 				{
-					ProductGroup = C1B317315D4848BAD7CC7DEB745AE3ECDC0CAE626476DEFA /* Products */;
-					ProjectRef = 9C4B208142B285D2A252A5750767DC44B0DF2675BBD68412 /* nfd.xcodeproj */;
+					ProductGroup = 5D4848BA745AE3EC6476DEFA /* Products */;
+					ProjectRef = 360631F05E40EAA245DC7830 /* nfd.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				CBC272421075CB91A508B03F09DBCD03314EEF93FD7729D1 /* test_pickfolder */,
+				1075CB9109DBCD03FD7729D1 /* test_pickfolder */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EDF42C3AA2F9D637D2AB422FE4526695D9A0C5EC770C77 /* libnfd.a */ = {
+		164F31368771D2283D387F76 /* libnfd.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libnfd.a;
-			remoteRef = F815FDB657D02ABAD15C3BB351362C2C5DA27B0844D188FA /* PBXContainerItemProxy */;
+			remoteRef = 57D02ABA51362C2C44D188FA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A12072386D5D119B5F1710FE104B384DD828C1949F7117DB /* Resources */ = {
+		6D5D119B104B384D9F7117DB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -168,21 +168,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A1207238D70A2AF25F1710FE79F851A4D828C195091E3132 /* Sources */ = {
+		D70A2AF279F851A4091E3132 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9260D3122DE64B06324ADD8E854BBDF8AB6274073759D946 /* test_pickfolder.c in Sources */,
+				2DE64B06854BBDF83759D946 /* test_pickfolder.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C1C611684B0085C3D7DF7822621320F5DC1FA899522F1C03 /* PBXTargetDependency */ = {
+		4B0085C3621320F5522F1C03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = libnfd.a;
-			targetProxy = FA883EECAA0A9D53D3CE7CE9A3709EC56014BC3E970BFB93 /* PBXContainerItemProxy */;
+			targetProxy = AA0A9D53A3709EC5970BFB93 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -190,64 +190,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		43585ADCB388AA0B45665878D9AED9BD5A74826C40B5D04B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
-				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = (
-					../lib/Release/x86,
-				);
-				OBJROOT = ../obj/x86/Release/test_pickfolder;
-				ONLY_ACTIVE_ARCH = NO;
-				SYMROOT = ../bin;
-				USER_HEADER_SEARCH_PATHS = (
-					../../src/include,
-				);
-			};
-			name = Release;
-		};
-		6B05A72BC658A791811F0DE5DD6B42C3855F3E5CCD873DD1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
-				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					DEBUG,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = (
-					../lib/Debug/x86,
-				);
-				OBJROOT = ../obj/x86/Debug/test_pickfolder;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-lnfd_d",
-				);
-				SYMROOT = ../bin;
-				USER_HEADER_SEARCH_PATHS = (
-					../../src/include,
-				);
-			};
-			name = Debug;
-		};
-		84467A1822B4A81A7E1C874370179E4C3FB2F6F4E6369E5A /* Release */ = {
+		22B4A81A70179E4CE6369E5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -259,7 +202,7 @@
 			};
 			name = Release;
 		};
-		A5D1D2B2B1EBC5202884719F755786D2B4910A86B3FB2B60 /* Debug */ = {
+		B1EBC520755786D2B3FB2B60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -271,27 +214,76 @@
 			};
 			name = Debug;
 		};
+		B388AA0BD9AED9BD40B5D04B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					../lib/Release/x64,
+				);
+				OBJROOT = obj/x64/Release/test_pickfolder;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../bin;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Release;
+		};
+		C658A791DD6B42C3CD873DD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					../lib/Debug/x64,
+				);
+				OBJROOT = obj/x64/Debug/test_pickfolder;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lnfd_d",
+				);
+				SYMROOT = ../bin;
+				USER_HEADER_SEARCH_PATHS = (
+					../../src/include,
+				);
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "test_pickfolder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				43585ADCB388AA0B45665878D9AED9BD5A74826C40B5D04B /* Release */,
-				43585ADCB388AA0B45665878D9AED9BD5A74826C40B5D04B /* Release */,
-				6B05A72BC658A791811F0DE5DD6B42C3855F3E5CCD873DD1 /* Debug */,
-				6B05A72BC658A791811F0DE5DD6B42C3855F3E5CCD873DD1 /* Debug */,
+				B388AA0BD9AED9BD40B5D04B /* Release */,
+				C658A791DD6B42C3CD873DD1 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A1207233EBB0D95A5F1710F98E9F000CD828C1901DC4DF9A /* Build configuration list for PBXNativeTarget "test_pickfolder" */ = {
+		EBB0D95A8E9F000C1DC4DF9A /* Build configuration list for PBXNativeTarget "test_pickfolder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84467A1822B4A81A7E1C874370179E4C3FB2F6F4E6369E5A /* Release */,
-				84467A1822B4A81A7E1C874370179E4C3FB2F6F4E6369E5A /* Release */,
-				A5D1D2B2B1EBC5202884719F755786D2B4910A86B3FB2B60 /* Debug */,
-				A5D1D2B2B1EBC5202884719F755786D2B4910A86B3FB2B60 /* Debug */,
+				22B4A81A70179E4CE6369E5A /* Release */,
+				B1EBC520755786D2B3FB2B60 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -92,7 +92,7 @@ static nfdresult_t ZenityCommon(char** command, int commandLen, const char* defa
 {
     if(defaultPath != NULL)
     {
-        char* prefix = "--filename";
+        char* prefix = "--filename=";
         int len = strlen(prefix) + strlen(defaultPath) + 1;
 
         char* tmp = (char*) calloc(len, 1);

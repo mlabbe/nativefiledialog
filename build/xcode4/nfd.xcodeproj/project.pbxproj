@@ -148,6 +148,7 @@
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
+				WARNING_CFLAGS = "-Wall -Wextra";
 			};
 			name = Debug;
 		};
@@ -184,6 +185,7 @@
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
+				WARNING_CFLAGS = "-Wall -Wextra";
 			};
 			name = Release;
 		};

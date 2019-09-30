@@ -156,7 +156,6 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
 
 static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char *filterList )
 {
-    const wchar_t EMPTY_WSTR[] = L"";
     const wchar_t WILDCARD[] = L"*.*";
 
     if ( !filterList || strlen(filterList) == 0 )

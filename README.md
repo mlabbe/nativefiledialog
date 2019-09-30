@@ -19,8 +19,6 @@ Features:
  - Optional Zenity support on Linux to avoid linking GTK.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
-**Note:** I am considering deprecating mingw support on Windows.  Please contribute your thoughts at [this issue](https://github.com/mlabbe/nativefiledialog/issues/68).
-
 # Example Usage #
 
 ```C
@@ -70,15 +68,15 @@ release | what's new                  | date
 1.1.1   | mingw support, build fixes  | aug 2016
 1.1.2   | test_pickfolder() added     | aug 2016
 1.1.3   | zenity linux backend added  | nov 2017
-1.1.3   | fix char type in decls      | nov 2017
+<i></i> | fix char type in decls      | nov 2017
 1.1.4   | fix win32 memleaks          | dec 2018
-1.1.4   | improve win32 errorhandling | dec 2018
-1.1.4   | macos fix focus bug         | dec 2018
+<i></i> | improve win32 errorhandling | dec 2018
+<i></i> | macos fix focus bug         | dec 2018
 1.1.5   | win32 fix com reinitialize  | aug 2019
 1.1.6   | fix osx filter bug          | aug 2019
-1.1.6   | remove deprecated scons     | aug 2019
-1.1.6   | fix mingw compilation       | aug 2019
-1.1.6   | -Wextra warning cleanup     | aug 2019
+<i></i> | remove deprecated scons     | aug 2019
+<i></i> | fix mingw compilation       | aug 2019
+<i></i> | -Wextra warning cleanup     | aug 2019
 
 ## Building ##
 

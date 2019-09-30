@@ -47,7 +47,7 @@ int main( void )
 }
 ```
 
-See [NFD.h](src/include/nfd.h) for more options.
+See self-documenting API [NFD.h](src/include/nfd.h) for more options.
 
 # Screenshots #
 
@@ -57,9 +57,9 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Changelog ##
 
- - Major version increments denote API breakage.
- - Minor version increments denote minor ABI or build parameter breakage.
- - Micro version increments just recompile.
+ - **Major** version increments denote API or ABI departure.
+ - **Minor** version increments denote build or trivial departures.
+ - **Micro** version increments just recompile and drop-in.
 
 release | what's new                  | date
 --------|-----------------------------|---------
@@ -84,7 +84,7 @@ NFD uses [Premake5](https://premake.github.io/download.html) generated Makefiles
 
 If you need to run Premake5 directly, further [build documentation](docs/build.md) is available.
 
-Previously, NFD used SCons to build.  It still works, but is now deprecated; updates to it are discouraged.  Opt to use the native build system where possible.
+Previously, NFD used SCons to build.  As of 1.1.6, SCons support has been removed entirely.
 
 `nfd.a` will be built for release builds, and `nfd_d.a` will be built for debug builds.
 
@@ -157,6 +157,7 @@ I accept quality code patches, or will resolve these and other matters through s
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
  - GTK Zenity implementation's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
+ - GTK 3 spams one warning per dialog created.
 
 # Copyright and Credit #
 

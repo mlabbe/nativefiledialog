@@ -86,11 +86,9 @@ static size_t GetUTF8ByteCountForWChar( const wchar_t *str )
     return bytesNeeded+1;
 }
 
-// write to outPtr -- no free() necessary.  No memory stomp tests are done -- they must be done
-// before entering this function.
+// write to outPtr -- no free() necessary.
 static int CopyWCharToExistingNFDCharBuffer( const wchar_t *inStr, nfdchar_t *outPtr )
 {
-    int inStrCharacterCount = static_cast<int>(wcslen(inStr));
     int bytesNeeded = static_cast<int>(GetUTF8ByteCountForWChar( inStr ));
 
     /* invocation copies null term */
@@ -148,7 +146,8 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
 
     char extWildcard[NFD_MAX_STRLEN];
     int bytesWritten = sprintf_s( extWildcard, NFD_MAX_STRLEN, "*.%s", ext );
-    assert( bytesWritten == strlen(ext)+2 );
+    assert( bytesWritten == (int)(strlen(ext)+2) );
+    _NFD_UNUSED(bytesWritten);
     
     strncat( specBuf, extWildcard, specBufLen - strlen(specBuf) - 1 );
 
@@ -195,7 +194,6 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     p_filterList = filterList;
     char typebuf[NFD_MAX_STRLEN] = {0};  /* one per comma or semicolon */
     char *p_typebuf = typebuf;
-    char filterName[NFD_MAX_STRLEN] = {0};
 
     char specbuf[NFD_MAX_STRLEN] = {0}; /* one per semicolon */
 

@@ -13,16 +13,11 @@ Most of the building instructions are included in [README.md](/README.md). This 
 
 ### Package Maintainer Only ###
 
-I support a custom Premake action: `premake5 dist`, which generates all of the checked in project types in subdirectories.  It is useful to run this command if you are submitting a pull request to test all of the supported premake configurations.  Do not check in the built projects; I will do so before accepting your pull request.
+I support a custom Premake action: `premake5 dist`, which generates all of the checked in project types in subdirectories.  It is useful to run this command if you are submitting a pull request to test all of the supported premake configurations.  Do not check in the built projects; I will do so while accepting your pull request.
 
 ## SCons build (deprecated) ##
 
-NFD used to use [SCons](http://www.scons.org) for cross-platform builds.  For the time being, the SCons scripts are still available.
-
-After installing SCons, build it with:
-
-    cd src
-    scons debug=[0,1]
+As of 1.1.6, the deprecated and unmaintained SCons support is removed.
 
 ## Compiling with Mingw ##
 

@@ -22,52 +22,17 @@ ifeq ($(config),release_x64)
   endif
   TARGETDIR = ../lib/Release/x64
   TARGET = $(TARGETDIR)/libnfd.a
-  OBJDIR = ../obj/x64/Release/nfd
+  OBJDIR = obj/x64/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
   ALL_LDFLAGS += $(LDFLAGS) -m64
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
-  define PREBUILDCMDS
-  endef
-  define PRELINKCMDS
-  endef
-  define POSTBUILDCMDS
-  endef
-all: prebuild prelink $(TARGET)
-	@:
-
-endif
-
-ifeq ($(config),release_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
-  TARGETDIR = ../lib/Release/x86
-  TARGET = $(TARGETDIR)/libnfd.a
-  OBJDIR = ../obj/x86/Release/nfd
-  DEFINES += -DNDEBUG
-  INCLUDES += -I../../src/include
-  FORCE_INCLUDE +=
-  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fno-exceptions
-  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m32
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -92,52 +57,17 @@ ifeq ($(config),debug_x64)
   endif
   TARGETDIR = ../lib/Debug/x64
   TARGET = $(TARGETDIR)/libnfd_d.a
-  OBJDIR = ../obj/x64/Debug/nfd
+  OBJDIR = obj/x64/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
   ALL_LDFLAGS += $(LDFLAGS) -m64
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
-  define PREBUILDCMDS
-  endef
-  define PRELINKCMDS
-  endef
-  define POSTBUILDCMDS
-  endef
-all: prebuild prelink $(TARGET)
-	@:
-
-endif
-
-ifeq ($(config),debug_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
-  TARGETDIR = ../lib/Debug/x86
-  TARGET = $(TARGETDIR)/libnfd_d.a
-  OBJDIR = ../obj/x86/Debug/nfd
-  DEFINES += -DDEBUG
-  INCLUDES += -I../../src/include
-  FORCE_INCLUDE +=
-  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -fno-exceptions
-  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m32
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
@@ -158,23 +88,33 @@ RESOURCES := \
 
 CUSTOMFILES := \
 
-SHELLTYPE := msdos
-ifeq (,$(ComSpec)$(COMSPEC))
-  SHELLTYPE := posix
-endif
-ifeq (/bin,$(findstring /bin,$(SHELL)))
-  SHELLTYPE := posix
+SHELLTYPE := posix
+ifeq (.exe,$(findstring .exe,$(ComSpec)))
+	SHELLTYPE := msdos
 endif
 
-$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES)
+$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
 	@echo Linking nfd
+	$(SILENT) $(LINKCMD)
+	$(POSTBUILDCMDS)
+
+$(CUSTOMFILES): | $(OBJDIR)
+
+$(TARGETDIR):
+	@echo Creating $(TARGETDIR)
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) mkdir -p $(TARGETDIR)
 else
 	$(SILENT) mkdir $(subst /,\\,$(TARGETDIR))
 endif
-	$(SILENT) $(LINKCMD)
-	$(POSTBUILDCMDS)
+
+$(OBJDIR):
+	@echo Creating $(OBJDIR)
+ifeq (posix,$(SHELLTYPE))
+	$(SILENT) mkdir -p $(OBJDIR)
+else
+	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
+endif
 
 clean:
 	@echo Cleaning nfd
@@ -193,32 +133,19 @@ prelink:
 	$(PRELINKCMDS)
 
 ifneq (,$(PCH))
-$(OBJECTS): $(GCH) $(PCH)
-$(GCH): $(PCH)
+$(OBJECTS): $(GCH) $(PCH) | $(OBJDIR)
+$(GCH): $(PCH) | $(OBJDIR)
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) -x c-header $(ALL_CFLAGS) -o "$@" -MF "$(@:%.gch=%.d)" -c "$<"
+else
+$(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/nfd_cocoa.o: ../../src/nfd_cocoa.m
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/nfd_common.o: ../../src/nfd_common.c
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

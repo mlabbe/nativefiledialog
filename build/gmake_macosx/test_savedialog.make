@@ -22,7 +22,7 @@ ifeq ($(config),release_x64)
   endif
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_savedialog
-  OBJDIR = ../obj/x64/Release/test_savedialog
+  OBJDIR = obj/x64/Release/test_savedialog
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -33,41 +33,6 @@ ifeq ($(config),release_x64)
   LIBS += ../lib/Release/x64/libnfd.a -framework Foundation -framework AppKit
   LDDEPS += ../lib/Release/x64/libnfd.a
   ALL_LDFLAGS += $(LDFLAGS) -L../lib/Release/x64 -m64
-  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
-  define PREBUILDCMDS
-  endef
-  define PRELINKCMDS
-  endef
-  define POSTBUILDCMDS
-  endef
-all: prebuild prelink $(TARGET)
-	@:
-
-endif
-
-ifeq ($(config),release_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
-  TARGETDIR = ../bin
-  TARGET = $(TARGETDIR)/test_savedialog
-  OBJDIR = ../obj/x86/Release/test_savedialog
-  DEFINES += -DNDEBUG
-  INCLUDES += -I../../src/include
-  FORCE_INCLUDE +=
-  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2
-  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/Release/x86/libnfd.a -framework Foundation -framework AppKit
-  LDDEPS += ../lib/Release/x86/libnfd.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../lib/Release/x86 -m32
   LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -92,7 +57,7 @@ ifeq ($(config),debug_x64)
   endif
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_savedialog_d
-  OBJDIR = ../obj/x64/Debug/test_savedialog
+  OBJDIR = obj/x64/Debug/test_savedialog
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -115,41 +80,6 @@ all: prebuild prelink $(TARGET)
 
 endif
 
-ifeq ($(config),debug_x86)
-  ifeq ($(origin CC), default)
-    CC = clang
-  endif
-  ifeq ($(origin CXX), default)
-    CXX = clang++
-  endif
-  ifeq ($(origin AR), default)
-    AR = ar
-  endif
-  TARGETDIR = ../bin
-  TARGET = $(TARGETDIR)/test_savedialog_d
-  OBJDIR = ../obj/x86/Debug/test_savedialog
-  DEFINES += -DDEBUG
-  INCLUDES += -I../../src/include
-  FORCE_INCLUDE +=
-  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g
-  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += -framework Foundation -framework AppKit -lnfd_d
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L../lib/Debug/x86 -m32
-  LINKCMD = $(CC) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
-  define PREBUILDCMDS
-  endef
-  define PRELINKCMDS
-  endef
-  define POSTBUILDCMDS
-  endef
-all: prebuild prelink $(TARGET)
-	@:
-
-endif
-
 OBJECTS := \
 	$(OBJDIR)/test_savedialog.o \
 
@@ -157,23 +87,33 @@ RESOURCES := \
 
 CUSTOMFILES := \
 
-SHELLTYPE := msdos
-ifeq (,$(ComSpec)$(COMSPEC))
-  SHELLTYPE := posix
-endif
-ifeq (/bin,$(findstring /bin,$(SHELL)))
-  SHELLTYPE := posix
+SHELLTYPE := posix
+ifeq (.exe,$(findstring .exe,$(ComSpec)))
+	SHELLTYPE := msdos
 endif
 
-$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES)
+$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
 	@echo Linking test_savedialog
+	$(SILENT) $(LINKCMD)
+	$(POSTBUILDCMDS)
+
+$(CUSTOMFILES): | $(OBJDIR)
+
+$(TARGETDIR):
+	@echo Creating $(TARGETDIR)
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) mkdir -p $(TARGETDIR)
 else
 	$(SILENT) mkdir $(subst /,\\,$(TARGETDIR))
 endif
-	$(SILENT) $(LINKCMD)
-	$(POSTBUILDCMDS)
+
+$(OBJDIR):
+	@echo Creating $(OBJDIR)
+ifeq (posix,$(SHELLTYPE))
+	$(SILENT) mkdir -p $(OBJDIR)
+else
+	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
+endif
 
 clean:
 	@echo Cleaning test_savedialog
@@ -192,24 +132,16 @@ prelink:
 	$(PRELINKCMDS)
 
 ifneq (,$(PCH))
-$(OBJECTS): $(GCH) $(PCH)
-$(GCH): $(PCH)
+$(OBJECTS): $(GCH) $(PCH) | $(OBJDIR)
+$(GCH): $(PCH) | $(OBJDIR)
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) -x c-header $(ALL_CFLAGS) -o "$@" -MF "$(@:%.gch=%.d)" -c "$<"
+else
+$(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/test_savedialog.o: ../../test/test_savedialog.c
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

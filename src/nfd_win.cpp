@@ -4,6 +4,13 @@
   http://www.frogtoss.com/labs
  */
 
+
+#ifdef __MINGW32__
+// Explicitly setting NTDDI version, this is necessary for the MinGW compiler
+#define NTDDI_VERSION NTDDI_VISTA
+#define _WIN32_WINNT _WIN32_WINNT_VISTA
+#endif
+
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -11,12 +18,6 @@
 /* only locally define UNICODE in this compilation unit */
 #ifndef UNICODE
 #define UNICODE
-#endif
-
-#ifdef __MINGW32__
-// Explicitly setting NTDDI version, this is necessary for the MinGW compiler
-#define NTDDI_VERSION NTDDI_VISTA
-#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #endif
 
 #include <wchar.h>
@@ -85,11 +86,9 @@ static size_t GetUTF8ByteCountForWChar( const wchar_t *str )
     return bytesNeeded+1;
 }
 
-// write to outPtr -- no free() necessary.  No memory stomp tests are done -- they must be done
-// before entering this function.
+// write to outPtr -- no free() necessary.
 static int CopyWCharToExistingNFDCharBuffer( const wchar_t *inStr, nfdchar_t *outPtr )
 {
-    int inStrCharacterCount = static_cast<int>(wcslen(inStr));
     int bytesNeeded = static_cast<int>(GetUTF8ByteCountForWChar( inStr ));
 
     /* invocation copies null term */
@@ -147,7 +146,8 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
 
     char extWildcard[NFD_MAX_STRLEN];
     int bytesWritten = sprintf_s( extWildcard, NFD_MAX_STRLEN, "*.%s", ext );
-    assert( bytesWritten == strlen(ext)+2 );
+    assert( bytesWritten == (int)(strlen(ext)+2) );
+    _NFD_UNUSED(bytesWritten);
     
     strncat( specBuf, extWildcard, specBufLen - strlen(specBuf) - 1 );
 
@@ -156,7 +156,6 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
 
 static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char *filterList )
 {
-    const wchar_t EMPTY_WSTR[] = L"";
     const wchar_t WILDCARD[] = L"*.*";
 
     if ( !filterList || strlen(filterList) == 0 )
@@ -194,7 +193,6 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     p_filterList = filterList;
     char typebuf[NFD_MAX_STRLEN] = {0};  /* one per comma or semicolon */
     char *p_typebuf = typebuf;
-    char filterName[NFD_MAX_STRLEN] = {0};
 
     char specbuf[NFD_MAX_STRLEN] = {0}; /* one per semicolon */
 
@@ -666,6 +664,7 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     nfdchar_t **outPath)
 {
     nfdresult_t nfdResult = NFD_ERROR;
+    DWORD dwOptions = 0;
 
     HRESULT coResult = COMInit();
     if (!COMIsInitialized(coResult))
@@ -676,10 +675,11 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
 
     // Create dialog
     ::IFileOpenDialog *fileDialog(NULL);
-    if (!SUCCEEDED(CoCreateInstance(CLSID_FileOpenDialog,
-                                    NULL,
-                                    CLSCTX_ALL,
-                                    IID_PPV_ARGS(&fileDialog))))
+    HRESULT result = CoCreateInstance(CLSID_FileOpenDialog,
+                                      NULL,
+                                      CLSCTX_ALL,
+                                      IID_PPV_ARGS(&fileDialog));
+    if ( !SUCCEEDED(result) )
     {        
         NFDi_SetError("CoCreateInstance for CLSID_FileOpenDialog failed.");
         goto end;
@@ -693,7 +693,6 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     }
 
     // Get the dialogs options
-    DWORD dwOptions = 0;
     if (!SUCCEEDED(fileDialog->GetOptions(&dwOptions)))
     {
         NFDi_SetError("GetOptions for IFileDialog failed.");
@@ -708,7 +707,7 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     }
 
     // Show the dialog to the user
-    HRESULT result = fileDialog->Show(NULL);
+    result = fileDialog->Show(NULL);
     if ( SUCCEEDED(result) )
     {
         // Get the folder name

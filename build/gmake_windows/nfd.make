@@ -19,8 +19,8 @@ ifeq ($(config),release_x64)
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
@@ -46,8 +46,8 @@ ifeq ($(config),release_x86)
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
@@ -73,8 +73,8 @@ ifeq ($(config),debug_x64)
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
@@ -100,8 +100,8 @@ ifeq ($(config),debug_x86)
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -Wall -Wextra -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
@@ -126,23 +126,33 @@ RESOURCES := \
 
 CUSTOMFILES := \
 
-SHELLTYPE := msdos
-ifeq (,$(ComSpec)$(COMSPEC))
-  SHELLTYPE := posix
-endif
-ifeq (/bin,$(findstring /bin,$(SHELL)))
-  SHELLTYPE := posix
+SHELLTYPE := posix
+ifeq (.exe,$(findstring .exe,$(ComSpec)))
+	SHELLTYPE := msdos
 endif
 
-$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES)
+$(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
 	@echo Linking nfd
+	$(SILENT) $(LINKCMD)
+	$(POSTBUILDCMDS)
+
+$(CUSTOMFILES): | $(OBJDIR)
+
+$(TARGETDIR):
+	@echo Creating $(TARGETDIR)
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) mkdir -p $(TARGETDIR)
 else
 	$(SILENT) mkdir $(subst /,\\,$(TARGETDIR))
 endif
-	$(SILENT) $(LINKCMD)
-	$(POSTBUILDCMDS)
+
+$(OBJDIR):
+	@echo Creating $(OBJDIR)
+ifeq (posix,$(SHELLTYPE))
+	$(SILENT) mkdir -p $(OBJDIR)
+else
+	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
+endif
 
 clean:
 	@echo Cleaning nfd
@@ -161,32 +171,19 @@ prelink:
 	$(PRELINKCMDS)
 
 ifneq (,$(PCH))
-$(OBJECTS): $(GCH) $(PCH)
-$(GCH): $(PCH)
+$(OBJECTS): $(GCH) $(PCH) | $(OBJDIR)
+$(GCH): $(PCH) | $(OBJDIR)
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CXX) -x c++-header $(ALL_CXXFLAGS) -o "$@" -MF "$(@:%.gch=%.d)" -c "$<"
+else
+$(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/nfd_common.o: ../../src/nfd_common.c
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/nfd_win.o: ../../src/nfd_win.cpp
 	@echo $(notdir $<)
-ifeq (posix,$(SHELLTYPE))
-	$(SILENT) mkdir -p $(OBJDIR)
-else
-	$(SILENT) mkdir $(subst /,\\,$(OBJDIR))
-endif
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

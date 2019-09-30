@@ -59,6 +59,10 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 ## Changelog ##
 
+ - Major version increments denote API breakage.
+ - Minor version increments denote minor ABI or build parameter breakage.
+ - Micro version increments just recompile.
+
 release | what's new                  | date
 --------|-----------------------------|---------
 1.0.0   | initial                     | oct 2014
@@ -71,7 +75,10 @@ release | what's new                  | date
 1.1.4   | improve win32 errorhandling | dec 2018
 1.1.4   | macos fix focus bug         | dec 2018
 1.1.5   | win32 fix com reinitialize  | aug 2019
-   
+1.1.6   | fix osx filter bug          | aug 2019
+1.1.6   | remove deprecated scons     | aug 2019
+1.1.6   | fix mingw compilation       | aug 2019
+1.1.6   | -Wextra warning cleanup     | aug 2019
 
 ## Building ##
 
@@ -85,7 +92,7 @@ Previously, NFD used SCons to build.  It still works, but is now deprecated; upd
 
 ### Makefiles ###
 
-The makefile offers five options, with `release_x64` as the default.
+The makefile offers up to four options, with `release_x64` as the default.
 
     make config=release_x86
     make config=release_x64
@@ -99,6 +106,7 @@ The makefile offers five options, with `release_x64` as the default.
  3. Add `build/<debug|release>/<arch>` to the library search path.
 
 #### Linux GTK ####
+
 `apt-get libgtk-3-dev` installs the gtk dependency for library compilation.
 
 On Linux, you have the option of compiling and linking against GTK.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
@@ -108,16 +116,18 @@ On Linux, you have the option of compiling and linking against GTK.  If you use 
 Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
 
 #### MacOS ####
+
 On Mac OS, add `AppKit` to the list of frameworks.
 
 #### Windows ####
-On Windows, ensure you are building against `comctl32.lib`.
+
+On Windows, ensure you are linking against `comctl32.lib`.
 
 ## Usage ##
 
 See `NFD.h` for API calls.  See `tests/*.c` for example code.
 
-After compiling, `build/bin` contains compiled test programs.
+After compiling, `build/bin` contains compiled test programs.  The appropriate subdirectory under `build/lib` contains the built library.
 
 ## File Filter Syntax ##
 
@@ -144,10 +154,11 @@ See [test_opendialogmultiple.c](test/test_opendialogmultiple.c).
 
 # Known Limitations #
 
-I accept quality code patches, or will resolve these and other matters through support.  See [submitting pull requests](docs/submitting_pull_requests.md) for details.
+I accept quality code patches, or will resolve these and other matters through support.  See [contributing](docs/contributing.md) for details.
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
+ - GTK Zenity implementation's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
 
 # Copyright and Credit #
 

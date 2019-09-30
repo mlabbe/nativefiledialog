@@ -33,3 +33,7 @@ Use the Makefile in `build/gmake_windows` to build Native File Dialog with mingw
 The author has not attempted to build or even install an x86 toolchain for mingw.
 
 If you report an issue, be sure to run make with `verbose=1` so commands are visible.
+
+## Adding NFD source directly to your project ##
+
+Lots of developers add NFD source directly to their projects instead of using the included build scripts.  As of 1.1.6, this is an acknowledged approach to building.  Of course, everyone has a slightly different toolchain with various warnings and linters enabled.  If you run a linter or catch a warning, please consider submitting a pull request to help NFD build cleanly for everyone.

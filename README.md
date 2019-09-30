@@ -19,6 +19,8 @@ Features:
  - Optional Zenity support on Linux to avoid linking GTK.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
+**Note:** I am considering deprecating mingw support on Windows.  Please contribute your thoughts at [this issue](https://github.com/mlabbe/nativefiledialog/issues/68).
+
 # Example Usage #
 
 ```C
@@ -51,9 +53,9 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 # Screenshots #
 
-![Windows 8 rendering an IFileOpenDialog](screens/open_win.png?raw=true)
-![GTK3 on Linux](screens/open_gtk3.png?raw=true)
-![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
+![Windows rendering a dialog](screens/open_win.png?raw=true)
+![GTK3 on Linux rendering a dialog](screens/open_gtk3.png?raw=true)
+![Cocoa on MacOS rendering a dialog](screens/open_cocoa.png?raw=true)
 
 ## Changelog ##
 
@@ -68,6 +70,7 @@ release | what's new                  | date
 1.1.4   | fix win32 memleaks          | dec 2018
 1.1.4   | improve win32 errorhandling | dec 2018
 1.1.4   | macos fix focus bug         | dec 2018
+1.1.5   | win32 fix com reinitialize  | aug 2019
    
 
 ## Building ##
@@ -148,7 +151,7 @@ I accept quality code patches, or will resolve these and other matters through s
 
 # Copyright and Credit #
 
-Copyright &copy; 2014-2017 [Frogtoss Games](http://www.frogtoss.com), Inc.
+Copyright &copy; 2014-2019 [Frogtoss Games](http://www.frogtoss.com), Inc.
 File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe

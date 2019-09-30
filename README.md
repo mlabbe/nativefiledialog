@@ -15,8 +15,8 @@ Features:
  - No third party dependencies for building or linking.
  - Support for Vista's modern `IFileDialog` on Windows.
  - Support for non-deprecated Cocoa APIs on OS X.
- - GTK+3 dialog on Linux.
- - Optional Zenity support on Linux to avoid linking GTK+.
+ - GTK3 dialog on Linux.
+ - Optional Zenity support on Linux to avoid linking GTK.
  - Tested, works alongside [http://www.libsdl.org](SDL2) on all platforms, for the game developers out there.
 
 # Example Usage #
@@ -51,9 +51,9 @@ See [NFD.h](src/include/nfd.h) for more options.
 
 # Screenshots #
 
-![Windows 8 rendering an IFileOpenDialog](screens/open_win8.png?raw=true)
+![Windows 8 rendering an IFileOpenDialog](screens/open_win.png?raw=true)
 ![GTK3 on Linux](screens/open_gtk3.png?raw=true)
-![Cocoa on Yosemite](screens/open_cocoa.jpg?raw=true)
+![Cocoa on Yosemite](screens/open_cocoa.png?raw=true)
 
 ## Changelog ##
 
@@ -65,6 +65,10 @@ release | what's new                  | date
 1.1.2   | test_pickfolder() added     | aug 2016
 1.1.3   | zenity linux backend added  | nov 2017
 1.1.3   | fix char type in decls      | nov 2017
+1.1.4   | fix win32 memleaks          | dec 2018
+1.1.4   | improve win32 errorhandling | dec 2018
+1.1.4   | macos fix focus bug         | dec 2018
+   
 
 ## Building ##
 
@@ -91,8 +95,12 @@ The makefile offers five options, with `release_x64` as the default.
  2. Add `nfd.lib` or `nfd_d.lib` to the list of list of static libraries to link against (for release or debug, respectively).
  3. Add `build/<debug|release>/<arch>` to the library search path.
 
-#### Linux ####
-On Linux, you have the option of compiling and linking against GTK+.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
+#### Linux GTK ####
+`apt-get libgtk-3-dev` installs the gtk dependency for library compilation.
+
+On Linux, you have the option of compiling and linking against GTK.  If you use it, the recommended way to compile is to include the arguments of `pkg-config --cflags --libs gtk+-3.0`.
+
+#### Linux Zenity ####
 
 Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
 

@@ -26,4 +26,15 @@ After installing SCons, build it with:
 
 ## Compiling with Mingw ##
 
-Use the Makefile in `build/gmake_windows` to build Native File Dialog with mingw.  This is tested against the [msys2 distribution](https://msys2.github.io/).
+Use the Makefile in `build/gmake_windows` to build Native File Dialog with mingw.  Mingw has many distributions and not all of them are reliable.  Here is what worked for me, the primary author of Native File Dialog:
+
+1. Use mingw64, not mingw32.  Downloaded from [sourceforge.net](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download).
+2. When prompted in the intsaller, install the basic compiler and g++.
+3. Add the installed bin dir to command prompt path.
+4. Run `set CC=g++` to enforce `g++` instead of the default, `cc` for compiling and linking.
+5. In `build/gmake_windows`, run `mingw32-make config=release_x64 clean`.  Running clean ensures no Visual Studio build products conflict which can cause link errors.
+6. Now run `mingw32-make config=release_x64`.
+
+The author has not attempted to build or even install an x86 toolchain for mingw.
+
+If you report an issue, be sure to run make with `verbose=1` so commands are visible.

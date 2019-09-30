@@ -96,7 +96,8 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
             execvp(command, allArgs);
 
             char err = 1;
-            write(errPipe[WRITE_FD], &err, 1);
+            ssize_t result = write(errPipe[WRITE_FD], &err, 1);
+            release_assert(result != -1);
             
             close(errPipe[WRITE_FD]);
             close(parentToChild[READ_FD]);
@@ -128,7 +129,8 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
                         release_assert(close(childToParent[READ_FD]) == 0);
 
                         char errChar = 0;
-                        read(errPipe[READ_FD], &errChar, 1);
+                        ssize_t result = read(errPipe[READ_FD], &errChar, 1);
+                        release_assert(result != -1);
                         close(errPipe[READ_FD]);
 
                         if(errChar)

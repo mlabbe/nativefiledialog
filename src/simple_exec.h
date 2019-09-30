@@ -28,7 +28,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
 #include <stdarg.h>
 #include <fcntl.h>
 
-#define release_assert(x) do { int __release_assert_tmp__ = (x); assert(__release_assert_tmp__); } while(0)
+#define release_assert(exp) { if (!(exp)) { abort(); } }
 
 enum PIPE_FILE_DESCRIPTORS
 {
@@ -70,6 +70,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
         case -1:
         {
             release_assert(0 && "Fork failed");
+            break;
         }
 
         case 0: // child
@@ -158,6 +159,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
                     case -1:
                     {
                         release_assert(0 && "read() failed");
+                        break;
                     }
 
                     default:

@@ -133,10 +133,6 @@ static nfdresult_t ZenityCommon(char** command, int commandLen, const char* defa
 
 static nfdresult_t AllocPathSet(char* zenityList, nfdpathset_t *pathSet )
 {
-    size_t bufSize = 0;
-    nfdchar_t *p_buf;
-    size_t count = 0;
-    
     assert(zenityList);
     assert(pathSet);
     

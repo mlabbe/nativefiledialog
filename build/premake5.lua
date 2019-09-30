@@ -70,6 +70,8 @@ workspace "NativeFileDialog"
     includedirs {root_dir.."src/include/"}
     targetdir(build_dir.."/lib/%{cfg.buildcfg}/%{cfg.platform}")
 
+    warnings "extra"
+
     -- system build filters
     filter "system:windows"
       language "C++"

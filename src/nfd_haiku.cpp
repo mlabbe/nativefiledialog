@@ -362,3 +362,64 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 	NFDi_SetError("Got invalid response from port");
     return NFD_ERROR;
 }
+
+
+/* single folder open dialog */
+nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
+                            nfdchar_t **outPath )
+{
+	BApplication *temporaryApp = NULL;
+	if (be_app == NULL) {
+		temporaryApp = new BApplication("application/x-vnd.nfd-dialog");
+	}
+
+	DialogHandler *handler = new DialogHandler();
+	BMessenger messenger(handler);
+	BFilePanel *panel = new BFilePanel(B_OPEN_PANEL, NULL, NULL, B_DIRECTORY_NODE, false, NULL, NULL, true);
+
+	handler->Run();
+	panel->SetTarget(messenger);
+
+	if (defaultPath != NULL) {
+		BEntry directory(defaultPath, true);
+		panel->SetPanelDirectory(&directory);
+	}
+
+	panel->Show();
+
+	handler->Wait();
+
+	response_data data = handler->ResponseData();
+	int32 response = handler->ResponseId();
+	handler->PostMessage(B_QUIT_REQUESTED);
+
+	if (temporaryApp)
+		delete temporaryApp;
+
+	delete panel;
+
+	switch (response) {
+		case kCancelResponse:
+			return NFD_CANCEL;
+		case kOpenResponse: {
+			if (data.open.count != 1) {
+				delete[] data.open.refs;
+
+				NFDi_SetError("Got invalid count of refs back");
+				return NFD_ERROR;
+			}
+
+			BPath path(&data.open.refs[0]);
+			size_t length = NFDi_UTF8_Strlen((nfdchar_t *)path.Path()) + 1;
+
+			*outPath = (nfdchar_t *)NFDi_Malloc(length);
+			NFDi_SafeStrncpy(*outPath, path.Path(), length);
+
+			delete[] data.open.refs;
+			return NFD_OKAY;
+		}
+	}
+
+	NFDi_SetError("Got invalid response from port");
+    return NFD_ERROR;
+}

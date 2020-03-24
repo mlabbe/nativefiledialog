@@ -59,6 +59,8 @@ nfdresult_t NFD_PickFolder( const nfdchar_t *defaultPath,
 
 /* get last error -- set when nfdresult_t returns NFD_ERROR */
 const char *NFD_GetError( void );
+/* Free the path returned by NFD_OpenDialog et al. */
+void        NFD_Path_Free( nfdchar_t *path );
 /* get the number of entries stored in pathSet */
 size_t      NFD_PathSet_GetCount( const nfdpathset_t *pathSet );
 /* Get the UTF-8 path at offset index */

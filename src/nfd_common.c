@@ -18,6 +18,11 @@ const char *NFD_GetError( void )
     return g_errorstr;
 }
 
+void NFD_Path_Free( nfdchar_t *path )
+{
+    NFDi_Free( path );
+}
+
 size_t NFD_PathSet_GetCount( const nfdpathset_t *pathset )
 {
     assert(pathset);

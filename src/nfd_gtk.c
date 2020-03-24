@@ -201,13 +201,13 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         {
             size_t len = strlen(filename);
             *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
             if ( !*outPath )
             {
                 g_free( filename );
                 gtk_widget_destroy(dialog);
                 return NFD_ERROR;
             }
+            memcpy( *outPath, filename, len + 1 );
         }
         g_free( filename );
 

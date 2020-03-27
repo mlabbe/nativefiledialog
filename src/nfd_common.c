@@ -100,6 +100,7 @@ int32_t NFDi_UTF8_Strlen( const nfdchar_t *str )
 	int32_t character_count = 0;
 	int32_t i = 0; /* Counter used to iterate over string. */
 	nfdchar_t maybe_bom[4];
+    unsigned char c;
 	
 	/* If there is UTF-8 BOM ignore it. */
 	if (strlen(str) > 2)
@@ -112,17 +113,18 @@ int32_t NFDi_UTF8_Strlen( const nfdchar_t *str )
 	
 	while(str[i])
 	{
-		if (str[i] >> 7 == 0)
+		c = (unsigned char)str[i];
+		if (c >> 7 == 0)
         {
             /* If bit pattern begins with 0 we have ascii character. */ 
 			++character_count;
         }
-		else if (str[i] >> 6 == 3)
+		else if (c >> 6 == 3)
         {
 		/* If bit pattern begins with 11 it is beginning of UTF-8 byte sequence. */
 			++character_count;
         }
-		else if (str[i] >> 6 == 2)
+		else if (c >> 6 == 2)
 			;		/* If bit pattern begins with 10 it is middle of utf-8 byte sequence. */
 		else
         {

@@ -14,7 +14,8 @@ newoption {
    description = "Choose a dialog backend for linux",
    allowed = {
       { "gtk3", "GTK 3 - link to gtk3 directly" },      
-      { "zenity", "Zenity - generate dialogs on the end users machine with zenity" }
+      { "zenity", "Zenity - generate dialogs on the end users machine with zenity" },
+      { "cocoa", "Cocoa - Use the Cocoa API from GNUstep" }
    }
 }
 
@@ -93,6 +94,10 @@ workspace "NativeFileDialog"
     filter {"system:linux", "options:linux_backend=zenity"}
       language "C"
       files {root_dir.."src/nfd_zenity.c"}
+    filter {"system:linux", "options:linux_backend=cocoa"}
+      language "C"
+      files {root_dir.."src/nfd_cocoa.m"}
+      buildoptions {"-std=c99 `gnustep-config --objc-flags`"}
 
 
     -- visual studio filters
@@ -132,6 +137,8 @@ local make_test = function(name)
       linkoptions {"-lnfd `pkg-config --libs gtk+-3.0`"}
     filter {"configurations:Release", "system:linux", "options:linux_backend=zenity"}
       linkoptions {"-lnfd"}
+    filter {"configurations:Release", "system:linux", "options:linux_backend=cocoa"}
+      linkoptions {"-lnfd `gnustep-config --gui-libs`"}
 
     filter {"system:macosx"}
       links {"Foundation.framework", "AppKit.framework"}
@@ -140,6 +147,9 @@ local make_test = function(name)
       linkoptions {"-lnfd_d `pkg-config --libs gtk+-3.0`"}
     filter {"configurations:Debug", "system:linux", "options:linux_backend=zenity"}
       linkoptions {"-lnfd_d"}
+    filter {"configurations:Debug", "system:linux", "options:linux_backend=cocoa"}
+      linkoptions {"-lnfd `gnustep-config --gui-libs`"}
+      buildoptions {"`gnustep-config --debug-flags`"}
 
 
 
@@ -163,8 +173,10 @@ newaction
       local premake_do_action = function(action,os_str,special,args)
          local premake_dir
          if special then
-            if args['linux_backend'] ~= nil then
+            if args['linux_backend'] == 'zenity' then
                premake_dir = "./"..action.."_"..os_str..'_zenity'
+            elseif args['linux_backend'] == 'cocoa' then
+               premake_dir = "./"..action.."_"..os_str..'_cocoa'
             else
                premake_dir = "./"..action.."_"..os_str
             end
@@ -192,6 +204,7 @@ newaction
       premake_do_action("xcode4", "macosx", false,{})
       premake_do_action("gmake", "linux", true,{})
       premake_do_action("gmake", "linux", true,{linux_backend='zenity'})
+      premake_do_action("gmake", "linux", true,{linux_backend='cocoa'})
       premake_do_action("gmake", "macosx", true,{})
       premake_do_action("gmake", "windows", true,{})
    end

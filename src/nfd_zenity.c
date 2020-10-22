@@ -31,7 +31,7 @@ static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t b
 
 static void AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, const char *filterList )
 {
-    char typebuf[NFD_MAX_STRLEN] = {0};
+    char typebuf[NFD_MAX_STRLEN - 2] = {0};
     const char *p_filterList = filterList;
     char *p_typebuf = typebuf;
     char filterName[NFD_MAX_STRLEN] = {0};
@@ -48,14 +48,14 @@ static void AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, cons
             char typebufWildcard[NFD_MAX_STRLEN];
             /* add another type to the filter */
             assert( strlen(typebuf) > 0 );
-            assert( strlen(typebuf) < NFD_MAX_STRLEN-1 );
+            assert( strlen(typebuf) < NFD_MAX_STRLEN - 3 );
             
             snprintf( typebufWildcard, NFD_MAX_STRLEN, "*.%s", typebuf );
 
             AddTypeToFilterName( typebuf, filterName, NFD_MAX_STRLEN );
             
             p_typebuf = typebuf;
-            memset( typebuf, 0, sizeof(char) * NFD_MAX_STRLEN );
+            memset( typebuf, 0, sizeof(char) * NFD_MAX_STRLEN - 2);
         }
         
         if ( *p_filterList == ';' || *p_filterList == '\0' )

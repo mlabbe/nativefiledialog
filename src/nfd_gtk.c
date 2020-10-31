@@ -32,7 +32,7 @@ static void AddTypeToFilterName( const char *typebuf, char *filterName, size_t b
 static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
 {
     GtkFileFilter *filter;
-    char typebuf[NFD_MAX_STRLEN] = {0};
+    char typebuf[NFD_MAX_STRLEN-2] = {0};
     const char *p_filterList = filterList;
     char *p_typebuf = typebuf;
     char filterName[NFD_MAX_STRLEN] = {0};

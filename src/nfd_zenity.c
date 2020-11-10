@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-#include "nfd.h"
+#include "include/nfd.h"
 #include "nfd_common.h"
 
 #define SIMPLE_EXEC_IMPLEMENTATION

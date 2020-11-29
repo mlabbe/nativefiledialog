@@ -165,6 +165,19 @@ static void WaitForCleanup(void)
     while (gtk_events_pending())
         gtk_main_iteration();
 }
+
+static void ConfigureFocus(GtkWidget *dialog)
+{
+#if defined(GDK_WINDOWING_X11)
+    /* Work around focus issue on X11 (https://github.com/mlabbe/nativefiledialog/issues/79) */
+    gtk_widget_show_all(dialog);
+    if (GDK_IS_X11_DISPLAY(gdk_display_get_default())) {
+        GdkWindow *window = gtk_widget_get_window(dialog);
+        gdk_window_set_events(window, gdk_window_get_events(window) | GDK_PROPERTY_CHANGE_MASK);
+        gtk_window_present_with_time(GTK_WINDOW(dialog), gdk_x11_get_server_time(window));
+    }
+#endif /* defined(GDK_WINDOWING_X11) */
+}
                                  
 /* public */
 
@@ -194,15 +207,7 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
     /* Set the default path */
     SetDefaultPath(dialog, defaultPath);
 
-#if defined(GDK_WINDOWING_X11)
-    /* Work around focus issue on X11 (https://github.com/mlabbe/nativefiledialog/issues/79) */
-    gtk_widget_show_all(dialog);
-    if (GDK_IS_X11_DISPLAY(gdk_display_get_default())) {
-        GdkWindow *window = gtk_widget_get_window(dialog);
-        gdk_window_set_events(window, gdk_window_get_events(window) | GDK_PROPERTY_CHANGE_MASK);
-        gtk_window_present_with_time(GTK_WINDOW(dialog), gdk_x11_get_server_time(window));
-    }
-#endif /* defined(GDK_WINDOWING_X11) */
+    ConfigureFocus(dialog);
 
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -262,6 +267,8 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     /* Set the default path */
     SetDefaultPath(dialog, defaultPath);
 
+    ConfigureFocus(dialog);
+
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -308,6 +315,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 
     /* Set the default path */
     SetDefaultPath(dialog, defaultPath);
+
+    ConfigureFocus(dialog);
     
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -361,6 +370,8 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
 
     /* Set the default path */
     SetDefaultPath(dialog, defaultPath);
+
+    ConfigureFocus(dialog);
     
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )

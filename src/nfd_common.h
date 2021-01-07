@@ -30,7 +30,7 @@ void   NFDi_SetError( const char *msg );
 int    NFDi_SafeStrncpy( char *dst, const char *src, size_t maxCopy );
 int32_t NFDi_UTF8_Strlen( const nfdchar_t *str );
 int    NFDi_IsFilterSegmentChar( char ch );
-    
+void   NFDi_SplitPath(const char *path, const char **out_dir, const char **out_filename);
 #ifdef __cplusplus
 }
 #endif

@@ -9,6 +9,10 @@
 #include <string.h>
 #include "nfd_common.h"
 
+#define FTG_IMPLEMENT_CORE
+#include "ftg_core.h"
+
+
 static char g_errorstr[NFD_MAX_STRLEN] = {0};
 
 /* public routines */
@@ -140,3 +144,20 @@ int NFDi_IsFilterSegmentChar( char ch )
     return (ch==','||ch==';'||ch=='\0');
 }
 
+void NFDi_SplitPath(const char *path, const char **out_dir, const char **out_filename) {
+
+    // test filesystem to early out test on 'c:\path', which can't be
+    // determined to not be a filename called `path` at `c:\`
+    // otherwise.
+    if (ftg_is_dir(path)) {
+        *out_dir = path;
+        *out_filename = NULL;
+        return;
+    }
+
+    const char *filename = ftg_get_filename_from_path(path);
+    if (filename[0]) {
+        *out_filename = filename;
+    }
+    *out_dir = path;
+}

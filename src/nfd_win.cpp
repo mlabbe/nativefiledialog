@@ -27,7 +27,6 @@
 #include <shobjidl.h>
 #include "nfd_common.h"
 
-
 #define COM_INITFLAGS ::COINIT_APARTMENTTHREADED | ::COINIT_DISABLE_OLE1DDE
 
 static BOOL COMIsInitialized(HRESULT coResult)
@@ -104,11 +103,11 @@ static int CopyWCharToExistingNFDCharBuffer( const wchar_t *inStr, nfdchar_t *ou
 
 
 // allocs the space in outStr -- call free()
-static void CopyNFDCharToWChar( const nfdchar_t *inStr, wchar_t **outStr )
+static void CopyNFDCharToWChar( const nfdchar_t *inStr, size_t inStrLen, wchar_t **outStr )
 {
-    int inStrByteCount = static_cast<int>(strlen(inStr));
+    int inStrByteCount = (int)inStrLen; /* byte count does not include terminator */
     int charsNeeded = MultiByteToWideChar(CP_UTF8, 0,
-                                          inStr, inStrByteCount,
+                                          inStr, (int)inStrByteCount,
                                           NULL, 0 );    
     assert( charsNeeded );
     assert( !*outStr );
@@ -118,17 +117,10 @@ static void CopyNFDCharToWChar( const nfdchar_t *inStr, wchar_t **outStr )
     if ( !*outStr )
         return;        
 
-    int ret = MultiByteToWideChar(CP_UTF8, 0,
-                                  inStr, inStrByteCount,
-                                  *outStr, charsNeeded);
+    MultiByteToWideChar(CP_UTF8, 0,
+                        inStr, (int)inStrByteCount,
+                        *outStr, charsNeeded);
     (*outStr)[charsNeeded-1] = '\0';
-
-#ifdef _DEBUG
-    int inStrCharacterCount = static_cast<int>(NFDi_UTF8_Strlen(inStr));
-    assert( ret == inStrCharacterCount );
-#else
-    _NFD_UNUSED(ret);
-#endif
 }
 
 
@@ -211,8 +203,8 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
         {
             /* end of filter -- add it to specList */
                                 
-            CopyNFDCharToWChar( specbuf, (wchar_t**)&specList[specIdx].pszName );
-            CopyNFDCharToWChar( specbuf, (wchar_t**)&specList[specIdx].pszSpec );
+            CopyNFDCharToWChar( specbuf, strlen(specbuf), (wchar_t**)&specList[specIdx].pszName );
+            CopyNFDCharToWChar( specbuf, strlen(specbuf), (wchar_t**)&specList[specIdx].pszSpec );
                         
             memset( specbuf, 0, sizeof(char)*NFD_MAX_STRLEN );
             ++specIdx;
@@ -347,13 +339,24 @@ static nfdresult_t AllocPathSet( IShellItemArray *shellItems, nfdpathset_t *path
 }
 
 
-static nfdresult_t SetDefaultPath( IFileDialog *dialog, const char *defaultPath )
+static nfdresult_t SetDefaultDir( IFileDialog *dialog, const char *defaultPath )
 {
-    if ( !defaultPath || strlen(defaultPath) == 0 )
+    if ( !defaultPath || defaultPath[0] == '\0' )
         return NFD_OKAY;
 
+    const char *defaultDir, *defaultFilename;
+    NFDi_SplitPath(defaultPath, &defaultDir, &defaultFilename);
+
+    size_t defaultDirLen;
+    if (defaultFilename) {
+        assert(defaultFilename > defaultDir);
+        defaultDirLen = defaultFilename - defaultDir;
+    } else {
+        defaultDirLen = strlen(defaultDir);
+    }
+
     wchar_t *defaultPathW = {0};
-    CopyNFDCharToWChar( defaultPath, &defaultPathW );
+    CopyNFDCharToWChar( defaultPath, defaultDirLen, &defaultPathW );
 
     IShellItem *folder;
     HRESULT result = SHCreateItemFromParsingName( defaultPathW, NULL, IID_PPV_ARGS(&folder) );
@@ -379,6 +382,26 @@ static nfdresult_t SetDefaultPath( IFileDialog *dialog, const char *defaultPath 
     folder->Release();
     
     return NFD_OKAY;
+}
+
+static void SetDefaultFile( IFileDialog *dialog, const char *defaultPath)
+{
+    if ( !defaultPath || defaultPath[0] == '\0' )
+        return;
+
+    const char *defaultDir, *defaultFilename;
+    NFDi_SplitPath(defaultPath, &defaultDir, &defaultFilename);
+
+    // no filename in to set -- nothing to do
+    if (!defaultFilename)
+        return;
+
+    wchar_t *defaultFilenameW = {0};
+    CopyNFDCharToWChar( defaultFilename, strlen(defaultFilename), &defaultFilenameW);
+
+    dialog->SetFileName( defaultFilenameW );
+
+    NFDi_Free( defaultFilenameW );
 }
 
 /* public */
@@ -416,11 +439,14 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
         goto end;
     }
 
-    // Set the default path
-    if ( !SetDefaultPath( fileOpenDialog, defaultPath ) )
+    // Set the default dir
+    if ( !SetDefaultDir( fileOpenDialog, defaultPath ) )
     {
         goto end;
-    }    
+    }
+
+    // Set the default filename
+    SetDefaultFile( fileOpenDialog, defaultPath );
 
     // Show the dialog.
     result = fileOpenDialog->Show(NULL);
@@ -507,11 +533,14 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
         goto end;
     }
 
-    // Set the default path
-    if ( !SetDefaultPath( fileOpenDialog, defaultPath ) )
+    // Set the default dir
+    if ( !SetDefaultDir( fileOpenDialog, defaultPath ) )
     {
         goto end;
     }
+
+    // Set the default filename
+    SetDefaultFile( fileOpenDialog, defaultPath );
 
     // Set a flag for multiple options
     DWORD dwFlags;
@@ -600,11 +629,14 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
         goto end;
     }
 
-    // Set the default path
-    if ( !SetDefaultPath( fileSaveDialog, defaultPath ) )
+    // Set the default dir
+    if ( !SetDefaultDir( fileSaveDialog, defaultPath ) )
     {
         goto end;
     }
+
+    // Set the default filename
+    SetDefaultFile( fileSaveDialog, defaultPath );
 
     // Show the dialog.
     result = fileSaveDialog->Show(NULL);
@@ -685,10 +717,10 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
         goto end;
     }
 
-    // Set the default path
-    if (SetDefaultPath(fileDialog, defaultPath) != NFD_OKAY)
+    // Set the default dir
+    if (SetDefaultDir(fileDialog, defaultPath) != NFD_OKAY)
     {
-        NFDi_SetError("SetDefaultPath failed.");
+        NFDi_SetError("SetDefaultDir failed.");
         goto end;
     }
 

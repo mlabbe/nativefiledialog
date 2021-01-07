@@ -11,6 +11,7 @@
 #include "nfd.h"
 #include "nfd_common.h"
 
+#include "ftg_core.h"
 
 const char INIT_FAIL_MSG[] = "gtk_init_check failed to initilaize GTK+";
 
@@ -46,12 +47,12 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
         
         if ( NFDi_IsFilterSegmentChar(*p_filterList) )
         {
-            char typebufWildcard[NFD_MAX_STRLEN];
+            char typebufWildcard[NFD_MAX_STRLEN+3];
             /* add another type to the filter */
             assert( strlen(typebuf) > 0 );
             assert( strlen(typebuf) < NFD_MAX_STRLEN-1 );
             
-            snprintf( typebufWildcard, NFD_MAX_STRLEN, "*.%s", typebuf );
+            snprintf( typebufWildcard, NFD_MAX_STRLEN+3, "*.%s", typebuf );
             AddTypeToFilterName( typebuf, filterName, NFD_MAX_STRLEN );
             
             gtk_file_filter_add_pattern( filter, typebufWildcard );
@@ -92,17 +93,23 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
     gtk_file_chooser_add_filter( GTK_FILE_CHOOSER(dialog), filter );
 }
 
-static void SetDefaultPath( GtkWidget *dialog, const char *defaultPath )
+static void SetDefaultDir( GtkWidget *dialog, const char *defaultPath )
 {
-    if ( !defaultPath || strlen(defaultPath) == 0 )
+    fflush(stdout);
+    if ( !defaultPath || defaultPath[0] == '\0' )
         return;
 
     /* GTK+ manual recommends not specifically setting the default path.
        We do it anyway in order to be consistent across platforms.
 
-       If consistency with the native OS is preferred, this is the line
+       If consistency with the native OS is preferred, this is the section
        to comment out. -ml */
-    gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(dialog), defaultPath );
+
+    if (ftg_is_dir(defaultPath))
+        gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER(dialog), defaultPath);
+    else
+        gtk_file_chooser_set_filename( GTK_FILE_CHOOSER(dialog), defaultPath);
+
 }
 
 static nfdresult_t AllocPathSet( GSList *fileList, nfdpathset_t *pathSet )
@@ -188,8 +195,8 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
     /* Build the filter list */
     AddFiltersToDialog(dialog, filterList);
 
-    /* Set the default path */
-    SetDefaultPath(dialog, defaultPath);
+    /* Set the default dir */
+    SetDefaultDir(dialog, defaultPath);
 
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -246,8 +253,8 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     /* Build the filter list */
     AddFiltersToDialog(dialog, filterList);
 
-    /* Set the default path */
-    SetDefaultPath(dialog, defaultPath);
+    /* Set the default dir */
+    SetDefaultDir(dialog, defaultPath);
 
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -293,8 +300,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     /* Build the filter list */    
     AddFiltersToDialog(dialog, filterList);
 
-    /* Set the default path */
-    SetDefaultPath(dialog, defaultPath);
+    /* Set the default dir */
+    SetDefaultDir(dialog, defaultPath);
     
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -346,8 +353,8 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     gtk_file_chooser_set_do_overwrite_confirmation( GTK_FILE_CHOOSER(dialog), TRUE );
 
 
-    /* Set the default path */
-    SetDefaultPath(dialog, defaultPath);
+    /* Set the default dir */
+    SetDefaultDir(dialog, defaultPath);
     
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )

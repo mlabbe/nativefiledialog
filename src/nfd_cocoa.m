@@ -8,6 +8,8 @@
 #include "nfd.h"
 #include "nfd_common.h"
 
+#include "ftg_core.h"
+
 static NSArray *BuildAllowedFileTypes( const char *filterList )
 {
     // Commas and semicolons are the same thing on this platform
@@ -59,11 +61,37 @@ static void AddFilterListToDialog( NSSavePanel *dialog, const char *filterList )
 
 static void SetDefaultPath( NSSavePanel *dialog, const nfdchar_t *defaultPath )
 {
-    if ( !defaultPath || strlen(defaultPath) == 0 )
+    if ( !defaultPath || defaultPath[0] == '\0' )
         return;
+    
+    // If the file in defaultPath doesn't exist, fall back to just using the directory.
+    // Cocoa behaviour here ignores the entire defaultPath if the file at the end of
+    // the path doesn't exist, falling back to an internally computed path.
+    //
+    // We override this behaviour to be consistent on all platforms:
+    // just open the directory in question in the dialog and have no file selected.
+    const char *defaultDir, *defaultFilename;
+    NFDi_SplitPath(defaultPath, &defaultDir, &defaultFilename);
+    
+    bool onlyUseDirectory = true;
+    if (defaultFilename) {
+        if (ftg_path_exists(defaultPath)) {
+            onlyUseDirectory = false;
+        }
+    }
+    
+    NSString *defaultPathString;
+    if (defaultFilename && onlyUseDirectory) {
+        assert(defaultFilename > defaultDir);
+        defaultPathString = [NSString stringWithFormat:@"%.*s",
+                             (int)(defaultFilename - defaultDir),
+                             defaultDir];
+    } else {
+        defaultPathString = [NSString stringWithUTF8String:defaultPath];
+    }
 
-    NSString *defaultPathString = [NSString stringWithUTF8String: defaultPath];
-    NSURL *url = [NSURL fileURLWithPath:defaultPathString isDirectory:YES];
+    NSURL *url = [NSURL fileURLWithPath:defaultPathString
+                        isDirectory:ftg_is_dir(defaultPath)];
     [dialog setDirectoryURL:url];    
 }
 

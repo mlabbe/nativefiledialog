@@ -36,8 +36,9 @@ workspace "NativeFileDialog"
   filter "system:macosx"
     platforms {"x64"}
   filter "system:windows or system:linux"
-    platforms {"x64", "x86", "arm64"}
-  
+    platforms {"x64", "x86"}
+  filter "system:linux"
+    platforms {"arm64"}
 
   objdir(path.join(build_dir, "obj/"))
 
@@ -120,7 +121,7 @@ local make_test = function(name)
       links {"nfd_d"}
       libdirs {build_dir.."/lib/Debug/x86"}
 
-    filter {"configurations:Debug", "architecture:arm64"}
+    filter {"configurations:Debug", "architecture:arm64", "system:linux"}
       links {"nfd_d"}
       libdirs {build_dir.."/lib/Debug/arm64"}
 
@@ -132,7 +133,7 @@ local make_test = function(name)
       links {"nfd"}
       libdirs {build_dir.."/lib/Release/x86"}
 
-    filter {"configurations:Release", "architecture:arm64"}
+    filter {"configurations:Release", "architecture:arm64", "system:linux"}
       links {"nfd"}
       libdirs {build_dir.."/lib/Release/arm64"}
 

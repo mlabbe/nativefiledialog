@@ -79,6 +79,7 @@ release | what's new                  | date
 <i></i> | -Wextra warning cleanup     | aug 2019
 1.2.0   | defaultPath can specify files now         | jan 2021
 <i></i> | extension automatically added when saving | jan 2021
+<i></i> | GTK dialog focus bugfix     | jan 2021
 
 ### Breaking Changes ###
 

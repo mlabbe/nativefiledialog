@@ -9,6 +9,9 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <ctype.h>
+#if defined(GDK_WINDOWING_X11)
+#include <gdk/gdkx.h>
+#endif /* defined(GDK_WINDOWING_X11) */
 #include "nfd.h"
 #include "nfd_common.h"
 
@@ -184,6 +187,7 @@ static void WaitForCleanup(void)
         gtk_main_iteration();
 }
 
+
 static char *AllocUserFilename(GtkWidget *dialog, char *gtk_filename) {
     // polyfill: if no extension, add the first extension from the
     // gtk file filter.
@@ -206,6 +210,20 @@ static char *AllocUserFilename(GtkWidget *dialog, char *gtk_filename) {
     }
 
     return outPath;
+}
+
+
+static void ConfigureFocus(GtkWidget *dialog)
+{
+#if defined(GDK_WINDOWING_X11)
+    /* Work around focus issue on X11 (https://github.com/mlabbe/nativefiledialog/issues/79) */
+    gtk_widget_show_all(dialog);
+    if (GDK_IS_X11_DISPLAY(gdk_display_get_default())) {
+        GdkWindow *window = gtk_widget_get_window(dialog);
+        gdk_window_set_events(window, gdk_window_get_events(window) | GDK_PROPERTY_CHANGE_MASK);
+        gtk_window_present_with_time(GTK_WINDOW(dialog), gdk_x11_get_server_time(window));
+    }
+#endif /* defined(GDK_WINDOWING_X11) */
 }
 
 /* public */
@@ -235,6 +253,8 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
 
     /* Set the default dir */
     SetDefaultDir(dialog, defaultPath);
+
+    ConfigureFocus(dialog);
 
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
@@ -287,6 +307,8 @@ nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
     /* Set the default dir */
     SetDefaultDir(dialog, defaultPath);
 
+    ConfigureFocus(dialog);
+
     result = NFD_CANCEL;
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -333,7 +355,8 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
 
     /* Set the default dir */
     SetDefaultDir(dialog, defaultPath);
-    
+    ConfigureFocus(dialog);
+
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -381,7 +404,9 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
 
     /* Set the default dir */
     SetDefaultDir(dialog, defaultPath);
-    
+
+    ConfigureFocus(dialog);
+
     result = NFD_CANCEL;    
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {

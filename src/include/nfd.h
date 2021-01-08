@@ -65,6 +65,8 @@ size_t      NFD_PathSet_GetCount( const nfdpathset_t *pathSet );
 nfdchar_t  *NFD_PathSet_GetPath( const nfdpathset_t *pathSet, size_t index );
 /* Free the pathSet */    
 void        NFD_PathSet_Free( nfdpathset_t *pathSet );
+/* Free any other memory allocated by NFD */
+void        NFD_Free(void *ptr);
 
 
 #ifdef __cplusplus

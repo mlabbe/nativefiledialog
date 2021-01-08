@@ -34,7 +34,7 @@ int main( void )
     if ( result == NFD_OKAY ) {
         puts("Success!");
         puts(outPath);
-        free(outPath);
+        NFD_Free(outPath);
     }
     else if ( result == NFD_CANCEL ) {
         puts("User pressed cancel.");
@@ -80,8 +80,9 @@ release | what's new                  | date
 1.2.0   | defaultPath can specify files now         | jan 2021
 <i></i> | extension automatically added when saving | jan 2021
 <i></i> | GTK dialog focus bugfix     | jan 2021
+<i></i> | Added NFD_Free()            | jan 2021
 
-### Breaking Changes ###
+### Breaking and Notable Changes ###
 
 There are no ABI breaking changes in NFD's history.
 
@@ -90,6 +91,8 @@ There are no ABI breaking changes in NFD's history.
  - If argument `filterList` is specified, a default extension is appended to the filename if the user does not take an action to specify one.  Previously no extension was added on the GTK3 and Win32 implementations, but was added on MacOS.
 
  - Argument `defaultPath` sometimes failed to display the specified directory if a file was included in the `defaultPath` but the file did not exist.  In 1.2.0, polyfill was added to display the directory even if the file doesn't exist. 
+ 
+ - `NFD_Free()` was added, and can be used in place of `free()`.  This was done to facilitate usage of NFD in a DLL on Windows.  Otherwise, there is no difference.
 
 ## Building ##
 

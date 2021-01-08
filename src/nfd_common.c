@@ -43,6 +43,10 @@ void NFD_PathSet_Free( nfdpathset_t *pathset )
     NFDi_Free( pathset->buf );
 }
 
+void NFD_Free(void *ptr) {
+    NFDi_Free(ptr);
+}
+
 /* internal routines */
 
 void *NFDi_Malloc( size_t bytes )

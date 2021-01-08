@@ -14,7 +14,7 @@ ifeq ($(config),release_x64)
   RESCOMP = windres
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_opendialog.exe
-  OBJDIR = ../obj/x64/Release/test_opendialog
+  OBJDIR = obj/x64/Release/test_opendialog
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -41,7 +41,7 @@ ifeq ($(config),release_x86)
   RESCOMP = windres
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_opendialog.exe
-  OBJDIR = ../obj/x86/Release/test_opendialog
+  OBJDIR = obj/x86/Release/test_opendialog
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -68,7 +68,7 @@ ifeq ($(config),debug_x64)
   RESCOMP = windres
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_opendialog_d.exe
-  OBJDIR = ../obj/x64/Debug/test_opendialog
+  OBJDIR = obj/x64/Debug/test_opendialog
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
@@ -95,7 +95,7 @@ ifeq ($(config),debug_x86)
   RESCOMP = windres
   TARGETDIR = ../bin
   TARGET = $(TARGETDIR)/test_opendialog_d.exe
-  OBJDIR = ../obj/x86/Debug/test_opendialog
+  OBJDIR = obj/x86/Debug/test_opendialog
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=

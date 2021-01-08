@@ -12,6 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		073D89061E5024380E6C1F46 /* ftg_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ftg_core.h; path = ../../src/ftg_core.h; sourceTree = "<group>"; };
 		42F539D06B2FF28252CB8010 /* simple_exec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = simple_exec.h; path = ../../src/simple_exec.h; sourceTree = "<group>"; };
 		4E280AA77CCE5E99D60FB8E7 /* libnfd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnfd.a; path = libnfd.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7B972AA2EC7B5CE78B4D6A /* nfd_common.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = nfd_common.c; path = ../../src/nfd_common.c; sourceTree = "<group>"; };
@@ -36,6 +37,7 @@
 			isa = PBXGroup;
 			children = (
 				5E955E0662063038E372D446 /* common.h */,
+				073D89061E5024380E6C1F46 /* ftg_core.h */,
 				5E8C725002DF100215175890 /* include */,
 				906CCB56B692FB081D99F196 /* nfd_cocoa.m */,
 				5A7B972AA2EC7B5CE78B4D6A /* nfd_common.c */,

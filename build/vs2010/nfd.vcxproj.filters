@@ -7,6 +7,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\common.h" />
+    <ClInclude Include="..\..\src\ftg_core.h" />
     <ClInclude Include="..\..\src\include\nfd.h">
       <Filter>include</Filter>
     </ClInclude>

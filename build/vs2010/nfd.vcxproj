@@ -66,25 +66,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\lib\Release\x64\</OutDir>
-    <IntDir>..\obj\x64\Release\nfd\</IntDir>
+    <IntDir>obj\x64\Release\nfd\</IntDir>
     <TargetName>nfd</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\lib\Release\x86\</OutDir>
-    <IntDir>..\obj\x86\Release\nfd\</IntDir>
+    <IntDir>obj\x86\Release\nfd\</IntDir>
     <TargetName>nfd</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\lib\Debug\x64\</OutDir>
-    <IntDir>..\obj\x64\Debug\nfd\</IntDir>
+    <IntDir>obj\x64\Debug\nfd\</IntDir>
     <TargetName>nfd_d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\lib\Debug\x86\</OutDir>
-    <IntDir>..\obj\x86\Debug\nfd\</IntDir>
+    <IntDir>obj\x86\Debug\nfd\</IntDir>
     <TargetName>nfd_d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\common.h" />
+    <ClInclude Include="..\..\src\ftg_core.h" />
     <ClInclude Include="..\..\src\include\nfd.h" />
     <ClInclude Include="..\..\src\nfd_common.h" />
     <ClInclude Include="..\..\src\simple_exec.h" />

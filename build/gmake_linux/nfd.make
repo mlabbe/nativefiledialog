@@ -64,6 +64,33 @@ all: prebuild prelink $(TARGET)
 
 endif
 
+ifeq ($(config),release_arm64)
+  RESCOMP = windres
+  TARGETDIR = ../lib/Release/arm64
+  TARGET = $(TARGETDIR)/libnfd.a
+  OBJDIR = ../obj/arm64/Release/nfd
+  DEFINES += -DNDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -fno-exceptions `pkg-config --cflags gtk+-3.0`
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -fno-exceptions `pkg-config --cflags gtk+-3.0`
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
 ifeq ($(config),debug_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/Debug/x64
@@ -106,6 +133,33 @@ ifeq ($(config),debug_x86)
   LIBS +=
   LDDEPS +=
   ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),debug_arm64)
+  RESCOMP = windres
+  TARGETDIR = ../lib/Debug/arm64
+  TARGET = $(TARGETDIR)/libnfd_d.a
+  OBJDIR = ../obj/arm64/Debug/nfd
+  DEFINES += -DDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -fno-exceptions `pkg-config --cflags gtk+-3.0`
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -fno-exceptions `pkg-config --cflags gtk+-3.0`
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS)
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef

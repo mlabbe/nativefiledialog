@@ -25,6 +25,7 @@ extern "C" {
 
 
 void  *NFDi_Malloc( size_t bytes );
+void  *NFDi_Calloc( size_t num, size_t size );
 void   NFDi_Free( void *ptr );
 void   NFDi_SetError( const char *msg );
 int    NFDi_SafeStrncpy( char *dst, const char *src, size_t maxCopy );

@@ -5,7 +5,7 @@
  */
 
 #include <AppKit/AppKit.h>
-#include "nfd.h"
+#include "include/nfd.h"
 #include "nfd_common.h"
 
 #include "ftg_core.h"

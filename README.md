@@ -83,6 +83,7 @@ release | what's new                  | date
 <i></i> | Added NFD_Free()            | jan 2021
 <i></i> | Fix vs2019 debug assert     | jan 2021
 <i></i> | Fix zenity debug assert     | jan 2021
+<i></i> | add clang-format            | jan 2021
 
 ### Breaking and Notable Changes ###
 

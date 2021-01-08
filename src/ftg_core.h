@@ -1,3 +1,4 @@
+/* clang-format off */
 /* ftg_core.h - v0.5  - Frogtoss Toolbox.  Public domain-like license below.
 
    ftg libraries are copyright (C) 2015 Frogtoss Games, Inc.

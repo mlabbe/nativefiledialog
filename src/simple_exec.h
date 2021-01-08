@@ -29,6 +29,8 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
 #include <fcntl.h>
 #include <signal.h>
 
+#include "ftg_core.h"
+
 #define release_assert(exp) { if (!(exp)) { abort(); } }
 
 enum PIPE_FILE_DESCRIPTORS
@@ -43,7 +45,7 @@ enum RUN_COMMAND_ERROR
     COMMAND_NOT_FOUND = 1
 };
 
-void sigchldHandler(int p){}
+void sigchldHandler(int p){FTG_UNUSED(p);}
 
 int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* const* allArgs)
 {
@@ -67,7 +69,7 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
     int errPipe[2];
     release_assert(pipe(errPipe) == 0);
 
-    void (*prev_handler)(int);
+    void (*prevHandler)(int);
     prevHandler = signal(SIGCHLD, sigchldHandler);
 
     pid_t pid;

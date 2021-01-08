@@ -45,12 +45,12 @@ static void AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, cons
         
         if ( NFDi_IsFilterSegmentChar(*p_filterList) )
         {
-            char typebufWildcard[NFD_MAX_STRLEN];
+            char typebufWildcard[NFD_MAX_STRLEN+3];
             /* add another type to the filter */
             assert( strlen(typebuf) > 0 );
             assert( strlen(typebuf) < NFD_MAX_STRLEN-1 );
             
-            snprintf( typebufWildcard, NFD_MAX_STRLEN, "*.%s", typebuf );
+            snprintf( typebufWildcard, NFD_MAX_STRLEN+3, "*.%s", typebuf );
 
             AddTypeToFilterName( typebuf, filterName, NFD_MAX_STRLEN );
             

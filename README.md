@@ -81,6 +81,8 @@ release | what's new                  | date
 <i></i> | extension automatically added when saving | jan 2021
 <i></i> | GTK dialog focus bugfix     | jan 2021
 <i></i> | Added NFD_Free()            | jan 2021
+<i></i> | Fix vs2019 debug assert     | jan 2021
+<i></i> | Fix zenity debug assert     | jan 2021
 
 ### Breaking and Notable Changes ###
 
@@ -188,6 +190,8 @@ Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
 [Denis Kolodin](https://github.com/DenisKolodin) for mingw support.
 
 [Tom Mason](https://github.com/wheybags) for Zenity support.
+
+Various pull requests and bugfixes -- thanks to the original authors.
 
 ## Support ##
 

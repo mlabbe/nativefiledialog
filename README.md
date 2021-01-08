@@ -77,6 +77,18 @@ release | what's new                  | date
 <i></i> | remove deprecated scons     | aug 2019
 <i></i> | fix mingw compilation       | aug 2019
 <i></i> | -Wextra warning cleanup     | aug 2019
+1.2.0   | defaultPath can specify files now         | jan 2021
+<i></i> | extension automatically added when saving | jan 2021
+
+### Breaking Changes ###
+
+There are no ABI breaking changes in NFD's history.
+
+#### 1.2.0 ####
+
+ - If argument `filterList` is specified, a default extension is appended to the filename if the user does not take an action to specify one.  Previously no extension was added on the GTK3 and Win32 implementations, but was added on MacOS.
+
+ - Argument `defaultPath` sometimes failed to display the specified directory if a file was included in the `defaultPath` but the file did not exist.  In 1.2.0, polyfill was added to display the directory even if the file doesn't exist. 
 
 ## Building ##
 
@@ -161,7 +173,7 @@ I accept quality code patches, or will resolve these and other matters through s
 
 # Copyright and Credit #
 
-Copyright &copy; 2014-2019 [Frogtoss Games](http://www.frogtoss.com), Inc.
+Copyright &copy; 2014-2021 [Frogtoss Games](http://www.frogtoss.com), Inc.
 File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe

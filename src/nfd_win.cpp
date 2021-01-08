@@ -146,7 +146,7 @@ static int AppendExtensionToSpecBuf( const char *ext, char *specBuf, size_t spec
     return NFD_OKAY;
 }
 
-static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char *filterList )
+static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileDialog, const char *filterList )
 {
     const wchar_t WILDCARD[] = L"*.*";
 
@@ -192,8 +192,15 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     {
         if ( NFDi_IsFilterSegmentChar(*p_filterList) )
         {
+            if (specbuf[0] == '\0') {
+                wchar_t *ext = NULL;
+                CopyNFDCharToWChar(typebuf, strlen(typebuf), &ext);
+                fileDialog->SetDefaultExtension(ext);
+                NFDi_Free(ext);
+            }
+
             /* append a type to the specbuf (pending filter) */
-            AppendExtensionToSpecBuf( typebuf, specbuf, NFD_MAX_STRLEN );            
+            AppendExtensionToSpecBuf( typebuf, specbuf, NFD_MAX_STRLEN );
 
             p_typebuf = typebuf;
             memset( typebuf, 0, sizeof(char)*NFD_MAX_STRLEN );
@@ -225,7 +232,7 @@ static nfdresult_t AddFiltersToDialog( ::IFileDialog *fileOpenDialog, const char
     specList[specIdx].pszSpec = WILDCARD;
     specList[specIdx].pszName = WILDCARD;
     
-    fileOpenDialog->SetFileTypes( filterCount+1, specList );
+    fileDialog->SetFileTypes( filterCount+1, specList );
 
     /* free speclist */
     for ( size_t i = 0; i < filterCount; ++i )

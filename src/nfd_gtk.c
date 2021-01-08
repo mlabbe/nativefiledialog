@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <ctype.h>
 #include "nfd.h"
 #include "nfd_common.h"
 
@@ -51,7 +52,7 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
             /* add another type to the filter */
             assert( strlen(typebuf) > 0 );
             assert( strlen(typebuf) < NFD_MAX_STRLEN-1 );
-            
+
             snprintf( typebufWildcard, NFD_MAX_STRLEN+3, "*.%s", typebuf );
             AddTypeToFilterName( typebuf, filterName, NFD_MAX_STRLEN );
             
@@ -91,6 +92,19 @@ static void AddFiltersToDialog( GtkWidget *dialog, const char *filterList )
     gtk_file_filter_set_name( filter, "*.*" );
     gtk_file_filter_add_pattern( filter, "*" );
     gtk_file_chooser_add_filter( GTK_FILE_CHOOSER(dialog), filter );
+}
+
+static void GetFirstFilterExtension(const char *filterList, char outExt[NFD_MAX_STRLEN]) {
+    const char *p = filterList;
+
+    size_t len = 0;
+    while (len < NFD_MAX_STRLEN-1 && isalpha(*p)) {
+        len = p - filterList;
+        outExt[len] = *p;
+        p++;
+
+    }
+    outExt[len+1] = '\0';
 }
 
 static void SetDefaultDir( GtkWidget *dialog, const char *defaultPath )
@@ -169,7 +183,31 @@ static void WaitForCleanup(void)
     while (gtk_events_pending())
         gtk_main_iteration();
 }
-                                 
+
+static char *AllocUserFilename(GtkWidget *dialog, char *gtk_filename) {
+    // polyfill: if no extension, add the first extension from the
+    // gtk file filter.
+    char filter_ext[NFD_MAX_STRLEN] = {0};
+
+    GtkFileFilter *ff = gtk_file_chooser_get_filter( GTK_FILE_CHOOSER(dialog));
+    if (ff)
+        GetFirstFilterExtension(gtk_file_filter_get_name( GTK_FILE_FILTER(ff)), filter_ext);
+
+    char *specified_ext = ftg_get_filename_ext(gtk_filename);
+    char *outPath;
+
+    if (specified_ext[0] == '\0' &&
+        filter_ext[0] != '\0' &&
+        gtk_filename[strlen(gtk_filename)-1] != '.') {
+
+        outPath = ftg_strcatall(3, gtk_filename, ".", filter_ext);
+    } else {
+        outPath = ftg_strcatall(1, gtk_filename);
+    }
+
+    return outPath;
+}
+
 /* public */
 
 nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
@@ -202,22 +240,15 @@ nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
     if ( gtk_dialog_run( GTK_DIALOG(dialog) ) == GTK_RESPONSE_ACCEPT )
     {
         char *filename;
-
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
+        *outPath = AllocUserFilename(dialog, filename);
+        g_free(filename);
 
-        {
-            size_t len = strlen(filename);
-            *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
-            if ( !*outPath )
-            {
-                g_free( filename );
-                gtk_widget_destroy(dialog);
-                return NFD_ERROR;
-            }
+        if (!(*outPath)) {
+            gtk_widget_destroy(dialog);
+            NFDi_SetError("Error allocating bytes");
+            return NFD_ERROR;
         }
-        g_free( filename );
-
         result = NFD_OKAY;
     }
 
@@ -308,19 +339,14 @@ nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
     {
         char *filename;
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
-        
-        {
-            size_t len = strlen(filename);
-            *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
-            if ( !*outPath )
-            {
-                g_free( filename );
-                gtk_widget_destroy(dialog);
-                return NFD_ERROR;
-            }
-        }
+        *outPath = AllocUserFilename(dialog, filename);
         g_free(filename);
+
+        if (!(*outPath)) {
+            gtk_widget_destroy(dialog);
+            NFDi_SetError("Error allocating bytes");
+            return NFD_ERROR;
+        }
 
         result = NFD_OKAY;
     }
@@ -361,19 +387,14 @@ nfdresult_t NFD_PickFolder(const nfdchar_t *defaultPath,
     {
         char *filename;
         filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
-        
-        {
-            size_t len = strlen(filename);
-            *outPath = NFDi_Malloc( len + 1 );
-            memcpy( *outPath, filename, len + 1 );
-            if ( !*outPath )
-            {
-                g_free( filename );
-                gtk_widget_destroy(dialog);
-                return NFD_ERROR;
-            }
-        }
+        *outPath = AllocUserFilename(dialog, filename);
         g_free(filename);
+
+        if (!(*outPath)) {
+            gtk_widget_destroy(dialog);
+            NFDi_SetError("Error allocating bytes");
+            return NFD_ERROR;
+        }
 
         result = NFD_OKAY;
     }

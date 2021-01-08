@@ -10,7 +10,7 @@ Features:
  - Simple universal file filter syntax.
  - Paid support available.
  - Multiple file selection support.
- - 64-bit and 32-bit friendly.
+ - x64, x86 and arm64 (Linux) support
  - GCC, Clang, Xcode, Mingw and Visual Studio supported.
  - No third party dependencies for building or linking.
  - Support for Vista's modern `IFileDialog` on Windows.
@@ -84,6 +84,7 @@ release | what's new                  | date
 <i></i> | Fix vs2019 debug assert     | jan 2021
 <i></i> | Fix zenity debug assert     | jan 2021
 <i></i> | add clang-format            | jan 2021
+<i></i> | Linux arm64 support         | jan 2021
 
 ### Breaking and Notable Changes ###
 
@@ -109,12 +110,14 @@ Previously, NFD used SCons to build.  As of 1.1.6, SCons support has been remove
 
 ### Makefiles ###
 
-The makefile offers up to four options, with `release_x64` as the default.
+The makefile offers up to six options, with `release_x64` as the default.
 
     make config=release_x86
     make config=release_x64
+    make config=release_arm64
     make config=debug_x86
     make config=debug_x64
+    make config=debug_arm64
 
 ### Compiling Your Programs ###
 

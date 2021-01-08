@@ -234,6 +234,8 @@
     #elif defined(__linux__)
         #ifdef __arm__
           #define FTG_BREAK() __asm__ volatile(".inst 0xde01");
+        #elif defined(__aarch64__)
+          #define FTG_BREAK() __builtin_trap();
         #else
           #define FTG_BREAK() __asm__("int $0x3");
         #endif

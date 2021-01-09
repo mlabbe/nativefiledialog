@@ -133,7 +133,7 @@ On Linux, you have the option of compiling and linking against GTK.  If you use 
 
 #### Linux Zenity ####
 
-Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
+Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.  For a full list of Zenity limitations, see "Known Limitations" below.
 
 #### MacOS ####
 
@@ -178,8 +178,11 @@ I accept quality code patches, or will resolve these and other matters through s
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
- - GTK Zenity implementation's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
- - GTK 3 spams one warning per dialog created.
+ - GTK 3 sometimes spams one warning per dialog created, depending on how GTK3 was built.
+ - The GTK Zenity backend (non-default) is a lightweight alternative intended only for small programs:
+   - It errors out if Zenity is not installed on the user's system
+   - This backend's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
+   - Unlike the other backends, the Zenity backend does not return implied extensions from filterlists. [#95](https://github.com/mlabbe/nativefiledialog/issues/95 "Issue 95")
 
 # Copyright and Credit #
 

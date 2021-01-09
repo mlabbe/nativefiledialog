@@ -137,6 +137,17 @@ AllocPathSet(NSArray* urls, nfdpathset_t* pathset)
     return NFD_OKAY;
 }
 
+void
+SetAppPolicy(void)
+{
+    NSApplication* app = [NSApplication sharedApplication];
+
+    NSApplicationActivationPolicy initial_policy = [app activationPolicy];
+    if (initial_policy == NSApplicationActivationPolicyProhibited) {
+        [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
+    }
+}
+
 /* public */
 
 
@@ -144,6 +155,8 @@ nfdresult_t
 NFD_OpenDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdchar_t** outPath)
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+    SetAppPolicy();
 
     NSWindow*    keyWindow = [[NSApplication sharedApplication] keyWindow];
     NSOpenPanel* dialog = [NSOpenPanel openPanel];
@@ -187,6 +200,8 @@ NFD_OpenDialogMultiple(const nfdchar_t* filterList,
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     NSWindow* keyWindow = [[NSApplication sharedApplication] keyWindow];
 
+    SetAppPolicy();
+
     NSOpenPanel* dialog = [NSOpenPanel openPanel];
     [dialog setAllowsMultipleSelection:YES];
 
@@ -227,6 +242,8 @@ NFD_SaveDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdcha
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     NSWindow* keyWindow = [[NSApplication sharedApplication] keyWindow];
 
+    SetAppPolicy();
+
     NSSavePanel* dialog = [NSSavePanel savePanel];
     [dialog setExtensionHidden:NO];
 
@@ -263,6 +280,8 @@ nfdresult_t
 NFD_PickFolder(const nfdchar_t* defaultPath, nfdchar_t** outPath)
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+    SetAppPolicy();
 
     NSWindow*    keyWindow = [[NSApplication sharedApplication] keyWindow];
     NSOpenPanel* dialog = [NSOpenPanel openPanel];

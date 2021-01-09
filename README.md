@@ -80,11 +80,13 @@ release | what's new                  | date
 1.2.0   | defaultPath can specify files now         | jan 2021
 <i></i> | extension automatically added when saving | jan 2021
 <i></i> | GTK dialog focus bugfix     | jan 2021
+<i></i> | Macos dialog focus bugfix   | jan 2021
 <i></i> | Added NFD_Free()            | jan 2021
 <i></i> | Fix vs2019 debug assert     | jan 2021
 <i></i> | Fix zenity debug assert     | jan 2021
 <i></i> | add clang-format            | jan 2021
 <i></i> | Linux arm64 support         | jan 2021
+
 
 ### Breaking and Notable Changes ###
 

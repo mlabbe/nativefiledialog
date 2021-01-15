@@ -205,12 +205,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LIBRARY_SEARCH_PATHS = (
-					../lib/Debug/x64,
+					../lib/Debug/arm64,
 				);
-				OBJROOT = obj/x64/Debug/test_opendialog;
+				OBJROOT = ../obj/arm64/Debug/test_opendialog;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
+				);
 				OTHER_LDFLAGS = (
 					"-lnfd_d",
+					"-target arm64-apple-macos11",
 				);
 				SYMROOT = ../bin;
 				USER_HEADER_SEARCH_PATHS = (
@@ -244,10 +248,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LIBRARY_SEARCH_PATHS = (
-					../lib/Release/x64,
+					../lib/Release/arm64,
 				);
-				OBJROOT = obj/x64/Release/test_opendialog;
+				OBJROOT = ../obj/arm64/Release/test_opendialog;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
+				);
+				OTHER_LDFLAGS = (
+					"-target arm64-apple-macos11",
+				);
 				SYMROOT = ../bin;
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
@@ -274,6 +284,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AC688EA60ECB89CC7F3AF2A /* Release */,
+				3AC688EA60ECB89CC7F3AF2A /* Release */,
+				188342B02F95DDE21FB1D8F0 /* Debug */,
 				188342B02F95DDE21FB1D8F0 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -283,6 +295,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2B21E9B97884DFEBEEA3DFF9 /* Release */,
+				2B21E9B97884DFEBEEA3DFF9 /* Release */,
+				888E12FF4BF9D4B18A9D793F /* Debug */,
 				888E12FF4BF9D4B18A9D793F /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;

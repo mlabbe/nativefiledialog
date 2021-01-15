@@ -46,3 +46,18 @@ Use `make help`  to see all available options.
 
 32-bit ARM is not currently supported.
 
+## Building Apple Silicon ##
+
+In 2020, Apple announced Apple Silicon.  This is fully supported by Native File Dialog. This can be targeted by passing `config=debug_arm64` to the Makefile in `gmake_macosx`.
+
+Further, a fat binary static library can be produced:
+
+```bash
+cd build/gmake_macosx
+./fat_bin.pl debug
+./fat_bin.pl release
+
+# (optional) see it for yourself
+lipo -archs ../lib/Debug/libnfd_d.a
+lipo -archs ../lib/Release/libnfd.a
+```

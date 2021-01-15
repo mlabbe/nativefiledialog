@@ -86,6 +86,8 @@ release | what's new                  | date
 <i></i> | Fix zenity debug assert     | jan 2021
 <i></i> | add clang-format            | jan 2021
 <i></i> | Linux arm64 support         | jan 2021
+<i></i> | Apple Silicon support       | jan 2021
+<i></i> | Macos fat binary builds     | jan 2021
 
 
 ### Breaking and Notable Changes ###

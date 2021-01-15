@@ -141,12 +141,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OBJROOT = obj/x64/Debug/nfd;
+				OBJROOT = ../obj/arm64/Debug/nfd;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
 					"-fno-exceptions",
 				);
-				SYMROOT = ../lib/Debug/x64;
+				OTHER_LDFLAGS = (
+					"-target arm64-apple-macos11",
+				);
+				SYMROOT = ../lib/Debug/arm64;
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
@@ -158,7 +162,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../lib/Release/x64;
+				CONFIGURATION_BUILD_DIR = ../lib/Release/arm64;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INSTALL_PATH = /usr/local/lib;
@@ -178,12 +182,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OBJROOT = obj/x64/Release/nfd;
+				OBJROOT = ../obj/arm64/Release/nfd;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
 					"-fno-exceptions",
 				);
-				SYMROOT = ../lib/Release/x64;
+				OTHER_LDFLAGS = (
+					"-target arm64-apple-macos11",
+				);
+				SYMROOT = ../lib/Release/arm64;
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
@@ -195,7 +203,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../lib/Debug/x64;
+				CONFIGURATION_BUILD_DIR = ../lib/Debug/arm64;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INSTALL_PATH = /usr/local/lib;
@@ -210,6 +218,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9E0596139F3EE13BC721FA1 /* Release */,
+				E9E0596139F3EE13BC721FA1 /* Release */,
+				6730896713934999D21BBFA7 /* Debug */,
 				6730896713934999D21BBFA7 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -219,6 +229,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8FABFCB6E6396728BEB27AF6 /* Release */,
+				8FABFCB6E6396728BEB27AF6 /* Release */,
+				F08D42BCDB7968AE235F30FC /* Debug */,
 				F08D42BCDB7968AE235F30FC /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;

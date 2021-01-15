@@ -15,12 +15,26 @@ ifeq ($(config),release_x64)
   test_opendialogmultiple_config = release_x64
   test_savedialog_config = release_x64
 endif
+ifeq ($(config),release_arm64)
+  nfd_config = release_arm64
+  test_pickfolder_config = release_arm64
+  test_opendialog_config = release_arm64
+  test_opendialogmultiple_config = release_arm64
+  test_savedialog_config = release_arm64
+endif
 ifeq ($(config),debug_x64)
   nfd_config = debug_x64
   test_pickfolder_config = debug_x64
   test_opendialog_config = debug_x64
   test_opendialogmultiple_config = debug_x64
   test_savedialog_config = debug_x64
+endif
+ifeq ($(config),debug_arm64)
+  nfd_config = debug_arm64
+  test_pickfolder_config = debug_arm64
+  test_opendialog_config = debug_arm64
+  test_opendialogmultiple_config = debug_arm64
+  test_savedialog_config = debug_arm64
 endif
 
 PROJECTS := nfd test_pickfolder test_opendialog test_opendialogmultiple test_savedialog
@@ -71,7 +85,9 @@ help:
 	@echo ""
 	@echo "CONFIGURATIONS:"
 	@echo "  release_x64"
+	@echo "  release_arm64"
 	@echo "  debug_x64"
+	@echo "  debug_arm64"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"

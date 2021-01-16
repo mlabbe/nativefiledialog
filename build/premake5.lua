@@ -123,7 +123,7 @@ workspace "NativeFileDialog"
 
     -- ask the user nicely
     msg = "Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA\""
-    filter {"action:not vs*"}
+    filter {"action:not vs*", "action:not xcode*"}
       postbuildcommands {"@echo \"\\n\27[33m ***\27[0m ".. msg .."\27[33m ***\27[0m"}
 
     filter {"action:vs*"}

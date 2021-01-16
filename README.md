@@ -95,7 +95,7 @@ Do you use Native File Dialog?  It helps me to understand how.
 
 There is a totally optional usage survey.  Share how you use Native File Dialog.  Big and small projects, public and private may share.
 
-[Click here to answer up to seven questions](https://forms.gle/ApWCFsXeCVxpg4XLA "Usage survey").
+[Click here to fill out the usage survey.](https://forms.gle/ApWCFsXeCVxpg4XLA "Usage survey").
 
 
 ### Breaking and Notable Changes ###

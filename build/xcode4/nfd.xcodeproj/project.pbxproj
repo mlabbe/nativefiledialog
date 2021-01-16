@@ -125,7 +125,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi";
+			shellScript = "set -e\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m";
 		};
 /* End PBXShellScriptBuildPhase section */
 

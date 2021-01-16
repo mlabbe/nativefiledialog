@@ -40,7 +40,7 @@ ifeq ($(config),release_x64)
   endef
   define POSTBUILDCMDS
 	@echo Running postbuild commands
-	@echo "\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -77,7 +77,7 @@ ifeq ($(config),release_arm64)
   endef
   define POSTBUILDCMDS
 	@echo Running postbuild commands
-	@echo "\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -114,7 +114,7 @@ ifeq ($(config),debug_x64)
   endef
   define POSTBUILDCMDS
 	@echo Running postbuild commands
-	@echo "\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -151,7 +151,7 @@ ifeq ($(config),debug_arm64)
   endef
   define POSTBUILDCMDS
 	@echo Running postbuild commands
-	@echo "\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:

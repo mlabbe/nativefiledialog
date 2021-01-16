@@ -96,6 +96,7 @@ workspace "NativeFileDialog"
     filter "system:windows"
       language "C++"
       files {root_dir.."src/nfd_win.cpp"}
+      defines {"UNICODE", "_UNICODE"}
 
     filter {"action:gmake or action:xcode4"}
       buildoptions {"-fno-exceptions"}
@@ -121,12 +122,12 @@ workspace "NativeFileDialog"
 
 
     -- ask the user nicely
-    msg = "Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\""
-    filter {"system:not windows"}
+    msg = "Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA\""
+    filter {"action:not vs*"}
       postbuildcommands {"@echo \"\\n\27[33m ***\27[0m ".. msg .."\27[33m ***\27[0m"}
 
-    filter {"system:windows"}
-      postbuildcommands {"@echo ".. msg}
+    filter {"action:vs*"}
+      postbuildcommands {"@echo Do you use Native File Dialog? Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"}
 
 local make_test = function(name)
   project(name)

@@ -88,6 +88,8 @@
 
 #ifndef FTG_CORE_NO_STDIO
 #  include <stdio.h>
+#else
+#  include <stddef.h>  // for size_t
 #endif
 
 /* for off64_t */
@@ -112,8 +114,12 @@
 /* broad test for OSes that are vaguely POSIX compliant */
 #if defined(__linux__) || defined(__APPLE__) || defined(ANDROID) || \
     defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR) || \
-    defined(__FreeBSD__) || defined(__OpenBSD__)
-#  define FTG_POSIX_LIKE
+    defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__EMSCRIPTEN__)
+#  define FTG_POSIX_LIKE 1
+#endif
+
+#if defined(__EMSCRIPTEN__)
+#  define FTG_WASM 1
 #endif
 
 /* detect target enviroment bits */
@@ -126,7 +132,7 @@
 #  if __x86_64__ || __ppc64__ || __aarch64__
 #    define FTG_BITS 64
 #  else
-#    define FTG_BITS 32
+#    define FTG_BITS 32  // todo: confirm emscripten sets this
 #  endif
 #endif
 
@@ -229,8 +235,10 @@
 #ifndef FTG_BREAK
     #if defined(_WIN32) && _MSC_VER >= 1310
         #define FTG_BREAK() __debugbreak();
-    #elif defined(_WIN32)
+    #elif defined(_WIN32) && defined(_MSC_VER)
 		#define FTG_BREAK() __asm{ int 0x3 }
+    #elif defined(__MINGW32__)
+        #define FTG_BREAK() __asm__ volatile("int $0x03");
     #elif defined(__linux__)
         #ifdef __arm__
           #define FTG_BREAK() __asm__ volatile(".inst 0xde01");
@@ -392,12 +400,14 @@ typedef struct ftg_dirhandle_s ftg_dirhandle_t;
 typedef int64_t            ftg_off_t;
 typedef wchar_t            ftg_wchar_t;
 #elif defined(__FreeBSD__) || defined(__OpenBSD__)
-     typedef off_t         ftg_off_t;
+typedef off_t         ftg_off_t;
+#elif defined(FTG_WASM)
+typedef off_t ftg_off_t;
 #endif
 
 FTG_STATIC_ASSERT(sizeof(ftg_off_t)==8);
 
-#endif /* FTG_CORE_NO_STDIO */
+#endif /* !FTG_CORE_NO_STDIO */
 
 FTG_STATIC_ASSERT(sizeof(int8_t)==1);
 FTG_STATIC_ASSERT(sizeof(int16_t)==2);
@@ -2561,6 +2571,7 @@ static int ftg__test_correct_dirslash(void)
 
 static int ftg__test_opendir(void)
 {
+#ifndef FTG_CORE_NO_STDIO
     ftg_dirhandle_t dir;
     char path_str[FTG_STRLEN_LONG];
     int dot_count = 0;
@@ -2580,15 +2591,17 @@ static int ftg__test_opendir(void)
     ftg_closedir(&dir);
 
     FTGT_ASSERT(dot_count==2);
-
+#endif
     return ftgt_test_errorlevel();
 }
 
 static int ftg__test_is_dir(void)
 {
+#ifndef FTG_CORE_NO_STDIO
+
 #ifdef FTG_POSIX_LIKE
     FTGT_ASSERT(ftg_is_dir("/"));
-#else
+#elif _WIN32
     FTGT_ASSERT(ftg_is_dir("c:\\"));
 #endif
 
@@ -2597,7 +2610,8 @@ static int ftg__test_is_dir(void)
     FTGT_ASSERT(ftg_is_dirslash('/'));
     FTGT_ASSERT(ftg_is_dirslash('\\'));
     FTGT_ASSERT(!ftg_is_dirslash(' '));
-    
+#endif
+
     return ftgt_test_errorlevel();
 }
 
@@ -2671,6 +2685,7 @@ static int ftg__test_get_filename_from_path(void)
 
 static int ftg__test_file_rw(void)
 {
+#ifndef FTG_CORE_NO_STDIO
     const char tmp_file[] = "ftg_core_tmp_file.txt";
     const char test_str[] = "hello\nworld!";
     unsigned char *read_str;
@@ -2685,7 +2700,8 @@ static int ftg__test_file_rw(void)
 
     FTG_FREE(read_str);
     // todo: rm temp file
-    
+#endif
+
     return ftgt_test_errorlevel();    
 }
 
@@ -2715,6 +2731,7 @@ static int ftg__test_ia(void)
 
 static int ftg__test_dircreate(void)
 {
+#ifndef FTG_CORE_NO_STDIO
     bool success;
     if (ftg_is_dir("testdir"))
     {
@@ -2737,6 +2754,7 @@ static int ftg__test_dircreate(void)
     FTGT_ASSERT(ftg_is_dir("one/two/three"));
     ftg_rmalldirs("one");
     FTGT_ASSERT(!ftg_is_dir("one"));
+#endif
 
     return ftgt_test_errorlevel();
 }

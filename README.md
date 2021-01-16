@@ -89,6 +89,14 @@ release | what's new                  | date
 <i></i> | Apple Silicon support       | jan 2021
 <i></i> | Macos fat binary builds     | jan 2021
 
+## Usage Survey ##
+
+Do you use Native File Dialog?  It helps me to understand how.
+
+There is a totally optional usage survey.  Share how you use Native File Dialog.  Big and small projects, public and private may share.
+
+[Click here to answer up to seven questions](https://forms.gle/ApWCFsXeCVxpg4XLA "Usage survey").
+
 
 ### Breaking and Notable Changes ###
 

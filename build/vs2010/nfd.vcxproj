@@ -105,6 +105,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,6 +126,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -137,6 +143,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,6 +160,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\common.h" />

@@ -74,6 +74,7 @@
 				CAB045371D367029EF7AD377 /* Resources */,
 				345D5E8E86E389805927ECCE /* Sources */,
 				5AC8C497AD4EEF897F9352D7 /* Frameworks */,
+				9607AE3710C85E8F00CD1376 /* Postbuild */,
 			);
 			buildRules = (
 			);
@@ -110,6 +111,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9607AE3710C85E8F00CD1376 /* Postbuild */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Postbuild;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi\nif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n@echo \"\\n[33m ***[0m Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\"[33m ***[0m\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		345D5E8E86E389805927ECCE /* Sources */ = {

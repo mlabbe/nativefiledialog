@@ -31,6 +31,8 @@ ifeq ($(config),release_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -58,6 +60,8 @@ ifeq ($(config),release_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -85,6 +89,8 @@ ifeq ($(config),debug_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -112,6 +118,8 @@ ifeq ($(config),debug_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo Do you use Native File Dialog?  There is a totally optional user survey. \nI would appreciate hearing how you use it!\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA"
   endef
 all: prebuild prelink $(TARGET)
 	@:

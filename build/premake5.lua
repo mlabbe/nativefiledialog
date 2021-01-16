@@ -119,6 +119,15 @@ workspace "NativeFileDialog"
     filter "action:vs*"
       defines { "_CRT_SECURE_NO_WARNINGS" }      
 
+
+    -- ask the user nicely
+    msg = "Do you use Native File Dialog?  There is a totally optional user survey. \\nI would appreciate hearing how you use it!\\nSurvey: https://forms.gle/ApWCFsXeCVxpg4XLA\""
+    filter {"system:not windows"}
+      postbuildcommands {"@echo \"\\n\27[33m ***\27[0m ".. msg .."\27[33m ***\27[0m"}
+
+    filter {"system:windows"}
+      postbuildcommands {"@echo ".. msg}
+
 local make_test = function(name)
   project(name)
     kind "ConsoleApp"

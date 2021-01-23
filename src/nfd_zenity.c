@@ -248,6 +248,7 @@ NFD_SaveDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdcha
     command[1] = strdup("--file-selection");
     command[2] = strdup("--title=Save File");
     command[3] = strdup("--save");
+    command[4] = strdup("--confirm-overwrite");
 
     char*       stdOut = NULL;
     nfdresult_t result =

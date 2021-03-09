@@ -10,6 +10,10 @@ set(SOURCES src/nfd_common.c)
 # Add specific implementations
 if (WIN32)
     list(APPEND SOURCES src/nfd_win.cpp)
+    list(APPEND PREPROCESSOR_DEFINITIONS 
+        UNICODE 
+        _UNICODE
+    )
 elseif (APPLE)
     list(APPEND SOURCES src/nfd_cocoa.m)
 elseif (LINUX)
@@ -20,6 +24,7 @@ endif()
 
 add_library(nativefiledialog ${SOURCES})
 target_include_directories(nativefiledialog PUBLIC src/include)
+target_compile_definitions(nativefiledialog PUBLIC ${PREPROCESSOR_DEFINITIONS})
 
 if(LINUX)
     find_package(PkgConfig)

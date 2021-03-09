@@ -12,6 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		073D89061E5024380E6C1F46 /* ftg_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ftg_core.h; path = ../../src/ftg_core.h; sourceTree = "<group>"; };
 		42F539D06B2FF28252CB8010 /* simple_exec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = simple_exec.h; path = ../../src/simple_exec.h; sourceTree = "<group>"; };
 		4E280AA77CCE5E99D60FB8E7 /* libnfd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnfd.a; path = libnfd.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7B972AA2EC7B5CE78B4D6A /* nfd_common.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = nfd_common.c; path = ../../src/nfd_common.c; sourceTree = "<group>"; };
@@ -36,6 +37,7 @@
 			isa = PBXGroup;
 			children = (
 				5E955E0662063038E372D446 /* common.h */,
+				073D89061E5024380E6C1F46 /* ftg_core.h */,
 				5E8C725002DF100215175890 /* include */,
 				906CCB56B692FB081D99F196 /* nfd_cocoa.m */,
 				5A7B972AA2EC7B5CE78B4D6A /* nfd_common.c */,
@@ -139,12 +141,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OBJROOT = obj/x64/Debug/nfd;
+				OBJROOT = ../obj/arm64/Debug/nfd;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
 					"-fno-exceptions",
 				);
-				SYMROOT = ../lib/Debug/x64;
+				OTHER_LDFLAGS = (
+					"-target arm64-apple-macos11",
+				);
+				SYMROOT = ../lib/Debug/arm64;
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
@@ -156,7 +162,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../lib/Release/x64;
+				CONFIGURATION_BUILD_DIR = ../lib/Release/arm64;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INSTALL_PATH = /usr/local/lib;
@@ -176,12 +182,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OBJROOT = obj/x64/Release/nfd;
+				OBJROOT = ../obj/arm64/Release/nfd;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
+					"-target arm64-apple-macos11",
 					"-fno-exceptions",
 				);
-				SYMROOT = ../lib/Release/x64;
+				OTHER_LDFLAGS = (
+					"-target arm64-apple-macos11",
+				);
+				SYMROOT = ../lib/Release/arm64;
 				USER_HEADER_SEARCH_PATHS = (
 					../../src/include,
 				);
@@ -193,7 +203,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CONFIGURATION_BUILD_DIR = ../lib/Debug/x64;
+				CONFIGURATION_BUILD_DIR = ../lib/Debug/arm64;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INSTALL_PATH = /usr/local/lib;
@@ -208,6 +218,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9E0596139F3EE13BC721FA1 /* Release */,
+				E9E0596139F3EE13BC721FA1 /* Release */,
+				6730896713934999D21BBFA7 /* Debug */,
 				6730896713934999D21BBFA7 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -217,6 +229,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8FABFCB6E6396728BEB27AF6 /* Release */,
+				8FABFCB6E6396728BEB27AF6 /* Release */,
+				F08D42BCDB7968AE235F30FC /* Debug */,
 				F08D42BCDB7968AE235F30FC /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;

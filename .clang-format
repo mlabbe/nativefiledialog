@@ -1,0 +1,57 @@
+# main
+IndentWidth: 4
+BreakBeforeBraces: Linux
+AlwaysBreakAfterDefinitionReturnType: true
+UseTab: Never
+AllowShortIfStatementsOnASingleLine: false
+ColumnLimit: 80
+IndentCaseLabels: false
+
+# for macros
+AlignEscapedNewlinesLeft: false
+IndentPPDirectives: AfterHash
+
+# i love alignment
+BinPackArguments: false
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackParameters: false
+AlignTrailingComments: true
+AlignConsecutiveDeclarations: true
+AlignAfterOpenBracket: Align
+
+# most flow control must be indented for easy eye scanning
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortLoopsOnASingleLine: true
+
+# braces
+BraceWrapping:
+  BeforeElse: false
+  AfterControlStatement: false
+  AfterFunction: false
+  AfterStruct: false
+  AfterUnion: false
+  IndentBraces: false
+
+# other
+AlignOperands: true
+MaxEmptyLinesToKeep: 3
+KeepEmptyLinesAtTheStartOfBlocks: false
+PointerAlignment: Left
+DerivePointerAlignment: false
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+IncludeBlocks: Preserve
+SortIncludes: false
+BreakBeforeBinaryOperators: None
+ReflowComments: true
+
+
+# penalties
+PenaltyExcessCharacter: 2

@@ -22,23 +22,62 @@ ifeq ($(config),release_x64)
   endif
   TARGETDIR = ../lib/Release/x64
   TARGET = $(TARGETDIR)/libnfd.a
-  OBJDIR = obj/x64/Release/nfd
+  OBJDIR = ../obj/x64/Release/nfd
   DEFINES += -DNDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -target x86_64-apple-macos10.12 -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -Wall -Wextra -target x86_64-apple-macos10.12 -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m64
+  ALL_LDFLAGS += $(LDFLAGS) -m64 -target x86_64-apple-macos10.12
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),release_arm64)
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../lib/Release/arm64
+  TARGET = $(TARGETDIR)/libnfd.a
+  OBJDIR = ../obj/arm64/Release/nfd
+  DEFINES += -DNDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -target arm64-apple-macos11 -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -target arm64-apple-macos11 -fno-exceptions
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -target arm64-apple-macos11
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -57,23 +96,62 @@ ifeq ($(config),debug_x64)
   endif
   TARGETDIR = ../lib/Debug/x64
   TARGET = $(TARGETDIR)/libnfd_d.a
-  OBJDIR = obj/x64/Debug/nfd
+  OBJDIR = ../obj/x64/Debug/nfd
   DEFINES += -DDEBUG
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
-  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -fno-exceptions
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -target x86_64-apple-macos10.12 -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -Wall -Wextra -target x86_64-apple-macos10.12 -fno-exceptions
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS +=
   LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -m64
+  ALL_LDFLAGS += $(LDFLAGS) -m64 -target x86_64-apple-macos10.12
   LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),debug_arm64)
+  ifeq ($(origin CC), default)
+    CC = clang
+  endif
+  ifeq ($(origin CXX), default)
+    CXX = clang++
+  endif
+  ifeq ($(origin AR), default)
+    AR = ar
+  endif
+  TARGETDIR = ../lib/Debug/arm64
+  TARGET = $(TARGETDIR)/libnfd_d.a
+  OBJDIR = ../obj/arm64/Debug/nfd
+  DEFINES += -DDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -target arm64-apple-macos11 -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -target arm64-apple-macos11 -fno-exceptions
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -target arm64-apple-macos11
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:

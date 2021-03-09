@@ -10,7 +10,7 @@ Features:
  - Simple universal file filter syntax.
  - Paid support available.
  - Multiple file selection support.
- - 64-bit and 32-bit friendly.
+ - x64, x86 and arm64 (Linux) support
  - GCC, Clang, Xcode, Mingw and Visual Studio supported.
  - No third party dependencies for building or linking.
  - Support for Vista's modern `IFileDialog` on Windows.
@@ -34,7 +34,7 @@ int main( void )
     if ( result == NFD_OKAY ) {
         puts("Success!");
         puts(outPath);
-        free(outPath);
+        NFD_Free(outPath);
     }
     else if ( result == NFD_CANCEL ) {
         puts("User pressed cancel.");
@@ -77,6 +77,38 @@ release | what's new                  | date
 <i></i> | remove deprecated scons     | aug 2019
 <i></i> | fix mingw compilation       | aug 2019
 <i></i> | -Wextra warning cleanup     | aug 2019
+1.2.0   | defaultPath can specify files now         | jan 2021
+<i></i> | extension automatically added when saving | jan 2021
+<i></i> | GTK dialog focus bugfix     | jan 2021
+<i></i> | Macos dialog focus bugfix   | jan 2021
+<i></i> | Added NFD_Free()            | jan 2021
+<i></i> | Fix vs2019 debug assert     | jan 2021
+<i></i> | Fix zenity debug assert     | jan 2021
+<i></i> | add clang-format            | jan 2021
+<i></i> | Linux arm64 support         | jan 2021
+<i></i> | Apple Silicon support       | jan 2021
+<i></i> | Macos fat binary builds     | jan 2021
+
+## Usage Survey ##
+
+Do you use Native File Dialog?  It helps me to understand how.
+
+There is a totally optional usage survey.  Share how you use Native File Dialog.  Big and small projects, public and private may share.
+
+[Click here to fill out the usage survey.](https://forms.gle/ApWCFsXeCVxpg4XLA "Usage survey").
+
+
+### Breaking and Notable Changes ###
+
+There are no ABI breaking changes in NFD's history.
+
+#### 1.2.0 ####
+
+ - If argument `filterList` is specified, a default extension is appended to the filename if the user does not take an action to specify one.  Previously no extension was added on the GTK3 and Win32 implementations, but was added on MacOS.
+
+ - Argument `defaultPath` sometimes failed to display the specified directory if a file was included in the `defaultPath` but the file did not exist.  In 1.2.0, polyfill was added to display the directory even if the file doesn't exist. 
+ 
+ - `NFD_Free()` was added, and can be used in place of `free()`.  This was done to facilitate usage of NFD in a DLL on Windows.  Otherwise, there is no difference.
 
 ## Building ##
 
@@ -90,12 +122,14 @@ Previously, NFD used SCons to build.  As of 1.1.6, SCons support has been remove
 
 ### Makefiles ###
 
-The makefile offers up to four options, with `release_x64` as the default.
+The makefile offers up to six options, with `release_x64` as the default.
 
     make config=release_x86
     make config=release_x64
+    make config=release_arm64
     make config=debug_x86
     make config=debug_x64
+    make config=debug_arm64
 
 ### Compiling Your Programs ###
 
@@ -111,7 +145,7 @@ On Linux, you have the option of compiling and linking against GTK.  If you use 
 
 #### Linux Zenity ####
 
-Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.
+Alternatively, you can use the Zenity backend by running the Makefile in `build/gmake_linux_zenity`.  Zenity runs the dialog in its own address space, but requires the user to have Zenity correctly installed and configured on their system.  For a full list of Zenity limitations, see "Known Limitations" below.
 
 #### MacOS ####
 
@@ -156,12 +190,15 @@ I accept quality code patches, or will resolve these and other matters through s
 
  - No support for Windows XP's legacy dialogs such as `GetOpenFileName`.
  - No support for file filter names -- ex: "Image Files" (*.png, *.jpg).  Nameless filters are supported, however.
- - GTK Zenity implementation's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
- - GTK 3 spams one warning per dialog created.
+ - GTK 3 sometimes spams one warning per dialog created, depending on how GTK3 was built.
+ - The GTK Zenity backend (non-default) is a lightweight alternative intended only for small programs:
+   - It errors out if Zenity is not installed on the user's system
+   - This backend's process exec error handling does not gracefully handle numerous error cases, choosing to abort rather than cleanup and return.
+   - Unlike the other backends, the Zenity backend does not return implied extensions from filterlists. [#95](https://github.com/mlabbe/nativefiledialog/issues/95 "Issue 95")
 
 # Copyright and Credit #
 
-Copyright &copy; 2014-2019 [Frogtoss Games](http://www.frogtoss.com), Inc.
+Copyright &copy; 2014-2021 [Frogtoss Games](http://www.frogtoss.com), Inc.
 File [LICENSE](LICENSE) covers all files in this repo.
 
 Native File Dialog by Michael Labbe
@@ -172,6 +209,8 @@ Tomasz Konojacki for [microutf8](http://puszcza.gnu.org.ua/software/microutf8/)
 [Denis Kolodin](https://github.com/DenisKolodin) for mingw support.
 
 [Tom Mason](https://github.com/wheybags) for Zenity support.
+
+Various pull requests and bugfixes -- thanks to the original authors.
 
 ## Support ##
 

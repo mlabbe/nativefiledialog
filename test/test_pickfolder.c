@@ -14,7 +14,7 @@ int main( void )
     {
         puts("Success!");
         puts(outPath);
-        free(outPath);
+        NFD_Free(outPath);
     }
     else if ( result == NFD_CANCEL )
     {

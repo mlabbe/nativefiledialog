@@ -9,12 +9,13 @@
 int main( void )
 {
     nfdchar_t *outPath = NULL;
+
     nfdresult_t result = NFD_OpenDialog( "png,jpg;pdf", NULL, &outPath );
     if ( result == NFD_OKAY )
     {
         puts("Success!");
         puts(outPath);
-        free(outPath);
+        NFD_Free(outPath);
     }
     else if ( result == NFD_CANCEL )
     {

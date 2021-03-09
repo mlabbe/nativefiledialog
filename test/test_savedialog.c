@@ -13,7 +13,7 @@ int main( void )
     {
         puts("Success!");
         puts(savePath);
-        free(savePath);
+        NFD_Free(savePath);
     }
     else if ( result == NFD_CANCEL )
     {

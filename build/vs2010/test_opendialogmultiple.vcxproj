@@ -67,28 +67,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\</OutDir>
-    <IntDir>..\obj\x64\Release\test_opendialogmultiple\</IntDir>
+    <IntDir>obj\x64\Release\test_opendialogmultiple\</IntDir>
     <TargetName>test_opendialogmultiple</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\</OutDir>
-    <IntDir>..\obj\x86\Release\test_opendialogmultiple\</IntDir>
+    <IntDir>obj\x86\Release\test_opendialogmultiple\</IntDir>
     <TargetName>test_opendialogmultiple</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\</OutDir>
-    <IntDir>..\obj\x64\Debug\test_opendialogmultiple\</IntDir>
+    <IntDir>obj\x64\Debug\test_opendialogmultiple\</IntDir>
     <TargetName>test_opendialogmultiple_d</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\</OutDir>
-    <IntDir>..\obj\x86\Debug\test_opendialogmultiple\</IntDir>
+    <IntDir>obj\x86\Debug\test_opendialogmultiple\</IntDir>
     <TargetName>test_opendialogmultiple_d</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>

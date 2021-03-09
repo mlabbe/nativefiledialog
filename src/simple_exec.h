@@ -12,10 +12,19 @@
 #ifndef SIMPLE_EXEC_H
 #define SIMPLE_EXEC_H
 
-int runCommand(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* command, ...);
-int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* const* allArgs);
+int runCommand(char** stdOut,
+               int*   stdOutByteCount,
+               int*   returnCode,
+               int    includeStdErr,
+               char*  command,
+               ...);
+int runCommandArray(char**       stdOut,
+                    int*         stdOutByteCount,
+                    int*         returnCode,
+                    int          includeStdErr,
+                    char* const* allArgs);
 
-#endif // SIMPLE_EXEC_H
+#endif  // SIMPLE_EXEC_H
 
 #ifdef SIMPLE_EXEC_IMPLEMENTATION
 
@@ -27,31 +36,42 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
 #include <sys/wait.h>
 #include <stdarg.h>
 #include <fcntl.h>
+#include <signal.h>
 
-#define release_assert(exp) { if (!(exp)) { abort(); } }
+#include "ftg_core.h"
 
-enum PIPE_FILE_DESCRIPTORS
+#define release_assert(exp)                                                    \
+    {                                                                          \
+        if (!(exp)) {                                                          \
+            abort();                                                           \
+        }                                                                      \
+    }
+
+enum PIPE_FILE_DESCRIPTORS { READ_FD = 0, WRITE_FD = 1 };
+
+enum RUN_COMMAND_ERROR { COMMAND_RAN_OK = 0, COMMAND_NOT_FOUND = 1 };
+
+void
+sigchldHandler(int p)
 {
-  READ_FD  = 0,
-  WRITE_FD = 1
-};
+    FTG_UNUSED(p);
+}
 
-enum RUN_COMMAND_ERROR
-{
-    COMMAND_RAN_OK = 0,
-    COMMAND_NOT_FOUND = 1
-};
-
-int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* const* allArgs)
+int
+runCommandArray(char**       stdOut,
+                int*         stdOutByteCount,
+                int*         returnCode,
+                int          includeStdErr,
+                char* const* allArgs)
 {
     // adapted from: https://stackoverflow.com/a/479103
 
-    int bufferSize = 256;
+    int  bufferSize = 256;
     char buffer[bufferSize + 1];
 
-    int dataReadFromChildDefaultSize = bufferSize * 5;
-    int dataReadFromChildSize = dataReadFromChildDefaultSize;
-    int dataReadFromChildUsed = 0;
+    int   dataReadFromChildDefaultSize = bufferSize * 5;
+    int   dataReadFromChildSize = dataReadFromChildDefaultSize;
+    int   dataReadFromChildUsed = 0;
     char* dataReadFromChild = (char*)malloc(dataReadFromChildSize);
 
 
@@ -64,155 +84,150 @@ int runCommandArray(char** stdOut, int* stdOutByteCount, int* returnCode, int in
     int errPipe[2];
     release_assert(pipe(errPipe) == 0);
 
+    void (*prevHandler)(int);
+    prevHandler = signal(SIGCHLD, sigchldHandler);
+
     pid_t pid;
-    switch( pid = fork() )
+    switch (pid = fork()) {
+    case -1: {
+        release_assert(0 && "Fork failed");
+        break;
+    }
+
+    case 0:  // child
     {
-        case -1:
-        {
-            release_assert(0 && "Fork failed");
-            break;
+        release_assert(dup2(parentToChild[READ_FD], STDIN_FILENO) != -1);
+        release_assert(dup2(childToParent[WRITE_FD], STDOUT_FILENO) != -1);
+
+        if (includeStdErr) {
+            release_assert(dup2(childToParent[WRITE_FD], STDERR_FILENO) != -1);
+        } else {
+            int devNull = open("/dev/null", O_WRONLY);
+            release_assert(dup2(devNull, STDERR_FILENO) != -1);
         }
 
-        case 0: // child
-        {
-            release_assert(dup2(parentToChild[READ_FD ], STDIN_FILENO ) != -1);
-            release_assert(dup2(childToParent[WRITE_FD], STDOUT_FILENO) != -1);
-            
-            if(includeStdErr)
+        // unused
+        release_assert(close(parentToChild[WRITE_FD]) == 0);
+        release_assert(close(childToParent[READ_FD]) == 0);
+        release_assert(close(errPipe[READ_FD]) == 0);
+
+        const char* command = allArgs[0];
+        execvp(command, allArgs);
+
+        char    err = 1;
+        ssize_t result = write(errPipe[WRITE_FD], &err, 1);
+        release_assert(result != -1);
+
+        close(errPipe[WRITE_FD]);
+        close(parentToChild[READ_FD]);
+        close(childToParent[WRITE_FD]);
+
+        exit(0);
+    }
+
+
+    default:  // parent
+    {
+        // unused
+        release_assert(close(parentToChild[READ_FD]) == 0);
+        release_assert(close(childToParent[WRITE_FD]) == 0);
+        release_assert(close(errPipe[WRITE_FD]) == 0);
+
+        while (1) {
+            ssize_t bytesRead = 0;
+            switch (bytesRead = read(childToParent[READ_FD], buffer, bufferSize)) {
+            case 0:  // End-of-File, or non-blocking read.
             {
-                release_assert(dup2(childToParent[WRITE_FD], STDERR_FILENO) != -1);
-            }
-            else
-            {
-                int devNull = open("/dev/null", O_WRONLY);
-                release_assert(dup2(devNull, STDERR_FILENO) != -1);
-            }
+                int status = 0;
+                release_assert(waitpid(pid, &status, 0) == pid);
 
-            // unused
-            release_assert(close(parentToChild[WRITE_FD]) == 0);
-            release_assert(close(childToParent[READ_FD ]) == 0);
-            release_assert(close(errPipe[READ_FD]) == 0);
-            
-            const char* command = allArgs[0];
-            execvp(command, allArgs);
+                // done with these now
+                release_assert(close(parentToChild[WRITE_FD]) == 0);
+                release_assert(close(childToParent[READ_FD]) == 0);
 
-            char err = 1;
-            ssize_t result = write(errPipe[WRITE_FD], &err, 1);
-            release_assert(result != -1);
-            
-            close(errPipe[WRITE_FD]);
-            close(parentToChild[READ_FD]);
-            close(childToParent[WRITE_FD]);
+                char    errChar = 0;
+                ssize_t result = read(errPipe[READ_FD], &errChar, 1);
+                release_assert(result != -1);
+                close(errPipe[READ_FD]);
 
-            exit(0);
-        }
-
-
-        default: // parent
-        {
-            // unused
-            release_assert(close(parentToChild[READ_FD]) == 0);
-            release_assert(close(childToParent[WRITE_FD]) == 0);
-            release_assert(close(errPipe[WRITE_FD]) == 0);
-
-            while(1)
-            {
-                ssize_t bytesRead = 0;
-                switch(bytesRead = read(childToParent[READ_FD], buffer, bufferSize))
-                {
-                    case 0: // End-of-File, or non-blocking read.
-                    {
-                        int status = 0;
-                        release_assert(waitpid(pid, &status, 0) == pid);
-
-                        // done with these now
-                        release_assert(close(parentToChild[WRITE_FD]) == 0);
-                        release_assert(close(childToParent[READ_FD]) == 0);
-
-                        char errChar = 0;
-                        ssize_t result = read(errPipe[READ_FD], &errChar, 1);
-                        release_assert(result != -1);
-                        close(errPipe[READ_FD]);
-
-                        if(errChar)
-                        {
-                            free(dataReadFromChild); 
-                            return COMMAND_NOT_FOUND;
-                        }
-                        
-                        // free any un-needed memory with realloc + add a null terminator for convenience
-                        dataReadFromChild = (char*)realloc(dataReadFromChild, dataReadFromChildUsed + 1);
-                        dataReadFromChild[dataReadFromChildUsed] = '\0';
-                        
-                        if(stdOut != NULL)
-                            *stdOut = dataReadFromChild;
-                        else
-                            free(dataReadFromChild);
-
-                        if(stdOutByteCount != NULL)
-                            *stdOutByteCount = dataReadFromChildUsed;
-                        if(returnCode != NULL)
-                            *returnCode = WEXITSTATUS(status);
-
-                        return COMMAND_RAN_OK;
-                    }
-                    case -1:
-                    {
-                        release_assert(0 && "read() failed");
-                        break;
-                    }
-
-                    default:
-                    {
-                        if(dataReadFromChildUsed + bytesRead + 1 >= dataReadFromChildSize)
-                        {
-                            dataReadFromChildSize += dataReadFromChildDefaultSize;
-                            dataReadFromChild = (char*)realloc(dataReadFromChild, dataReadFromChildSize);
-                        }
-
-                        memcpy(dataReadFromChild + dataReadFromChildUsed, buffer, bytesRead);
-                        dataReadFromChildUsed += bytesRead;
-                        break;
-                    }
+                if (errChar) {
+                    free(dataReadFromChild);
+                    return COMMAND_NOT_FOUND;
                 }
+
+                // free any un-needed memory with realloc + add a null terminator for convenience
+                dataReadFromChild =
+                    (char*)realloc(dataReadFromChild, dataReadFromChildUsed + 1);
+                dataReadFromChild[dataReadFromChildUsed] = '\0';
+
+                if (stdOut != NULL)
+                    *stdOut = dataReadFromChild;
+                else
+                    free(dataReadFromChild);
+
+                if (stdOutByteCount != NULL)
+                    *stdOutByteCount = dataReadFromChildUsed;
+                if (returnCode != NULL)
+                    *returnCode = WEXITSTATUS(status);
+
+                return COMMAND_RAN_OK;
+            }
+            case -1: {
+                release_assert(0 && "read() failed");
+                break;
+            }
+
+            default: {
+                if (dataReadFromChildUsed + bytesRead + 1 >= dataReadFromChildSize) {
+                    dataReadFromChildSize += dataReadFromChildDefaultSize;
+                    dataReadFromChild =
+                        (char*)realloc(dataReadFromChild, dataReadFromChildSize);
+                }
+
+                memcpy(dataReadFromChild + dataReadFromChildUsed, buffer, bytesRead);
+                dataReadFromChildUsed += bytesRead;
+                break;
+            }
             }
         }
     }
+    }
+    signal(SIGCHLD, prevHandler);
 }
 
-int runCommand(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* command, ...)
+int
+runCommand(char** stdOut, int* stdOutByteCount, int* returnCode, int includeStdErr, char* command, ...)
 {
     va_list vl;
     va_start(vl, command);
-      
+
     char* currArg = NULL;
-      
-    int allArgsInitialSize = 16;
-    int allArgsSize = allArgsInitialSize;
+
+    int    allArgsInitialSize = 16;
+    int    allArgsSize = allArgsInitialSize;
     char** allArgs = (char**)malloc(sizeof(char*) * allArgsSize);
     allArgs[0] = command;
-        
+
     int i = 1;
-    do
-    {
+    do {
         currArg = va_arg(vl, char*);
         allArgs[i] = currArg;
 
         i++;
 
-        if(i >= allArgsSize)
-        {
+        if (i >= allArgsSize) {
             allArgsSize += allArgsInitialSize;
             allArgs = (char**)realloc(allArgs, sizeof(char*) * allArgsSize);
         }
 
-    } while(currArg != NULL);
+    } while (currArg != NULL);
 
     va_end(vl);
 
-    int retval = runCommandArray(stdOut, stdOutByteCount, returnCode, includeStdErr, allArgs);
+    int retval =
+        runCommandArray(stdOut, stdOutByteCount, returnCode, includeStdErr, allArgs);
     free(allArgs);
     return retval;
 }
 
-#endif //SIMPLE_EXEC_IMPLEMENTATION
+#endif  // SIMPLE_EXEC_IMPLEMENTATION

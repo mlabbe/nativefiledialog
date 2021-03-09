@@ -37,3 +37,27 @@ If you report an issue, be sure to run make with `verbose=1` so commands are vis
 ## Adding NFD source directly to your project ##
 
 Lots of developers add NFD source directly to their projects instead of using the included build scripts.  As of 1.1.6, this is an acknowledged approach to building.  Of course, everyone has a slightly different toolchain with various warnings and linters enabled.  If you run a linter or catch a warning, please consider submitting a pull request to help NFD build cleanly for everyone.
+
+## Building for arm64 Linux ##
+
+Building for arm64 Linux simply requires a `config=debug_arm64` option is passed in to the Makefile in `gmake_linux`.
+
+Use `make help`  to see all available options.
+
+32-bit ARM is not currently supported.
+
+## Building Apple Silicon ##
+
+In 2020, Apple announced Apple Silicon.  This is fully supported by Native File Dialog. This can be targeted by passing `config=debug_arm64` to the Makefile in `gmake_macosx`.
+
+Further, a fat binary static library can be produced:
+
+```bash
+cd build/gmake_macosx
+./fat_bin.pl debug
+./fat_bin.pl release
+
+# (optional) see it for yourself
+lipo -archs ../lib/Debug/libnfd_d.a
+lipo -archs ../lib/Release/libnfd.a
+```

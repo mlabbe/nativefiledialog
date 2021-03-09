@@ -4,8 +4,22 @@
 -- by package maintainers.
 --
 -- IMPORTANT NOTE: premake5 alpha 9 does not handle this script
--- properly.  Build premake5 from Github master, or, presumably,
--- use alpha 10 in the future.
+-- properly.  Use a later premake5 alpha.  Do not use premake4.
+
+function add_macos_arm_target_flags()
+   arm_triple = 'arm64-apple-macos11'
+   x64_triple = 'x86_64-apple-macos10.12'
+   
+   filter {"system:macosx", "architecture:arm64"}
+     buildoptions {"-target " .. arm_triple}
+     linkoptions {"-target " .. arm_triple}
+
+  filter {"system:macosx", "architecture:x86_64"}
+     buildoptions {"-target " .. x64_triple}
+     linkoptions {"-target " .. x64_triple}
+
+   filter{}
+end
 
 
 newoption {
@@ -37,7 +51,8 @@ workspace "NativeFileDialog"
     platforms {"x64"}
   filter "system:windows or system:linux"
     platforms {"x64", "x86"}
-  
+  filter "system:linux or system:macosx"
+    platforms {"arm64"}
 
   objdir(path.join(build_dir, "obj/"))
 
@@ -48,6 +63,9 @@ workspace "NativeFileDialog"
   filter "configurations:x64"
     architecture "x86_64"
 
+  filter "configurations:arm64"
+    architecture "arm64"
+
   -- debug/release filters
   filter "configurations:Debug"
     defines {"DEBUG"}
@@ -57,6 +75,8 @@ workspace "NativeFileDialog"
   filter "configurations:Release"
     defines {"NDEBUG"}
     optimize "On"
+
+  add_macos_arm_target_flags()
 
   project "nfd"
     kind "StaticLib"
@@ -76,6 +96,7 @@ workspace "NativeFileDialog"
     filter "system:windows"
       language "C++"
       files {root_dir.."src/nfd_win.cpp"}
+      defines {"UNICODE", "_UNICODE"}
 
     filter {"action:gmake or action:xcode4"}
       buildoptions {"-fno-exceptions"}
@@ -99,6 +120,15 @@ workspace "NativeFileDialog"
     filter "action:vs*"
       defines { "_CRT_SECURE_NO_WARNINGS" }      
 
+
+    -- ask the user nicely
+    msg = "Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA\""
+    filter {"action:not vs*", "action:not xcode*"}
+      postbuildcommands {"@echo \"\\n\27[33m ***\27[0m ".. msg .."\27[33m ***\27[0m"}
+
+    filter {"action:vs*"}
+      postbuildcommands {"@echo Do you use Native File Dialog? Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"}
+
 local make_test = function(name)
   project(name)
     kind "ConsoleApp"
@@ -117,6 +147,10 @@ local make_test = function(name)
       links {"nfd_d"}
       libdirs {build_dir.."/lib/Debug/x86"}
 
+    filter {"configurations:Debug", "architecture:arm64"}
+      links {"nfd_d"}
+      libdirs {build_dir.."/lib/Debug/arm64"}
+
     filter {"configurations:Release", "architecture:x86_64"}
       links {"nfd"}
       libdirs {build_dir.."/lib/Release/x64"}
@@ -124,6 +158,10 @@ local make_test = function(name)
     filter {"configurations:Release", "architecture:x86"}
       links {"nfd"}
       libdirs {build_dir.."/lib/Release/x86"}
+
+    filter {"configurations:Release", "architecture:arm64"}
+      links {"nfd"}
+      libdirs {build_dir.."/lib/Release/arm64"}
 
     filter {"configurations:Debug"}
       targetsuffix "_d"
@@ -141,7 +179,7 @@ local make_test = function(name)
     filter {"configurations:Debug", "system:linux", "options:linux_backend=zenity"}
       linkoptions {"-lnfd_d"}
 
-
+    add_macos_arm_target_flags()
 
     filter {"action:gmake", "system:windows"}
       links {"ole32", "uuid"}

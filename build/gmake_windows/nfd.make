@@ -14,8 +14,8 @@ ifeq ($(config),release_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/Release/x64
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../obj/x64/Release/nfd
-  DEFINES += -DNDEBUG
+  OBJDIR = obj/x64/Release/nfd
+  DEFINES += -DNDEBUG -DUNICODE -D_UNICODE
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -31,6 +31,8 @@ ifeq ($(config),release_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -41,8 +43,8 @@ ifeq ($(config),release_x86)
   RESCOMP = windres
   TARGETDIR = ../lib/Release/x86
   TARGET = $(TARGETDIR)/nfd.lib
-  OBJDIR = ../obj/x86/Release/nfd
-  DEFINES += -DNDEBUG
+  OBJDIR = obj/x86/Release/nfd
+  DEFINES += -DNDEBUG -DUNICODE -D_UNICODE
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -58,6 +60,8 @@ ifeq ($(config),release_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -68,8 +72,8 @@ ifeq ($(config),debug_x64)
   RESCOMP = windres
   TARGETDIR = ../lib/Debug/x64
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../obj/x64/Debug/nfd
-  DEFINES += -DDEBUG
+  OBJDIR = obj/x64/Debug/nfd
+  DEFINES += -DDEBUG -DUNICODE -D_UNICODE
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -85,6 +89,8 @@ ifeq ($(config),debug_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -95,8 +101,8 @@ ifeq ($(config),debug_x86)
   RESCOMP = windres
   TARGETDIR = ../lib/Debug/x86
   TARGET = $(TARGETDIR)/nfd_d.lib
-  OBJDIR = ../obj/x86/Debug/nfd
-  DEFINES += -DDEBUG
+  OBJDIR = obj/x86/Debug/nfd
+  DEFINES += -DDEBUG -DUNICODE -D_UNICODE
   INCLUDES += -I../../src/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -112,6 +118,8 @@ ifeq ($(config),debug_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:

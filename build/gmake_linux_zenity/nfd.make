@@ -31,6 +31,8 @@ ifeq ($(config),release_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -58,6 +60,37 @@ ifeq ($(config),release_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),release_arm64)
+  RESCOMP = windres
+  TARGETDIR = ../lib/Release/arm64
+  TARGET = $(TARGETDIR)/libnfd.a
+  OBJDIR = ../obj/arm64/Release/nfd
+  DEFINES += -DNDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -Wall -Wextra -fno-exceptions
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -85,6 +118,8 @@ ifeq ($(config),debug_x64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:
@@ -112,6 +147,37 @@ ifeq ($(config),debug_x86)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
+  endef
+all: prebuild prelink $(TARGET)
+	@:
+
+endif
+
+ifeq ($(config),debug_arm64)
+  RESCOMP = windres
+  TARGETDIR = ../lib/Debug/arm64
+  TARGET = $(TARGETDIR)/libnfd_d.a
+  OBJDIR = ../obj/arm64/Debug/nfd
+  DEFINES += -DDEBUG
+  INCLUDES += -I../../src/include
+  FORCE_INCLUDE +=
+  ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
+  ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -fno-exceptions
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -Wall -Wextra -fno-exceptions
+  ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  define PREBUILDCMDS
+  endef
+  define PRELINKCMDS
+  endef
+  define POSTBUILDCMDS
+	@echo Running postbuild commands
+	@echo "\n[33m ***[0m Do you use Native File Dialog?  Please take the user survey to help development: https://forms.gle/ApWCFsXeCVxpg4XLA"[33m ***[0m
   endef
 all: prebuild prelink $(TARGET)
 	@:

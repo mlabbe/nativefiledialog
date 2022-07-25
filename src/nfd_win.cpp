@@ -444,7 +444,7 @@ NFD_OpenDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdcha
     SetDefaultFile(fileOpenDialog, defaultPath);
 
     // Show the dialog.
-    result = fileOpenDialog->Show(NULL);
+    result = fileOpenDialog->Show(::GetActiveWindow());
     if (SUCCEEDED(result)) {
         // Get the file name
         ::IShellItem* shellItem(NULL);
@@ -542,7 +542,7 @@ NFD_OpenDialogMultiple(const nfdchar_t* filterList,
     }
 
     // Show the dialog.
-    result = fileOpenDialog->Show(NULL);
+    result = fileOpenDialog->Show(::GetActiveWindow());
     if (SUCCEEDED(result)) {
         IShellItemArray* shellItems;
         result = fileOpenDialog->GetResults(&shellItems);
@@ -613,7 +613,7 @@ NFD_SaveDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdcha
     SetDefaultFile(fileSaveDialog, defaultPath);
 
     // Show the dialog.
-    result = fileSaveDialog->Show(NULL);
+    result = fileSaveDialog->Show(::GetActiveWindow());
     if (SUCCEEDED(result)) {
         // Get the file name
         ::IShellItem* shellItem;
@@ -698,7 +698,7 @@ NFD_PickFolder(const nfdchar_t* defaultPath, nfdchar_t** outPath)
     }
 
     // Show the dialog to the user
-    result = fileDialog->Show(NULL);
+    result = fileDialog->Show(::GetActiveWindow());
     if (SUCCEEDED(result)) {
         // Get the folder name
         ::IShellItem* shellItem(NULL);

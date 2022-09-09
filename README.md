@@ -97,6 +97,18 @@ The makefile offers up to four options, with `release_x64` as the default.
     make config=debug_x86
     make config=debug_x64
 
+### Installing nativefiledialog (vcpkg)
+
+Alternatively, you can build and install nativefiledialog using [vcpkg](https://github.com/Microsoft/vcpkg/) dependency manager:
+
+    git clone https://github.com/Microsoft/vcpkg.git
+    cd vcpkg
+    ./bootstrap-vcpkg.sh
+    ./vcpkg integrate install
+    ./vcpkg install nativefiledialog
+
+The nativefiledialog port in vcpkg is kept up to date by Microsoft team members and community contributors. If the version is out of date, please [create an issue or pull request](https://github.com/Microsoft/vcpkg) on the vcpkg repository.
+
 ### Compiling Your Programs ###
 
  1. Add `src/include` to your include search path.

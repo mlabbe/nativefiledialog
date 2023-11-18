@@ -114,7 +114,8 @@
 /* broad test for OSes that are vaguely POSIX compliant */
 #if defined(__linux__) || defined(__APPLE__) || defined(ANDROID) || \
     defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR) || \
-    defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__EMSCRIPTEN__)
+    defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__EMSCRIPTEN__) || \
+    defined(__HAIKU__)
 #  define FTG_POSIX_LIKE 1
 #endif
 
@@ -399,7 +400,7 @@ typedef struct ftg_dirhandle_s ftg_dirhandle_t;
 #elif defined(_WIN32)
 typedef int64_t            ftg_off_t;
 typedef wchar_t            ftg_wchar_t;
-#elif defined(__FreeBSD__) || defined(__OpenBSD__)
+#elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__)
 typedef off_t         ftg_off_t;
 #elif defined(FTG_WASM)
 typedef off_t ftg_off_t;

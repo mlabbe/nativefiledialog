@@ -60,8 +60,7 @@ AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, const char* filt
         if (*p_filterList == ';' || *p_filterList == '\0') {
             /* end of filter -- add it to the dialog */
 
-            for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++)
-                ;
+            for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++);
 
             commandArgs[i] = strdup(filterName);
 
@@ -81,8 +80,7 @@ AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, const char* filt
 
     /* always append a wildcard option to the end*/
 
-    for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++)
-        ;
+    for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++);
 
     commandArgs[i] = strdup("--file-filter=*.*");
 }
@@ -103,8 +101,7 @@ ZenityCommon(char**      command,
         strcat(tmp, defaultPath);
 
         int i;
-        for (i = 0; command[i] != NULL && i < commandLen; i++)
-            ;
+        for (i = 0; command[i] != NULL && i < commandLen; i++);
 
         command[i] = tmp;
     }
@@ -278,7 +275,7 @@ NFD_PickFolder(const nfdchar_t* defaultPath, nfdchar_t** outPath)
     command[2] = strdup("--directory");
     command[3] = strdup("--title=Select folder");
 
-    char*       stdOut = NULL;
+    char* stdOut = NULL;
     nfdresult_t result = ZenityCommon(command, commandLen, defaultPath, "", &stdOut);
 
     if (stdOut != NULL) {

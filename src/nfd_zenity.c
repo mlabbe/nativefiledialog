@@ -60,8 +60,7 @@ AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, const char* filt
         if (*p_filterList == ';' || *p_filterList == '\0') {
             /* end of filter -- add it to the dialog */
 
-            for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++)
-                ;
+            for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++);
 
             commandArgs[i] = strdup(filterName);
 
@@ -81,8 +80,7 @@ AddFiltersToCommandArgs(char** commandArgs, int commandArgsLen, const char* filt
 
     /* always append a wildcard option to the end*/
 
-    for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++)
-        ;
+    for (i = 0; commandArgs[i] != NULL && i < commandArgsLen; i++);
 
     commandArgs[i] = strdup("--file-filter=*.*");
 }
@@ -103,8 +101,7 @@ ZenityCommon(char**      command,
         strcat(tmp, defaultPath);
 
         int i;
-        for (i = 0; command[i] != NULL && i < commandLen; i++)
-            ;
+        for (i = 0; command[i] != NULL && i < commandLen; i++);
 
         command[i] = tmp;
     }
@@ -189,16 +186,17 @@ NFD_OpenDialog(const char* filterList, const nfdchar_t* defaultPath, nfdchar_t**
     char*       stdOut = NULL;
     nfdresult_t result =
         ZenityCommon(command, commandLen, defaultPath, filterList, &stdOut);
-
-    if (stdOut != NULL) {
-        size_t len = strlen(stdOut);
+    size_t len = (stdOut != NULL) ? strlen(stdOut) : 0;
+    if (len > 0) {
         *outPath = NFDi_Malloc(len);
         memcpy(*outPath, stdOut, len);
         (*outPath)[len - 1] = '\0';  // trim out the final \n with a null terminator
-        free(stdOut);
     } else {
         *outPath = NULL;
     }
+
+    if (stdOut != NULL)
+        free(stdOut);
 
     return result;
 }
@@ -222,17 +220,18 @@ NFD_OpenDialogMultiple(const nfdchar_t* filterList,
     nfdresult_t result =
         ZenityCommon(command, commandLen, defaultPath, filterList, &stdOut);
 
-    if (stdOut != NULL) {
-        size_t len = strlen(stdOut);
+    size_t len = (stdOut != NULL) ? strlen(stdOut) : 0;
+    if (len > 0) {
         stdOut[len - 1] = '\0';  // remove trailing newline
 
         if (AllocPathSet(stdOut, outPaths) == NFD_ERROR)
             result = NFD_ERROR;
-
-        free(stdOut);
     } else {
         result = NFD_ERROR;
     }
+
+    if (stdOut != NULL)
+        free(stdOut);
 
     return result;
 }
@@ -252,16 +251,17 @@ NFD_SaveDialog(const nfdchar_t* filterList, const nfdchar_t* defaultPath, nfdcha
     char*       stdOut = NULL;
     nfdresult_t result =
         ZenityCommon(command, commandLen, defaultPath, filterList, &stdOut);
-
-    if (stdOut != NULL) {
-        size_t len = strlen(stdOut);
+    size_t len = (stdOut != NULL) ? strlen(stdOut) : 0;
+    if (len > 0) {
         *outPath = NFDi_Malloc(len);
         memcpy(*outPath, stdOut, len);
         (*outPath)[len - 1] = '\0';  // trim out the final \n with a null terminator
-        free(stdOut);
     } else {
         *outPath = NULL;
     }
+
+    if (stdOut != NULL)
+        free(stdOut);
 
     return result;
 }
@@ -278,18 +278,20 @@ NFD_PickFolder(const nfdchar_t* defaultPath, nfdchar_t** outPath)
     command[2] = strdup("--directory");
     command[3] = strdup("--title=Select folder");
 
-    char*       stdOut = NULL;
+    char* stdOut = NULL;
     nfdresult_t result = ZenityCommon(command, commandLen, defaultPath, "", &stdOut);
 
-    if (stdOut != NULL) {
-        size_t len = strlen(stdOut);
+    size_t len = (stdOut != NULL) ? strlen(stdOut) : 0;
+    if (len > 0) {
         *outPath = NFDi_Malloc(len);
         memcpy(*outPath, stdOut, len);
         (*outPath)[len - 1] = '\0';  // trim out the final \n with a null terminator
-        free(stdOut);
     } else {
         *outPath = NULL;
     }
+
+    if (stdOut != NULL)
+        free(stdOut);
 
     return result;
 }
